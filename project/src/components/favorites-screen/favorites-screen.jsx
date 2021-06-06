@@ -5,7 +5,7 @@ import SvgSprite from '../svg-sprite/svg-sprite.jsx';
 
 function FavoritesScreen() {
   return (
-    <React.Fragment>
+    <>
       <SvgSprite />
 
       <div className="page">
@@ -63,7 +63,7 @@ function FavoritesScreen() {
           </a>
         </footer>
       </div>
-    </React.Fragment>
+    </>
   );
 }
 

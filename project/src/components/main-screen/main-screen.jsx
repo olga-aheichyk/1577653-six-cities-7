@@ -9,7 +9,7 @@ function MainScreen(props) {
   const { placesCount } = props;
 
   return (
-    <React.Fragment>
+    <>
       <SvgSprite />
       <div className="page page--gray page--main">
         <header className="header">
@@ -129,7 +129,7 @@ function MainScreen(props) {
           </div>
         </main>
       </div>
-    </React.Fragment>
+    </>
   );
 }
 

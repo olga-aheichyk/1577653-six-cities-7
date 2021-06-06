@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 function OfferPropertyScreen() {
   return (
-    <React.Fragment>
+    <>
       <SvgSprite />
       <div className="page">
         <header className="header">
@@ -40,42 +40,42 @@ function OfferPropertyScreen() {
                   <img
                     className="property__image"
                     src="img/room.jpg"
-                    alt="Photo studio"
+                    alt="Studio"
                   />
                 </div>
                 <div className="property__image-wrapper">
                   <img
                     className="property__image"
                     src="img/apartment-01.jpg"
-                    alt="Photo studio"
+                    alt="Studio"
                   />
                 </div>
                 <div className="property__image-wrapper">
                   <img
                     className="property__image"
                     src="img/apartment-02.jpg"
-                    alt="Photo studio"
+                    alt="Studio"
                   />
                 </div>
                 <div className="property__image-wrapper">
                   <img
                     className="property__image"
                     src="img/apartment-03.jpg"
-                    alt="Photo studio"
+                    alt="Studio"
                   />
                 </div>
                 <div className="property__image-wrapper">
                   <img
                     className="property__image"
                     src="img/studio-01.jpg"
-                    alt="Photo studio"
+                    alt="Studio"
                   />
                 </div>
                 <div className="property__image-wrapper">
                   <img
                     className="property__image"
                     src="img/apartment-01.jpg"
-                    alt="Photo studio"
+                    alt="Studio"
                   />
                 </div>
               </div>
@@ -220,7 +220,7 @@ function OfferPropertyScreen() {
           </div>
         </main>
       </div>
-    </React.Fragment>
+    </>
   );
 }
 

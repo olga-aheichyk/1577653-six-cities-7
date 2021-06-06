@@ -6,7 +6,7 @@ import MainScreen from '../main-screen/main-screen.jsx';
 import FavoritesScreen from '../favorites-screen/favorites-screen.jsx';
 import OfferPropertyScreen from '../offer-property-screen/offer-property-screen.jsx';
 import LogInScreen from '../log-in-screen/log-in-screen.jsx';
-import { AppRoute } from '../../const.js';
+import { AppRoute } from '../../consts.js';
 
 function App(props) {
   const {placesCount} = props;
