@@ -3,13 +3,11 @@ import ReactDOM from 'react-dom';
 import App from './components/app/app.jsx';
 
 const MainSetting = {
-  PLACES_COUNT: 312,
+  PLACES_COUNT: 315,
 };
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App
-      placesCount={MainSetting.PLACES_COUNT}
-    />
-  </React.StrictMode>,
+  <App
+    placesCount={MainSetting.PLACES_COUNT}
+  />,
   document.getElementById('root'));
