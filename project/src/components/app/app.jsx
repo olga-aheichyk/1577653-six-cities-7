@@ -7,9 +7,12 @@ import FavoritesScreen from '../favorites-screen/favorites-screen.jsx';
 import OfferPropertyScreen from '../offer-property-screen/offer-property-screen.jsx';
 import LogInScreen from '../log-in-screen/log-in-screen.jsx';
 import { AppRoute } from '../../consts.js';
+import appProp from '../app/app.prop.js';
+//import offers from '../../mocks/offers.js';
 
 function App(props) {
-  const {placesCount} = props;
+  const {placesCount, offers} = props;
+  //const [firstOffer] = offers;
 
   return (
     <BrowserRouter>
@@ -17,16 +20,21 @@ function App(props) {
         <Route exact path={AppRoute.ROOT}>
           <MainScreen
             placesCount={placesCount}
+            offers={offers}
           />
         </Route>
         <Route exact path={AppRoute.LOGIN}>
           <LogInScreen />
         </Route>
         <Route exact path={AppRoute.FAVORITES}>
-          <FavoritesScreen />
+          <FavoritesScreen
+            offers={offers}
+          />
         </Route>
         <Route exact path={AppRoute.OFFER}>
-          <OfferPropertyScreen />
+          <OfferPropertyScreen
+            offers={offers}
+          />
         </Route>
         <Route>
           <NotFoundScreen />
@@ -38,6 +46,7 @@ function App(props) {
 
 App.propTypes = {
   placesCount: PropTypes.number.isRequired,
+  offers: appProp,
 };
 
 

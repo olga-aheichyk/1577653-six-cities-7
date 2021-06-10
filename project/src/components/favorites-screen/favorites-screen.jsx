@@ -2,8 +2,11 @@ import React from 'react';
 import FavoritesListItem from '../favorites-list-item/favorites-list-item.jsx';
 import Logo from '../logo/logo.jsx';
 import SvgSprite from '../svg-sprite/svg-sprite.jsx';
+import appProp from '../app/app.prop.js';
 
-function FavoritesScreen() {
+function FavoritesScreen(props) {
+  const { offers } = props;
+
   return (
     <>
       <SvgSprite />
@@ -44,9 +47,12 @@ function FavoritesScreen() {
             <section className="favorites">
               <h1 className="favorites__title">Saved listing</h1>
               <ul className="favorites__list">
-                {new Array(3).fill(null).map((item, i = 1) => (
-                  <FavoritesListItem key={item + i++} item={item} />
-                ))}
+                {<FavoritesListItem offers={offers.filter((offer) => offer.isFavorite)}/>}
+                {/* {offers.filter((offer) => offer.isFavorite)
+                  .slice(0, 3)
+                  .map((offer) => (
+                    <FavoritesListItem key={offer.id} offer={offer} />
+                  ))} */}
               </ul>
             </section>
           </div>
@@ -66,5 +72,9 @@ function FavoritesScreen() {
     </>
   );
 }
+
+FavoritesScreen.propTypes = {
+  offers: appProp,
+};
 
 export default FavoritesScreen;

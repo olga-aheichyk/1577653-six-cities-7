@@ -4,9 +4,10 @@ import PlaceCard from '../place-card/place-card.jsx';
 import SvgSprite from '../svg-sprite/svg-sprite.jsx';
 import Logo from '../logo/logo.jsx';
 import { Link } from 'react-router-dom';
+import appProp from '../app/app.prop.js';
 
 function MainScreen(props) {
-  const { placesCount } = props;
+  const { placesCount, offers } = props;
 
   return (
     <>
@@ -117,8 +118,8 @@ function MainScreen(props) {
                   </ul>
                 </form>
                 <div className="cities__places-list places__list tabs__content">
-                  {new Array(5).fill(null).map((prop, i = 1) => (
-                    <PlaceCard key={prop + i++} prop={prop} />
+                  {offers.map((offer) => (
+                    <PlaceCard key={offer.id} offer={offer} />
                   ))}
                 </div>
               </section>
@@ -135,6 +136,7 @@ function MainScreen(props) {
 
 MainScreen.propTypes = {
   placesCount: PropTypes.number.isRequired,
+  offers: appProp,
 };
 
 export default MainScreen;

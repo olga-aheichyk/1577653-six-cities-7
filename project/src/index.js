@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app/app.jsx';
+import {offers} from './mocks/offers.js';
 
 const MainSetting = {
   PLACES_COUNT: 315,
@@ -9,5 +10,6 @@ const MainSetting = {
 ReactDOM.render(
   <App
     placesCount={MainSetting.PLACES_COUNT}
+    offers={offers}
   />,
   document.getElementById('root'));
