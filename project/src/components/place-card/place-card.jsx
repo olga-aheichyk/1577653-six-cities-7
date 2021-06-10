@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import placeCardProp from './place-card.prop';
+import placeCardProp from './place-card.prop.js';
 
 const calculateWidthForRating = function(rating) {
   return (rating / 5 * 100);

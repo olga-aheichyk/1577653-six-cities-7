@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PlaceCard from '../place-card/place-card.jsx';
+//import PlaceCard from '../place-card/place-card.jsx';
 import SvgSprite from '../svg-sprite/svg-sprite.jsx';
 import Logo from '../logo/logo.jsx';
 import { Link } from 'react-router-dom';
 import appProp from '../app/app.prop.js';
+import PlaceCardsList from '../place-cards-list/place-cards-list.jsx';
 
 function MainScreen(props) {
   const { placesCount, offers } = props;
@@ -117,11 +118,9 @@ function MainScreen(props) {
                     </li>
                   </ul>
                 </form>
-                <div className="cities__places-list places__list tabs__content">
-                  {offers.map((offer) => (
-                    <PlaceCard key={offer.id} offer={offer} />
-                  ))}
-                </div>
+                <PlaceCardsList
+                  offers={offers}
+                />
               </section>
               <div className="cities__right-section">
                 <section className="cities__map map"></section>

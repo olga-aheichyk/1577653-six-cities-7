@@ -8,11 +8,10 @@ import OfferPropertyScreen from '../offer-property-screen/offer-property-screen.
 import LogInScreen from '../log-in-screen/log-in-screen.jsx';
 import { AppRoute } from '../../consts.js';
 import appProp from '../app/app.prop.js';
-//import offers from '../../mocks/offers.js';
+import reviewItemProp from '../review-item/review-item.prop.js';
 
 function App(props) {
-  const {placesCount, offers} = props;
-  //const [firstOffer] = offers;
+  const {placesCount, offers, reviews} = props;
 
   return (
     <BrowserRouter>
@@ -34,6 +33,7 @@ function App(props) {
         <Route exact path={AppRoute.OFFER}>
           <OfferPropertyScreen
             offers={offers}
+            reviews={reviews}
           />
         </Route>
         <Route>
@@ -47,6 +47,9 @@ function App(props) {
 App.propTypes = {
   placesCount: PropTypes.number.isRequired,
   offers: appProp,
+  reviews: PropTypes.arrayOf(
+    reviewItemProp,
+  ).isRequired,
 };
 
 

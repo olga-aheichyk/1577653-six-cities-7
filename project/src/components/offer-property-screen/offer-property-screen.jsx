@@ -1,12 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Logo from '../logo/logo.jsx';
 import PlaceCard from '../place-card/place-card.jsx';
 import SvgSprite from '../svg-sprite/svg-sprite.jsx';
 import { Link } from 'react-router-dom';
 import appProp from '../app/app.prop.js';
+import CommentPostForm from '../comment-post-form/comment-post-form.jsx';
+import ReviewsList from '../reviews-list/reviews-list.jsx';
+import reviewItemProp from '../review-item/review-item.prop.js';
 
 function OfferPropertyScreen(props) {
-  const { offers } = props;
+  const { offers, reviews } = props;
   const [firstOffer] = offers;
   const {
     bedrooms,
@@ -149,41 +153,10 @@ function OfferPropertyScreen(props) {
                   </div>
                 </div>
                 <section className="property__reviews reviews">
-                  <h2 className="reviews__title">
-                    Reviews &middot; <span className="reviews__amount">1</span>
-                  </h2>
-                  <ul className="reviews__list">
-                    <li className="reviews__item">
-                      <div className="reviews__user user">
-                        <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                          <img
-                            className="reviews__avatar user__avatar"
-                            src="img/avatar-max.jpg"
-                            width="54"
-                            height="54"
-                            alt="Reviews avatar"
-                          />
-                        </div>
-                        <span className="reviews__user-name">Max</span>
-                      </div>
-                      <div className="reviews__info">
-                        <div className="reviews__rating rating">
-                          <div className="reviews__stars rating__stars">
-                            <span style={{width: '80%'}}></span>
-                            <span className="visually-hidden">Rating</span>
-                          </div>
-                        </div>
-                        <p className="reviews__text">
-                          A quiet cozy and picturesque that hides behind a a
-                          river by the unique lightness of Amsterdam. The
-                          building is green and from 18th century.
-                        </p>
-                        <time className="reviews__time" dateTime="2019-04-24">
-                          April 2019
-                        </time>
-                      </div>
-                    </li>
-                  </ul>
+                  <ReviewsList
+                    reviews={reviews}
+                  />
+                  <CommentPostForm />
                 </section>
               </div>
             </div>
@@ -209,6 +182,9 @@ function OfferPropertyScreen(props) {
 
 OfferPropertyScreen.propTypes = {
   offers: appProp,
+  reviews: PropTypes.arrayOf(
+    reviewItemProp,
+  ).isRequired,
 };
 
 export default OfferPropertyScreen;
