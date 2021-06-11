@@ -16,7 +16,7 @@ export const reviews = [
     comment: 'A calm and beautiful place. I recommend it for short stays like a day or 2.',
     date: '2019-03-10T14:13:56.569Z',
     id: 2,
-    rating: 4,
+    rating: 3,
     user: {
       avatarUrl: 'img/avatar-max.jpg',
       id: 5,
@@ -29,7 +29,7 @@ export const reviews = [
     comment: 'Very uncomplicated and very friendly :)',
     date: '2019-11-24T14:13:56.569Z',
     id: 3,
-    rating: 4,
+    rating: 1,
     user: {
       avatarUrl: 'img/avatar-angelina.jpg',
       id: 6,

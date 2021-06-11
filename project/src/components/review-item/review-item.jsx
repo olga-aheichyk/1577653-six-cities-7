@@ -1,13 +1,15 @@
 import React from 'react';
 import reviewItemProp from './review-item.prop.js';
 
+import {calculateWidthForRating} from '../utils.js';
+
 function ReviewItem(props) {
   const { review } = props;
   const {
     comment,
     date,
     id,
-    //rating,
+    rating,
     user,
   } = review;
 
@@ -35,7 +37,7 @@ function ReviewItem(props) {
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{ width: '80%' }}></span>
+            <span style={{ width: `${calculateWidthForRating(rating)}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

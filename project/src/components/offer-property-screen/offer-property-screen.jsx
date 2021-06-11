@@ -8,6 +8,7 @@ import appProp from '../app/app.prop.js';
 import CommentPostForm from '../comment-post-form/comment-post-form.jsx';
 import ReviewsList from '../reviews-list/reviews-list.jsx';
 import reviewItemProp from '../review-item/review-item.prop.js';
+import {calculateWidthForRating} from '../utils.js';
 
 function OfferPropertyScreen(props) {
   const { offers, reviews } = props;
@@ -20,11 +21,10 @@ function OfferPropertyScreen(props) {
     host,
     //id,
     images,
-    //isFavorite,
-    //isPremium,
+    isFavorite,
+    isPremium,
     //location,
     maxAdults,
-    //previewImage,
     price,
     rating,
     title,
@@ -75,7 +75,7 @@ function OfferPropertyScreen(props) {
                     <img
                       className="property__image"
                       src={image}
-                      alt={description}
+                      alt={type}
                     />
                   </div>
                 ))}
@@ -83,15 +83,16 @@ function OfferPropertyScreen(props) {
             </div>
             <div className="property__container container">
               <div className="property__wrapper">
-                <div className="property__mark">
-                  <span>Premium</span>
-                </div>
+                {isPremium ? (
+                  <div className="property__mark">
+                    <span>Premium</span>
+                  </div>) : ''}
                 <div className="property__name-wrapper">
                   <h1 className="property__name">
                     {title}
                   </h1>
                   <button
-                    className="property__bookmark-button button"
+                    className={`property__bookmark-button ${isFavorite ? 'property__bookmark-button--active' : ''} button`}
                     type="button"
                   >
                     <svg className="property__bookmark-icon" width="31" height="33">
@@ -102,7 +103,7 @@ function OfferPropertyScreen(props) {
                 </div>
                 <div className="property__rating rating">
                   <div className="property__stars rating__stars">
-                    <span style={{width: '80%'}}></span>
+                    <span style={{ width: `${calculateWidthForRating(rating)}%`}}></span>
                     <span className="visually-hidden">Rating</span>
                   </div>
                   <span className="property__rating-value rating__value">{rating}</span>

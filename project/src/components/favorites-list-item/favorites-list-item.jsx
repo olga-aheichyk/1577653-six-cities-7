@@ -6,7 +6,7 @@ import appProp from '../app/app.prop.js';
 function FavoritesListItem(props) {
   const {offers} = props;
 
-  const cityNames = Array.from(new Set(offers.slice().map((offer) => offer.location.name)));
+  const cityNames = Array.from(new Set(offers.slice().map((offer) => offer.city.name)));
 
   if (offers.length) {
     return cityNames.map((cityName, i = 1) =>
@@ -21,7 +21,7 @@ function FavoritesListItem(props) {
           </div>
           <div className="favorites__places">
             {offers
-              .filter((offer) => offer.location.name === cityName)
+              .filter((offer) => offer.city.name === cityName)
               .map((offer) => (
                 <PlaceCard key={offer.id} offer={offer} />
               ))}
