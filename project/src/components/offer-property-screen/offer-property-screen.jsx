@@ -7,7 +7,8 @@ import CommentPostForm from '../comment-post-form/comment-post-form.jsx';
 import ReviewsList from '../reviews-list/reviews-list.jsx';
 import reviewsListProp from '../reviews-list/reviews-list.prop.js';
 import {calculateWidthForRating} from '../utils.js';
-import NavNotAuthorizedUser from '../nav-not-authorized-user/nav-not-authorized-user.jsx';
+import NavAuthorizedUser from '../nav-authorized-user/nav-authorized-user.jsx';
+import { userEmail } from '../../consts.js';
 
 function OfferPropertyScreen(props) {
   const { offers, reviews } = props;
@@ -49,7 +50,7 @@ function OfferPropertyScreen(props) {
               <div className="header__left">
                 <Logo />
               </div>
-              <NavNotAuthorizedUser />
+              <NavAuthorizedUser userEmail={userEmail} />
             </div>
           </div>
         </header>

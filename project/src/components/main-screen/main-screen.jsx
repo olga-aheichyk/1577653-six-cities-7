@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
 import SvgSprite from '../svg-sprite/svg-sprite.jsx';
 import Logo from '../logo/logo.jsx';
-import NavAuthorizedUser from '../nav-authorized-user/nav-authorized-user.jsx';
+import NavNotAuthorizedUser from '../nav-not-authorized-user/nav-not-authorized-user.jsx';
 
 import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
-import PlaceCardsList from '../place-cards-list/place-cards-list.jsx';
 
-import { CITIES, userEmail } from '../../consts.js';
+import { CITIES } from '../../consts.js';
+import CitiesPlaces from '../cities-places/cities-places.jsx';
+import CitiesNoPlaces from '../cities-no-places/cities-no-places.jsx';
 
 function MainScreen(props) {
   const { offers } = props;
@@ -27,14 +28,12 @@ function MainScreen(props) {
               <div className="header__left">
                 <Logo />
               </div>
-              <NavAuthorizedUser
-                userEmail={userEmail}
-              />
+              <NavNotAuthorizedUser />
             </div>
           </div>
         </header>
 
-        <main className="page__main page__main--index">
+        <main className={`page__main page__main--index ${activeCityOffers.length > 0 ? null : 'page__main--index-empty'}`}>
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
             <section className="locations container">
@@ -56,44 +55,18 @@ function MainScreen(props) {
             </section>
           </div>
           <div className="cities">
-            <div className="cities__places-container container">
-              <section className="cities__places places">
-                <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">
-                  {activeCityOffers.length} places to stay in {activeCity.city}
-                </b>
-                <form className="places__sorting" action="#" method="get">
-                  <span className="places__sorting-caption">Sort by</span>
-                  <span className="places__sorting-type" tabIndex="0">
-                    Popular
-                    <svg className="places__sorting-arrow" width="7" height="4">
-                      <use xlinkHref="#icon-arrow-select"></use>
-                    </svg>
-                  </span>
-                  <ul className="places__options places__options--custom places__options--opened">
-                    <li
-                      className="places__option places__option--active"
-                      tabIndex="0"
-                    >
-                      Popular
-                    </li>
-                    <li className="places__option" tabIndex="0">
-                      Price: low to high
-                    </li>
-                    <li className="places__option" tabIndex="0">
-                      Price: high to low
-                    </li>
-                    <li className="places__option" tabIndex="0">
-                      Top rated first
-                    </li>
-                  </ul>
-                </form>
-                <PlaceCardsList
-                  offers={activeCityOffers}
-                />
-              </section>
+            <div className={`cities__places-container ${activeCityOffers.length > 0 ? null : 'cities__places-container--empty'} container`}>
+              {activeCityOffers.length ?
+                <CitiesPlaces
+                  activeCity={activeCity}
+                  activeCityOffers={activeCityOffers}
+                /> :
+                <CitiesNoPlaces
+                  activeCity={activeCity}
+                />}
+
               <div className="cities__right-section">
-                <section className="cities__map map"></section>
+                {activeCityOffers.length ? (<section className="cities__map map"></section>) : null}
               </div>
             </div>
           </div>
