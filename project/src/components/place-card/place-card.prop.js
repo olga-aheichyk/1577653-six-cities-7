@@ -1,19 +1,14 @@
 import PropTypes from 'prop-types';
 import { TYPES, CITIES } from '../../consts.js';
 
+
 export default PropTypes.shape({
   bedrooms: PropTypes.number.isRequired,
   city: PropTypes.shape({
     name: PropTypes.oneOf(CITIES).isRequired,
     location: PropTypes.shape({
-      latitude: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
-      ]).isRequired,
-      longitude: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
-      ]).isRequired,
+      latitude: PropTypes.number.isRequired,
+      longitude: PropTypes.number.isRequired,
       zoom: PropTypes.number.isRequired,
     }).isRequired,
   }).isRequired,
@@ -36,9 +31,9 @@ export default PropTypes.shape({
   isFavorite: PropTypes.bool.isRequired,
   isPremium: PropTypes.bool.isRequired,
   location: PropTypes.shape({
-    latitude: PropTypes.string.isRequired,
-    longitude: PropTypes.string.isRequired,
-    zoom: PropTypes.string.isRequired,
+    latitude: PropTypes.number.isRequired,
+    longitude: PropTypes.number.isRequired,
+    zoom: PropTypes.number.isRequired,
   }).isRequired,
   maxAdults: PropTypes.number.isRequired,
   previewImage: PropTypes.string,
