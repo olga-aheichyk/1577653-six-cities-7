@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 
 function CommentPostForm() {
   const [state, setState] = useState({
-    rating: '',
-    review: '',
+    rating: null,
+    review: null,
   });
 
   return (

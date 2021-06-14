@@ -6,8 +6,14 @@ export default PropTypes.shape({
   city: PropTypes.shape({
     name: PropTypes.oneOf(CITIES).isRequired,
     location: PropTypes.shape({
-      latitude: PropTypes.number.isRequired,
-      longitude: PropTypes.number.isRequired,
+      latitude: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+      ]).isRequired,
+      longitude: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+      ]).isRequired,
       zoom: PropTypes.number.isRequired,
     }).isRequired,
   }).isRequired,

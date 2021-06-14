@@ -1,17 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Logo from '../logo/logo.jsx';
 import PlaceCard from '../place-card/place-card.jsx';
 import SvgSprite from '../svg-sprite/svg-sprite.jsx';
-import { Link } from 'react-router-dom';
-import appProp from '../app/app.prop.js';
+import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
 import CommentPostForm from '../comment-post-form/comment-post-form.jsx';
 import ReviewsList from '../reviews-list/reviews-list.jsx';
-import reviewItemProp from '../review-item/review-item.prop.js';
+import reviewsListProp from '../reviews-list/reviews-list.prop.js';
 import {calculateWidthForRating} from '../utils.js';
+import NavNotAuthorizedUser from '../nav-not-authorized-user/nav-not-authorized-user.jsx';
 
 function OfferPropertyScreen(props) {
   const { offers, reviews } = props;
+  //const firstOffer = offers.slice().find((offer) => offer.id === currentId)
   const [firstOffer] = offers;
   const {
     bedrooms,
@@ -49,19 +49,7 @@ function OfferPropertyScreen(props) {
               <div className="header__left">
                 <Logo />
               </div>
-              <nav className="header__nav">
-                <ul className="header__nav-list">
-                  <li className="header__nav-item user">
-                    <Link
-                      className="header__nav-link header__nav-link--profile"
-                      to="/login"
-                    >
-                      <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                      <span className="header__login">Sign in</span>
-                    </Link>
-                  </li>
-                </ul>
-              </nav>
+              <NavNotAuthorizedUser />
             </div>
           </div>
         </header>
@@ -86,13 +74,13 @@ function OfferPropertyScreen(props) {
                 {isPremium ? (
                   <div className="property__mark">
                     <span>Premium</span>
-                  </div>) : ''}
+                  </div>) : null}
                 <div className="property__name-wrapper">
                   <h1 className="property__name">
                     {title}
                   </h1>
                   <button
-                    className={`property__bookmark-button ${isFavorite ? 'property__bookmark-button--active' : ''} button`}
+                    className={`property__bookmark-button ${isFavorite ? 'property__bookmark-button--active' : null} button`}
                     type="button"
                   >
                     <svg className="property__bookmark-icon" width="31" height="33">
@@ -142,7 +130,7 @@ function OfferPropertyScreen(props) {
                       />
                     </div>
                     <span className="property__user-name">{name}</span>
-                    {isPro ? <span className="property__user-status">Pro</span> : ''}
+                    {isPro ? <span className="property__user-status">Pro</span> : null}
                   </div>
                   <div className="property__description">
                     <p className="property__text">
@@ -182,10 +170,8 @@ function OfferPropertyScreen(props) {
 }
 
 OfferPropertyScreen.propTypes = {
-  offers: appProp,
-  reviews: PropTypes.arrayOf(
-    reviewItemProp,
-  ).isRequired,
+  offers: placeCardsListProp,
+  reviews: reviewsListProp,
 };
 
 export default OfferPropertyScreen;

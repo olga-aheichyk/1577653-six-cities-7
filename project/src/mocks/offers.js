@@ -4,8 +4,8 @@ export const offers = [
     city: {
       name: 'Paris',
       location: {
-        latitude: 52.370216,
-        longitude: 4.895168,
+        latitude: Number(52.370216),
+        longitude: Number(4.895168),
         zoom: 10,
       },
     },
@@ -22,8 +22,8 @@ export const offers = [
     isFavorite: true,
     isPremium: false,
     location: {
-      latitude: 52.35514938496378,
-      longitude: 4.673877537499948,
+      latitude: Number(52.35514938496378),
+      longitude: Number(4.673877537499948),
       zoom: 8,
     },
     maxAdults: 5,
@@ -38,8 +38,8 @@ export const offers = [
     city: {
       name: 'Hamburg',
       location: {
-        latitude: 52.420216,
-        longitude: 6.895168,
+        latitude: Number(52.420216),
+        longitude: Number(6.895168),
         zoom: 10,
       },
     },
@@ -56,8 +56,8 @@ export const offers = [
     isFavorite: true,
     isPremium: true,
     location: {
-      latitude: 52.43514938496378,
-      longitude: 6.913877537499948,
+      latitude: Number(52.43514938496378),
+      longitude: Number(6.913877537499948),
       zoom: 8,
     },
     maxAdults: 3,
@@ -72,8 +72,8 @@ export const offers = [
     city: {
       name: 'Dusseldorf',
       location: {
-        latitude: 52.520216,
-        longitude: 6.915168,
+        latitude: Number(52.520216),
+        longitude: Number(6.915168),
         zoom: 10,
       },
     },
@@ -90,8 +90,8 @@ export const offers = [
     isFavorite: false,
     isPremium: true,
     location: {
-      latitude: 52.53514938496378,
-      longitude: 6.923877537499948,
+      latitude: Number(52.53514938496378),
+      longitude: Number(6.923877537499948),
       zoom: 8,
     },
     maxAdults: 8,
@@ -106,8 +106,8 @@ export const offers = [
     city: {
       name: 'Paris',
       location: {
-        latitude: 52.370216,
-        longitude: 4.895168,
+        latitude: Number(52.370216),
+        longitude: Number(4.895168),
         zoom: 10,
       },
     },
@@ -121,11 +121,11 @@ export const offers = [
     },
     id: 114,
     images: ['img/room.jpg'],
-    isFavorite: false,
+    isFavorite: true,
     isPremium: false,
     location: {
-      latitude: 52.35514938496378,
-      longitude: 4.673877537499948,
+      latitude: Number(52.35514938496378),
+      longitude: Number(4.673877537499948),
       zoom: 8,
     },
     maxAdults: 5,

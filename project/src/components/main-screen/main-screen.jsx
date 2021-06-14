@@ -1,14 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-//import PlaceCard from '../place-card/place-card.jsx';
+import React, {useState} from 'react';
 import SvgSprite from '../svg-sprite/svg-sprite.jsx';
 import Logo from '../logo/logo.jsx';
-import { Link } from 'react-router-dom';
-import appProp from '../app/app.prop.js';
+import NavAuthorizedUser from '../nav-authorized-user/nav-authorized-user.jsx';
+
+import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
 import PlaceCardsList from '../place-cards-list/place-cards-list.jsx';
 
+import { CITIES, userEmail } from '../../consts.js';
+
 function MainScreen(props) {
-  const { placesCount, offers } = props;
+  const { offers } = props;
+
+  const [activeCity, setActiveCity] = useState({
+    city: 'Paris',
+  });
+
+  const activeCityOffers = offers.slice().filter((offer) => offer.city.name === activeCity.city);
 
   return (
     <>
@@ -20,26 +27,9 @@ function MainScreen(props) {
               <div className="header__left">
                 <Logo />
               </div>
-              <nav className="header__nav">
-                <ul className="header__nav-list">
-                  <li className="header__nav-item user">
-                    <Link
-                      className="header__nav-link header__nav-link--profile"
-                      to="/favorites"
-                    >
-                      <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                      <span className="header__user-name user__name">
-                        Oliver.conner@gmail.com
-                      </span>
-                    </Link>
-                  </li>
-                  <li className="header__nav-item">
-                    <a className="header__nav-link" href="/#">
-                      <span className="header__signout">Sign out</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
+              <NavAuthorizedUser
+                userEmail={userEmail}
+              />
             </div>
           </div>
         </header>
@@ -48,40 +38,20 @@ function MainScreen(props) {
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
             <section className="locations container">
-              <ul className="locations__list tabs__list">
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="/#">
-                    <span>Paris</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="/#">
-                    <span>Cologne</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="/#">
-                    <span>Brussels</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a
-                    className="locations__item-link tabs__item tabs__item--active"
-                    href="/#"
-                  >
-                    <span>Amsterdam</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="/#">
-                    <span>Hamburg</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="/#">
-                    <span>Dusseldorf</span>
-                  </a>
-                </li>
+              <ul
+                onClick={(evt) => {
+                  evt.preventDefault();
+                  setActiveCity({ ...activeCity, city: evt.target.textContent });
+                }}
+                className="locations__list tabs__list"
+              >
+                {CITIES.map((city) => (
+                  <li className="locations__item" key={city}>
+                    <a className={`locations__item-link tabs__item ${activeCity.city === city ? 'tabs__item--active' : null}`} href="/#">
+                      <span>{city}</span>
+                    </a>
+                  </li>
+                ))}
               </ul>
             </section>
           </div>
@@ -90,7 +60,7 @@ function MainScreen(props) {
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
                 <b className="places__found">
-                  {placesCount} places to stay in Amsterdam
+                  {activeCityOffers.length} places to stay in {activeCity.city}
                 </b>
                 <form className="places__sorting" action="#" method="get">
                   <span className="places__sorting-caption">Sort by</span>
@@ -119,7 +89,7 @@ function MainScreen(props) {
                   </ul>
                 </form>
                 <PlaceCardsList
-                  offers={offers}
+                  offers={activeCityOffers}
                 />
               </section>
               <div className="cities__right-section">
@@ -134,8 +104,7 @@ function MainScreen(props) {
 }
 
 MainScreen.propTypes = {
-  placesCount: PropTypes.number.isRequired,
-  offers: appProp,
+  offers: placeCardsListProp,
 };
 
 export default MainScreen;

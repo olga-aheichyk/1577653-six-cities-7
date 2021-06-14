@@ -1,11 +1,15 @@
 import React from 'react';
-import FavoritesListItem from '../favorites-list-item/favorites-list-item.jsx';
 import Logo from '../logo/logo.jsx';
 import SvgSprite from '../svg-sprite/svg-sprite.jsx';
-import appProp from '../app/app.prop.js';
+import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
+import FavoritesNotEmpty from '../favorites-not-empty/favorites-not-empty.jsx';
+import FavoritesEmpty from '../favorites-empty/favorites-empty.jsx';
+import NavAuthorizedUser from '../nav-authorized-user/nav-authorized-user.jsx';
+import { userEmail } from '../../consts.js';
 
 function FavoritesScreen(props) {
   const { offers } = props;
+  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
 
   return (
     <>
@@ -18,43 +22,16 @@ function FavoritesScreen(props) {
               <div className="header__left">
                 <Logo />
               </div>
-              <nav className="header__nav">
-                <ul className="header__nav-list">
-                  <li className="header__nav-item user">
-                    <a
-                      className="header__nav-link header__nav-link--profile"
-                      href="/#"
-                    >
-                      <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                      <span className="header__user-name user__name">
-                        Oliver.conner@gmail.com
-                      </span>
-                    </a>
-                  </li>
-                  <li className="header__nav-item">
-                    <a className="header__nav-link" href="/#">
-                      <span className="header__signout">Sign out</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
+              <NavAuthorizedUser
+                userEmail={userEmail}
+              />
             </div>
           </div>
         </header>
 
         <main className="page__main page__main--favorites">
           <div className="page__favorites-container container">
-            <section className="favorites">
-              <h1 className="favorites__title">Saved listing</h1>
-              <ul className="favorites__list">
-                {<FavoritesListItem offers={offers.filter((offer) => offer.isFavorite)}/>}
-                {/* {offers.filter((offer) => offer.isFavorite)
-                  .slice(0, 3)
-                  .map((offer) => (
-                    <FavoritesListItem key={offer.id} offer={offer} />
-                  ))} */}
-              </ul>
-            </section>
+            {favoriteOffers.length ? <FavoritesNotEmpty favoriteOffers={favoriteOffers} /> : <FavoritesEmpty />}
           </div>
         </main>
         <footer className="footer container">
@@ -74,7 +51,7 @@ function FavoritesScreen(props) {
 }
 
 FavoritesScreen.propTypes = {
-  offers: appProp,
+  offers: placeCardsListProp,
 };
 
 export default FavoritesScreen;

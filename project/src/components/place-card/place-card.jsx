@@ -1,13 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import placeCardProp from './place-card.prop.js';
 import {calculateWidthForRating} from '../utils.js';
 
 function PlaceCard(props) {
   const {offer} = props;
+
   const {
     isFavorite,
     isPremium,
+    id,
     previewImage,
     price,
     rating,
@@ -15,15 +17,24 @@ function PlaceCard(props) {
     type,
   } = offer;
 
+  const [activeCard, setActiveCard] = useState({
+    id: '111',
+  });
+
   return (
-    <article className="cities__place-card place-card">
+    <article onMouseOver={(evt) => {
+      setActiveCard({ ...activeCard, id: evt.currentTarget.id });
+      //console.log(activeCard);
+    }}
+    className="cities__place-card place-card" id={id}
+    >
       { isPremium ? (
         <div className="place-card__mark">
           <span>Premium</span>
-        </div>) : ''}
+        </div>) : null}
 
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to="/offer/:id">
+        <Link to={`/offer/id${activeCard.id}`}>
           <img
             className="place-card__image"
             src={previewImage}
@@ -42,7 +53,7 @@ function PlaceCard(props) {
           </div>
 
           <button
-            className={`place-card__bookmark-button ${isFavorite ? 'place-card__bookmark-button--active' : ''} button`}
+            className={`place-card__bookmark-button ${isFavorite ? 'place-card__bookmark-button--active' : null} button`}
             type="button"
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">

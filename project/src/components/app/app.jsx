@@ -1,24 +1,22 @@
 import React from 'react';
 import {Switch, Route, BrowserRouter} from 'react-router-dom';
 import NotFoundScreen from '../not-found-screen/not-found-screen.jsx';
-import PropTypes from 'prop-types';
 import MainScreen from '../main-screen/main-screen.jsx';
 import FavoritesScreen from '../favorites-screen/favorites-screen.jsx';
 import OfferPropertyScreen from '../offer-property-screen/offer-property-screen.jsx';
 import LogInScreen from '../log-in-screen/log-in-screen.jsx';
 import { AppRoute } from '../../consts.js';
-import appProp from '../app/app.prop.js';
-import reviewItemProp from '../review-item/review-item.prop.js';
+import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
+import reviewsListProp from '../reviews-list/reviews-list.prop.js';
 
 function App(props) {
-  const {placesCount, offers, reviews} = props;
+  const {offers, reviews} = props;
 
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.ROOT}>
           <MainScreen
-            placesCount={placesCount}
             offers={offers}
           />
         </Route>
@@ -33,6 +31,7 @@ function App(props) {
         <Route exact path={AppRoute.OFFER}>
           <OfferPropertyScreen
             offers={offers}
+            //currentId={activeCard.id}
             reviews={reviews}
           />
         </Route>
@@ -45,11 +44,8 @@ function App(props) {
 }
 
 App.propTypes = {
-  placesCount: PropTypes.number.isRequired,
-  offers: appProp,
-  reviews: PropTypes.arrayOf(
-    reviewItemProp,
-  ).isRequired,
+  offers: placeCardsListProp,
+  reviews: reviewsListProp,
 };
 
 
