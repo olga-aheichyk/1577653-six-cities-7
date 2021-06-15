@@ -2,9 +2,44 @@ import React from 'react';
 import Logo from '../logo/logo.jsx';
 import PlaceCard from '../place-card/place-card.jsx';
 import SvgSprite from '../svg-sprite/svg-sprite.jsx';
-import { Link } from 'react-router-dom';
+import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
+import CommentPostForm from '../comment-post-form/comment-post-form.jsx';
+import ReviewsList from '../reviews-list/reviews-list.jsx';
+import reviewsListProp from '../reviews-list/reviews-list.prop.js';
+import {calculateWidthForRating} from '../utils.js';
+import NavAuthorizedUser from '../nav-authorized-user/nav-authorized-user.jsx';
+import { userEmail } from '../../consts.js';
 
-function OfferPropertyScreen() {
+function OfferPropertyScreen(props) {
+  const { offers, reviews } = props;
+  //const firstOffer = offers.slice().find((offer) => offer.id === currentId)
+  const [firstOffer] = offers;
+  const {
+    bedrooms,
+    //city,
+    description,
+    goods,
+    host,
+    //id,
+    images,
+    isFavorite,
+    isPremium,
+    //location,
+    maxAdults,
+    price,
+    rating,
+    title,
+    type,
+  } = firstOffer;
+
+  const {
+    avatarUrl,
+    //hostId,
+    isPro,
+    name,
+  } = host;
+
+
   return (
     <>
       <SvgSprite />
@@ -15,19 +50,7 @@ function OfferPropertyScreen() {
               <div className="header__left">
                 <Logo />
               </div>
-              <nav className="header__nav">
-                <ul className="header__nav-list">
-                  <li className="header__nav-item user">
-                    <Link
-                      className="header__nav-link header__nav-link--profile"
-                      to="/login"
-                    >
-                      <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                      <span className="header__login">Sign in</span>
-                    </Link>
-                  </li>
-                </ul>
-              </nav>
+              <NavAuthorizedUser userEmail={userEmail} />
             </div>
           </div>
         </header>
@@ -36,61 +59,29 @@ function OfferPropertyScreen() {
           <section className="property">
             <div className="property__gallery-container container">
               <div className="property__gallery">
-                <div className="property__image-wrapper">
-                  <img
-                    className="property__image"
-                    src="img/room.jpg"
-                    alt="Studio"
-                  />
-                </div>
-                <div className="property__image-wrapper">
-                  <img
-                    className="property__image"
-                    src="img/apartment-01.jpg"
-                    alt="Studio"
-                  />
-                </div>
-                <div className="property__image-wrapper">
-                  <img
-                    className="property__image"
-                    src="img/apartment-02.jpg"
-                    alt="Studio"
-                  />
-                </div>
-                <div className="property__image-wrapper">
-                  <img
-                    className="property__image"
-                    src="img/apartment-03.jpg"
-                    alt="Studio"
-                  />
-                </div>
-                <div className="property__image-wrapper">
-                  <img
-                    className="property__image"
-                    src="img/studio-01.jpg"
-                    alt="Studio"
-                  />
-                </div>
-                <div className="property__image-wrapper">
-                  <img
-                    className="property__image"
-                    src="img/apartment-01.jpg"
-                    alt="Studio"
-                  />
-                </div>
+                {images.map((image, i = 1) => (
+                  <div className="property__image-wrapper" key={i++}>
+                    <img
+                      className="property__image"
+                      src={image}
+                      alt={type}
+                    />
+                  </div>
+                ))}
               </div>
             </div>
             <div className="property__container container">
               <div className="property__wrapper">
-                <div className="property__mark">
-                  <span>Premium</span>
-                </div>
+                {isPremium ? (
+                  <div className="property__mark">
+                    <span>Premium</span>
+                  </div>) : null}
                 <div className="property__name-wrapper">
                   <h1 className="property__name">
-                    Beautiful &amp; luxurious studio at great location
+                    {title}
                   </h1>
                   <button
-                    className="property__bookmark-button button"
+                    className={`property__bookmark-button ${isFavorite ? 'property__bookmark-button--active' : null} button`}
                     type="button"
                   >
                     <svg className="property__bookmark-icon" width="31" height="33">
@@ -101,39 +92,30 @@ function OfferPropertyScreen() {
                 </div>
                 <div className="property__rating rating">
                   <div className="property__stars rating__stars">
-                    <span style={{width: '80%'}}></span>
+                    <span style={{ width: `${calculateWidthForRating(rating)}%`}}></span>
                     <span className="visually-hidden">Rating</span>
                   </div>
-                  <span className="property__rating-value rating__value">4.8</span>
+                  <span className="property__rating-value rating__value">{rating}</span>
                 </div>
                 <ul className="property__features">
                   <li className="property__feature property__feature--entire">
-                    Apartment
+                    {type}
                   </li>
                   <li className="property__feature property__feature--bedrooms">
-                    3 Bedrooms
+                    {bedrooms} Bedrooms
                   </li>
                   <li className="property__feature property__feature--adults">
-                    Max 4 adults
+                    Max {maxAdults} adults
                   </li>
                 </ul>
                 <div className="property__price">
-                  <b className="property__price-value">&euro;120</b>
+                  <b className="property__price-value">&euro;{price}</b>
                   <span className="property__price-text">&nbsp;night</span>
                 </div>
                 <div className="property__inside">
                   <h2 className="property__inside-title">What&apos;s inside</h2>
                   <ul className="property__inside-list">
-                    <li className="property__inside-item">Wi-Fi</li>
-                    <li className="property__inside-item">Washing machine</li>
-                    <li className="property__inside-item">Towels</li>
-                    <li className="property__inside-item">Heating</li>
-                    <li className="property__inside-item">Coffee machine</li>
-                    <li className="property__inside-item">Baby seat</li>
-                    <li className="property__inside-item">Kitchen</li>
-                    <li className="property__inside-item">Dishwasher</li>
-                    <li className="property__inside-item">Cabel TV</li>
-                    <li className="property__inside-item">Fridge</li>
+                    {goods.map((good, i = 1) => <li className="property__inside-item" key={i++}>{good}</li>)}
                   </ul>
                 </div>
                 <div className="property__host">
@@ -142,65 +124,29 @@ function OfferPropertyScreen() {
                     <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
                       <img
                         className="property__avatar user__avatar"
-                        src="img/avatar-angelina.jpg"
+                        src={avatarUrl}
                         width="74"
                         height="74"
                         alt="Host avatar"
                       />
                     </div>
-                    <span className="property__user-name">Angelina</span>
-                    <span className="property__user-status">Pro</span>
+                    <span className="property__user-name">{name}</span>
+                    {isPro ? <span className="property__user-status">Pro</span> : null}
                   </div>
                   <div className="property__description">
                     <p className="property__text">
-                      A quiet cozy and picturesque that hides behind a a river
-                      by the unique lightness of Amsterdam. The building is
-                      green and from 18th century.
+                      {title}
                     </p>
                     <p className="property__text">
-                      An independent House, strategically located between
-                      Rembrand Square and National Opera, but where the bustle
-                      of the city comes to rest in this alley flowery and
-                      colorful.
+                      {description}
                     </p>
                   </div>
                 </div>
                 <section className="property__reviews reviews">
-                  <h2 className="reviews__title">
-                    Reviews &middot; <span className="reviews__amount">1</span>
-                  </h2>
-                  <ul className="reviews__list">
-                    <li className="reviews__item">
-                      <div className="reviews__user user">
-                        <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                          <img
-                            className="reviews__avatar user__avatar"
-                            src="img/avatar-max.jpg"
-                            width="54"
-                            height="54"
-                            alt="Reviews avatar"
-                          />
-                        </div>
-                        <span className="reviews__user-name">Max</span>
-                      </div>
-                      <div className="reviews__info">
-                        <div className="reviews__rating rating">
-                          <div className="reviews__stars rating__stars">
-                            <span style={{width: '80%'}}></span>
-                            <span className="visually-hidden">Rating</span>
-                          </div>
-                        </div>
-                        <p className="reviews__text">
-                          A quiet cozy and picturesque that hides behind a a
-                          river by the unique lightness of Amsterdam. The
-                          building is green and from 18th century.
-                        </p>
-                        <time className="reviews__time" dateTime="2019-04-24">
-                          April 2019
-                        </time>
-                      </div>
-                    </li>
-                  </ul>
+                  <ReviewsList
+                    reviews={reviews}
+                  />
+                  <CommentPostForm />
                 </section>
               </div>
             </div>
@@ -212,8 +158,8 @@ function OfferPropertyScreen() {
                 Other places in the neighbourhood
               </h2>
               <div className="near-places__list places__list">
-                {new Array(3).fill(null).map((prop, i = 1) => (
-                  <PlaceCard key={prop + i++} prop={prop} />
+                {offers.slice(0, 3).map((offer) => (
+                  <PlaceCard key={offer.id} offer={offer} />
                 ))}
               </div>
             </section>
@@ -223,5 +169,10 @@ function OfferPropertyScreen() {
     </>
   );
 }
+
+OfferPropertyScreen.propTypes = {
+  offers: placeCardsListProp,
+  reviews: reviewsListProp,
+};
 
 export default OfferPropertyScreen;
