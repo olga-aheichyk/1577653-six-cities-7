@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import placeCardProp from './place-card.prop.js';
 import {calculateWidthForRating} from '../utils.js';
 
 function PlaceCard(props) {
-  const {offer} = props;
+  const {offer, onPlaceCardHover} = props;
 
   const {
     isFavorite,
@@ -17,16 +18,17 @@ function PlaceCard(props) {
     type,
   } = offer;
 
-  const [activeCard, setActiveCard] = useState({
-    id: '111',
-  });
+  const [activeCardId, setActiveCardId] = useState(null);
+
+  const placeCardHoverHandler = (evt) => {
+    onPlaceCardHover(evt.currentTarget.id);
+    setActiveCardId(evt.target.closest('article').id);
+  };
 
   return (
-    <article onMouseOver={(evt) => {
-      setActiveCard({ ...activeCard, id: evt.currentTarget.id });
-      //console.log(activeCard);
-    }}
-    className="cities__place-card place-card" id={id}
+    <article
+      onMouseEnter={placeCardHoverHandler}
+      className="cities__place-card place-card" id={id}
     >
       { isPremium ? (
         <div className="place-card__mark">
@@ -34,7 +36,7 @@ function PlaceCard(props) {
         </div>) : null}
 
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to={`/offer/id${activeCard.id}`}>
+        <Link to={`/offer/${activeCardId}`}>
           <img
             className="place-card__image"
             src={previewImage}
@@ -82,6 +84,7 @@ function PlaceCard(props) {
 
 PlaceCard.propTypes = {
   offer: placeCardProp,
+  onPlaceCardHover: PropTypes.func.isRequired,
 };
 
 export default PlaceCard;

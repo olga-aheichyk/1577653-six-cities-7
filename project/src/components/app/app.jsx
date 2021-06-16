@@ -10,7 +10,7 @@ import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
 import reviewsListProp from '../reviews-list/reviews-list.prop.js';
 
 function App(props) {
-  const {offers, reviews} = props;
+  const {offers, reviews } = props;
 
   return (
     <BrowserRouter>
@@ -31,7 +31,6 @@ function App(props) {
         <Route exact path={AppRoute.OFFER}>
           <OfferPropertyScreen
             offers={offers}
-            //currentId={activeCard.id}
             reviews={reviews}
           />
         </Route>

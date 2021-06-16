@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import PlaceCard from '../place-card/place-card.jsx';
 import placeCardsListProp from './place-cards-list.prop.js';
 
 function PlaceCardsList(props) {
-  const {offers} = props;
+  const {offers, onPlaceCardHover} = props;
 
 
   return (
@@ -12,6 +13,7 @@ function PlaceCardsList(props) {
         <PlaceCard
           key={offer.id}
           offer={offer}
+          onPlaceCardHover={onPlaceCardHover}
         />
       ))}
     </div>
@@ -20,6 +22,7 @@ function PlaceCardsList(props) {
 
 PlaceCardsList.propTypes = {
   offers: placeCardsListProp,
+  onPlaceCardHover: PropTypes.func.isRequired,
 };
 
 export default PlaceCardsList;

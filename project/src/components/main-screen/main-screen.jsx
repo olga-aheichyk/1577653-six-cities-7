@@ -8,15 +8,28 @@ import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
 import { CITIES } from '../../consts.js';
 import CitiesPlaces from '../cities-places/cities-places.jsx';
 import CitiesNoPlaces from '../cities-no-places/cities-no-places.jsx';
+import Map from '../map/map.jsx';
 
 function MainScreen(props) {
   const { offers } = props;
 
   const [activeCity, setActiveCity] = useState({
-    city: 'Paris',
+    city: 'Amsterdam',
   });
 
+  const [activeOffer, setActiveOffer] = useState({});
+
+  const onPlaceCardHover = (placeCardId) => {
+    const currentOffer = offers.find((offer) =>
+      offer.id === Number(placeCardId),
+    );
+    setActiveOffer(currentOffer);
+  };
+
   const activeCityOffers = offers.slice().filter((offer) => offer.city.name === activeCity.city);
+
+  //const activeCityLocation = offers.slice().find((offer) => offer.city.name === activeCity.city).city.location;
+
 
   return (
     <>
@@ -33,7 +46,7 @@ function MainScreen(props) {
           </div>
         </header>
 
-        <main className={`page__main page__main--index ${activeCityOffers.length > 0 ? null : 'page__main--index-empty'}`}>
+        <main className={`page__main page__main--index ${activeCityOffers.length > 0 ? '' : 'page__main--index-empty'}`}>
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
             <section className="locations container">
@@ -60,13 +73,21 @@ function MainScreen(props) {
                 <CitiesPlaces
                   activeCity={activeCity}
                   activeCityOffers={activeCityOffers}
+                  onPlaceCardHover={onPlaceCardHover}
                 /> :
                 <CitiesNoPlaces
                   activeCity={activeCity}
                 />}
 
               <div className="cities__right-section">
-                {activeCityOffers.length ? (<section className="cities__map map"></section>) : null}
+                {activeCityOffers.length > 0 ? (
+                  <section className="cities__map map" style={{height: '100vh'}}>
+                    <Map
+                      location={offers.slice().find((offer) => offer.city.name === activeCity.city).city.location}
+                      offers={activeCityOffers}
+                      activeOffer={activeOffer}
+                    />
+                  </section>) : null}
               </div>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Logo from '../logo/logo.jsx';
 import PlaceCard from '../place-card/place-card.jsx';
 import SvgSprite from '../svg-sprite/svg-sprite.jsx';
@@ -9,10 +9,13 @@ import reviewsListProp from '../reviews-list/reviews-list.prop.js';
 import {calculateWidthForRating} from '../utils.js';
 import NavAuthorizedUser from '../nav-authorized-user/nav-authorized-user.jsx';
 import { userEmail } from '../../consts.js';
+import Map from '../map/map.jsx';
 
 function OfferPropertyScreen(props) {
   const { offers, reviews } = props;
   //const firstOffer = offers.slice().find((offer) => offer.id === currentId)
+
+  const nearestOffers = offers.slice(0, 3);
   const [firstOffer] = offers;
   const {
     bedrooms,
@@ -38,6 +41,15 @@ function OfferPropertyScreen(props) {
     isPro,
     name,
   } = host;
+
+  const [activeOffer, setActiveOffer] = useState(firstOffer);
+
+  const onPlaceCardHover = (placeCardId) => {
+    const currentOffer = nearestOffers.find((offer) =>
+      offer.id === Number(placeCardId),
+    );
+    setActiveOffer(currentOffer);
+  };
 
 
   return (
@@ -150,7 +162,14 @@ function OfferPropertyScreen(props) {
                 </section>
               </div>
             </div>
-            <section className="property__map map"></section>
+            <section className="property__map map" style={{maxWidth: '1144px', margin: '0 auto 50px'}}>
+              <Map
+                location={offers.slice().find((offer) => offer.city.name === firstOffer.city.name).city.location}
+                offers={nearestOffers}
+                activeOffer={activeOffer}
+              />
+
+            </section>
           </section>
           <div className="container">
             <section className="near-places places">
@@ -159,7 +178,11 @@ function OfferPropertyScreen(props) {
               </h2>
               <div className="near-places__list places__list">
                 {offers.slice(0, 3).map((offer) => (
-                  <PlaceCard key={offer.id} offer={offer} />
+                  <PlaceCard
+                    key={offer.id}
+                    offer={offer}
+                    onPlaceCardHover={onPlaceCardHover}
+                  />
                 ))}
               </div>
             </section>

@@ -2,14 +2,14 @@ export const offers = [
   {
     bedrooms: 4,
     city: {
-      name: 'Paris',
+      name: 'Amsterdam',
       location: {
-        latitude: Number(52.370216),
-        longitude: Number(4.895168),
+        latitude: 52.38333,
+        longitude: 4.9,
         zoom: 10,
       },
     },
-    description: 'My housing is close to Maisons-Alfort - Alfortville station (1 station of Gare de Lyon). You will appreciate my accommodation for its terrace, its location, quiet area and outdoor spaces.',
+    description: 'My housing is close to Maisons-Alfort - Alfortville station. You will appreciate my accommodation for its terrace, its location, quiet area and outdoor spaces.',
     goods: ['Heating', 'Kitchen', 'Cable TV', 'Washing machine', 'Coffee machine', 'Dishwasher'],
     host: {
       avatarUrl: 'img/avatar-angelina.jpg',
@@ -22,8 +22,8 @@ export const offers = [
     isFavorite: true,
     isPremium: false,
     location: {
-      latitude: Number(52.35514938496378),
-      longitude: Number(4.673877537499948),
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198,
       zoom: 8,
     },
     maxAdults: 5,
@@ -36,10 +36,10 @@ export const offers = [
   {
     bedrooms: 2,
     city: {
-      name: 'Hamburg',
+      name: 'Amsterdam',
       location: {
-        latitude: Number(52.420216),
-        longitude: Number(6.895168),
+        latitude: 52.38333,
+        longitude: 4.9,
         zoom: 10,
       },
     },
@@ -56,8 +56,8 @@ export const offers = [
     isFavorite: true,
     isPremium: true,
     location: {
-      latitude: Number(52.43514938496378),
-      longitude: Number(6.913877537499948),
+      latitude: 52.369553943508,
+      longitude: 4.85309666406198,
       zoom: 8,
     },
     maxAdults: 3,
@@ -70,10 +70,10 @@ export const offers = [
   {
     bedrooms: 5,
     city: {
-      name: 'Dusseldorf',
+      name: 'Amsterdam',
       location: {
-        latitude: Number(52.520216),
-        longitude: Number(6.915168),
+        latitude: 52.38333,
+        longitude: 4.9,
         zoom: 10,
       },
     },
@@ -90,24 +90,24 @@ export const offers = [
     isFavorite: false,
     isPremium: true,
     location: {
-      latitude: Number(52.53514938496378),
-      longitude: Number(6.923877537499948),
+      latitude: 52.3909553943508,
+      longitude: 4.929309666406198,
       zoom: 8,
     },
     maxAdults: 8,
     previewImage: 'img/studio-01.jpg',
     price: 250,
     rating: 4.9,
-    title: 'Intimate House with Balcony in Pempelfort',
+    title: 'Intimate House with Balcony in Amsterdam',
     type: 'house',
   },
   {
     bedrooms: 1,
     city: {
-      name: 'Paris',
+      name: 'Amsterdam',
       location: {
-        latitude: Number(52.370216),
-        longitude: Number(4.895168),
+        latitude: 52.38333,
+        longitude: 4.9,
         zoom: 10,
       },
     },
@@ -124,15 +124,50 @@ export const offers = [
     isFavorite: true,
     isPremium: false,
     location: {
-      latitude: Number(52.35514938496378),
-      longitude: Number(4.673877537499948),
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
       zoom: 8,
     },
     maxAdults: 5,
     previewImage: 'img/room-small.jpg',
     price: 40,
     rating: 4,
-    title: 'Lovely & Cosy Room Arc de Triomphe/Tour Eiffel',
+    title: 'Lovely & Cosy Room Arc de Triomphe',
     type: 'room',
+  },
+
+  {
+    bedrooms: 4,
+    city: {
+      name: 'Paris',
+      location: {
+        latitude: 48.85341,
+        longitude: 2.3488,
+        zoom: 10,
+      },
+    },
+    description: 'My housing is close to Maisons-Alfort - Alfortville station. You will appreciate my accommodation for its terrace, its location, quiet area and outdoor spaces.',
+    goods: ['Heating', 'Kitchen', 'Cable TV', 'Washing machine', 'Coffee machine', 'Dishwasher'],
+    host: {
+      avatarUrl: 'img/avatar-angelina.jpg',
+      id: 3,
+      isPro: true,
+      name: 'Angelina',
+    },
+    id: 111,
+    images: ['img/apartment-01.jpg', 'img/apartment-02.jpg', 'img/apartment-03.jpg'],
+    isFavorite: true,
+    isPremium: false,
+    location: {
+      latitude: 48.867543,
+      longitude: 2.35,
+      zoom: 8,
+    },
+    maxAdults: 5,
+    previewImage: 'img/apartment-small-03.jpg',
+    price: 120,
+    rating: 4.8,
+    title: 'Delightful hotel at 5 minutes from Paris',
+    type: 'hotel',
   },
 ];
