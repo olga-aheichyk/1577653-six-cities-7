@@ -5,7 +5,7 @@ import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
 import { CITIES } from '../../consts.js';
 
 function CitiesPlaces(props) {
-  const { activeCity, activeCityOffers } = props;
+  const { activeCity, activeCityOffers, onPlaceCardHover } = props;
   return (
     <section className="cities__places places">
       <h2 className="visually-hidden">Places</h2>
@@ -35,7 +35,10 @@ function CitiesPlaces(props) {
           </li>
         </ul>
       </form>
-      <PlaceCardsList offers={activeCityOffers} />
+      <PlaceCardsList
+        offers={activeCityOffers}
+        onPlaceCardHover={onPlaceCardHover}
+      />
     </section>
   );
 }
@@ -45,6 +48,7 @@ CitiesPlaces.propTypes = {
     city: PropTypes.oneOf(CITIES).isRequired,
   }).isRequired,
   activeCityOffers: placeCardsListProp,
+  onPlaceCardHover: PropTypes.func.isRequired,
 };
 
 export default CitiesPlaces;
