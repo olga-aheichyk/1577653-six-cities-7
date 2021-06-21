@@ -1,4 +1,8 @@
 import React, {useState} from 'react';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {ActionCreator} from '../../store/action.js';
+
 import SvgSprite from '../svg-sprite/svg-sprite.jsx';
 import Logo from '../logo/logo.jsx';
 import NavNotAuthorizedUser from '../nav-not-authorized-user/nav-not-authorized-user.jsx';
@@ -11,25 +15,16 @@ import CitiesNoPlaces from '../cities-no-places/cities-no-places.jsx';
 import Map from '../map/map.jsx';
 
 function MainScreen(props) {
-  const { offers } = props;
-
-  const [activeCity, setActiveCity] = useState({
-    city: 'Amsterdam',
-  });
+  const { activeCity, activeCityOffers, onCityChange } = props;
 
   const [activeOffer, setActiveOffer] = useState({});
 
   const onPlaceCardHover = (placeCardId) => {
-    const currentOffer = offers.find((offer) =>
+    const currentOffer = activeCityOffers.find((offer) =>
       offer.id === Number(placeCardId),
     );
     setActiveOffer(currentOffer);
   };
-
-  const activeCityOffers = offers.slice().filter((offer) => offer.city.name === activeCity.city);
-
-  //const activeCityLocation = offers.slice().find((offer) => offer.city.name === activeCity.city).city.location;
-
 
   return (
     <>
@@ -53,13 +48,13 @@ function MainScreen(props) {
               <ul
                 onClick={(evt) => {
                   evt.preventDefault();
-                  setActiveCity({ ...activeCity, city: evt.target.textContent });
+                  onCityChange(evt.target.textContent);
                 }}
                 className="locations__list tabs__list"
               >
                 {CITIES.map((city) => (
                   <li className="locations__item" key={city}>
-                    <a className={`locations__item-link tabs__item ${activeCity.city === city ? 'tabs__item--active' : null}`} href="/#">
+                    <a className={`locations__item-link tabs__item ${activeCity === city ? 'tabs__item--active' : ''}`} href="/#">
                       <span>{city}</span>
                     </a>
                   </li>
@@ -68,7 +63,7 @@ function MainScreen(props) {
             </section>
           </div>
           <div className="cities">
-            <div className={`cities__places-container ${activeCityOffers.length > 0 ? null : 'cities__places-container--empty'} container`}>
+            <div className={`cities__places-container ${activeCityOffers.length > 0 ? '' : 'cities__places-container--empty'} container`}>
               {activeCityOffers.length ?
                 <CitiesPlaces
                   activeCity={activeCity}
@@ -83,9 +78,10 @@ function MainScreen(props) {
                 {activeCityOffers.length > 0 ? (
                   <section className="cities__map map" style={{height: '100vh'}}>
                     <Map
-                      location={offers.slice().find((offer) => offer.city.name === activeCity.city).city.location}
+                      location={activeCityOffers[0].city.location}
                       offers={activeCityOffers}
                       activeOffer={activeOffer}
+                      // onCityChange={onCityChange(activeCity)}
                     />
                   </section>) : null}
               </div>
@@ -98,7 +94,21 @@ function MainScreen(props) {
 }
 
 MainScreen.propTypes = {
-  offers: placeCardsListProp,
+  activeCity: PropTypes.string.isRequired,
+  activeCityOffers: placeCardsListProp,
+  onCityChange: PropTypes.func.isRequired,
 };
 
-export default MainScreen;
+const mapStateToProps = (state) => ({
+  activeCity: state.activeCity,
+  activeCityOffers: state.activeCityOffers,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onCityChange(evtTargetTextContent) {
+    dispatch(ActionCreator.cityChange(evtTargetTextContent));
+  },
+});
+
+export {MainScreen};
+export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);

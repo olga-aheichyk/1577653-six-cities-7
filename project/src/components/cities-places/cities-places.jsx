@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import PlaceCardsList from '../place-cards-list/place-cards-list.jsx';
 import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
-import { CITIES } from '../../consts.js';
 
 function CitiesPlaces(props) {
   const { activeCity, activeCityOffers, onPlaceCardHover } = props;
@@ -10,7 +9,7 @@ function CitiesPlaces(props) {
     <section className="cities__places places">
       <h2 className="visually-hidden">Places</h2>
       <b className="places__found">
-        {activeCityOffers.length} places to stay in {activeCity.city}
+        {activeCityOffers.length} places to stay in {activeCity}
       </b>
       <form className="places__sorting" action="#" method="get">
         <span className="places__sorting-caption">Sort by</span>
@@ -44,9 +43,7 @@ function CitiesPlaces(props) {
 }
 
 CitiesPlaces.propTypes = {
-  activeCity: PropTypes.shape({
-    city: PropTypes.oneOf(CITIES).isRequired,
-  }).isRequired,
+  activeCity: PropTypes.string.isRequired,
   activeCityOffers: placeCardsListProp,
   onPlaceCardHover: PropTypes.func.isRequired,
 };
