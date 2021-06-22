@@ -4,7 +4,7 @@ import PlaceCardsList from '../place-cards-list/place-cards-list.jsx';
 import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
 
 function CitiesPlaces(props) {
-  const { activeCity, activeCityOffers, onPlaceCardHover } = props;
+  const { activeCity, activeCityOffers, onPlaceCardHover, onPlaceCardAwayHover } = props;
   return (
     <section className="cities__places places">
       <h2 className="visually-hidden">Places</h2>
@@ -37,6 +37,7 @@ function CitiesPlaces(props) {
       <PlaceCardsList
         offers={activeCityOffers}
         onPlaceCardHover={onPlaceCardHover}
+        onPlaceCardAwayHover={onPlaceCardAwayHover}
       />
     </section>
   );
@@ -46,6 +47,7 @@ CitiesPlaces.propTypes = {
   activeCity: PropTypes.string.isRequired,
   activeCityOffers: placeCardsListProp,
   onPlaceCardHover: PropTypes.func.isRequired,
+  onPlaceCardAwayHover: PropTypes.func.isRequired,
 };
 
 export default CitiesPlaces;

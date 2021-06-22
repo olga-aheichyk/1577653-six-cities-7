@@ -4,7 +4,7 @@ import PlaceCard from '../place-card/place-card.jsx';
 import placeCardsListProp from './place-cards-list.prop.js';
 
 function PlaceCardsList(props) {
-  const {offers, onPlaceCardHover} = props;
+  const {offers, onPlaceCardHover, onPlaceCardAwayHover} = props;
 
 
   return (
@@ -14,6 +14,7 @@ function PlaceCardsList(props) {
           key={offer.id}
           offer={offer}
           onPlaceCardHover={onPlaceCardHover}
+          onPlaceCardAwayHover={onPlaceCardAwayHover}
         />
       ))}
     </div>
@@ -23,6 +24,7 @@ function PlaceCardsList(props) {
 PlaceCardsList.propTypes = {
   offers: placeCardsListProp,
   onPlaceCardHover: PropTypes.func.isRequired,
+  onPlaceCardAwayHover: PropTypes.func.isRequired,
 };
 
 export default PlaceCardsList;

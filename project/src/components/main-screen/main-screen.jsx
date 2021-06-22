@@ -26,6 +26,10 @@ function MainScreen(props) {
     setActiveOffer(currentOffer);
   };
 
+  const onPlaceCardAwayHover = () => {
+    setActiveOffer({});
+  };
+
   return (
     <>
       <SvgSprite />
@@ -69,6 +73,7 @@ function MainScreen(props) {
                   activeCity={activeCity}
                   activeCityOffers={activeCityOffers}
                   onPlaceCardHover={onPlaceCardHover}
+                  onPlaceCardAwayHover={onPlaceCardAwayHover}
                 /> :
                 <CitiesNoPlaces
                   activeCity={activeCity}
