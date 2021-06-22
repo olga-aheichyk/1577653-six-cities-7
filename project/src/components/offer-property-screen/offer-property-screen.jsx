@@ -51,6 +51,10 @@ function OfferPropertyScreen(props) {
     setActiveOffer(currentOffer);
   };
 
+  const onPlaceCardAwayHover = () => {
+    setActiveOffer(firstOffer);
+  };
+
 
   return (
     <>
@@ -182,6 +186,7 @@ function OfferPropertyScreen(props) {
                     key={offer.id}
                     offer={offer}
                     onPlaceCardHover={onPlaceCardHover}
+                    onPlaceCardAwayHover={onPlaceCardAwayHover}
                   />
                 ))}
               </div>

@@ -118,6 +118,7 @@ function CommentPostForm() {
         className="reviews__textarea form__textarea"
         id="review"
         name="review"
+        // value={state.review}
         placeholder="Tell how was your stay, what you like and what can be improved"
       >
       </textarea>

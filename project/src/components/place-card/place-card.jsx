@@ -5,7 +5,7 @@ import placeCardProp from './place-card.prop.js';
 import {calculateWidthForRating} from '../utils.js';
 
 function PlaceCard(props) {
-  const {offer, onPlaceCardHover} = props;
+  const {offer, onPlaceCardHover, onPlaceCardAwayHover} = props;
 
   const {
     isFavorite,
@@ -28,6 +28,7 @@ function PlaceCard(props) {
   return (
     <article
       onMouseEnter={placeCardHoverHandler}
+      onMouseOut={onPlaceCardAwayHover}
       className="cities__place-card place-card" id={id}
     >
       { isPremium ? (
@@ -85,6 +86,7 @@ function PlaceCard(props) {
 PlaceCard.propTypes = {
   offer: placeCardProp,
   onPlaceCardHover: PropTypes.func.isRequired,
+  onPlaceCardAwayHover: PropTypes.func.isRequired,
 };
 
 export default PlaceCard;

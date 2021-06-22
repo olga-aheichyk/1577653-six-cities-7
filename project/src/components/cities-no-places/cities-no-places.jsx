@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CITIES } from '../../consts.js';
 
 function CitiesNoPlaces(props) {
   const {activeCity} = props;
@@ -9,7 +8,7 @@ function CitiesNoPlaces(props) {
       <div className="cities__status-wrapper tabs__content">
         <b className="cities__status">No places to stay available</b>
         <p className="cities__status-description">
-          We could not find any property available at the moment in {activeCity.city}
+          We could not find any property available at the moment in {activeCity}
         </p>
       </div>
     </section>
@@ -17,9 +16,7 @@ function CitiesNoPlaces(props) {
 }
 
 CitiesNoPlaces.propTypes = {
-  activeCity: PropTypes.shape({
-    city: PropTypes.oneOf(CITIES).isRequired,
-  }).isRequired,
+  activeCity: PropTypes.string.isRequired,
 };
 
 export default CitiesNoPlaces;
