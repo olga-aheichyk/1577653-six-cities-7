@@ -1,41 +1,47 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import PlaceCardsList from '../place-cards-list/place-cards-list.jsx';
 import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
+import Sort from '../sort/sort.jsx';
+import { SortType } from '../../consts.js';
 
 function CitiesPlaces(props) {
   const { activeCity, activeCityOffers, onPlaceCardHover, onPlaceCardAwayHover } = props;
+
+  const [activeSortType, setActiveSortType] = useState(SortType.POPULAR);
+
+  const onSortingTypeClick = (evtTargetTextContent) => {
+    setActiveSortType(evtTargetTextContent);
+  };
+
+  const sortOffers = (offers, currentSortType) => {
+    switch(currentSortType ) {
+      case SortType.PRICE_HIGH_TO_LOW:
+        return offers.slice().sort((a, b) => b.price - a.price);
+
+      case SortType.PRICE_LOW_TO_HIGH:
+        return offers.slice().sort((a, b) => a.price - b.price);
+
+      case SortType.TOP_RATED_FIRST:
+        return offers.slice().sort((a, b) => b.rating - a.rating);
+
+      default:
+        return offers;
+    }
+  };
+
   return (
     <section className="cities__places places">
       <h2 className="visually-hidden">Places</h2>
       <b className="places__found">
-        {activeCityOffers.length} places to stay in {activeCity}
+        {activeCityOffers.length} {activeCityOffers.length === 1 ? 'place' : 'places'} to stay in {activeCity}
       </b>
-      <form className="places__sorting" action="#" method="get">
-        <span className="places__sorting-caption">Sort by</span>
-        <span className="places__sorting-type" tabIndex="0">
-          Popular
-          <svg className="places__sorting-arrow" width="7" height="4">
-            <use xlinkHref="#icon-arrow-select"></use>
-          </svg>
-        </span>
-        <ul className="places__options places__options--custom places__options--opened">
-          <li className="places__option places__option--active" tabIndex="0">
-            Popular
-          </li>
-          <li className="places__option" tabIndex="0">
-            Price: low to high
-          </li>
-          <li className="places__option" tabIndex="0">
-            Price: high to low
-          </li>
-          <li className="places__option" tabIndex="0">
-            Top rated first
-          </li>
-        </ul>
-      </form>
+      <Sort
+        activeSortType={activeSortType}
+        onSortingTypeClick={onSortingTypeClick}
+      />
       <PlaceCardsList
-        offers={activeCityOffers}
+        offers={sortOffers(activeCityOffers, activeSortType)}
         onPlaceCardHover={onPlaceCardHover}
         onPlaceCardAwayHover={onPlaceCardAwayHover}
       />
