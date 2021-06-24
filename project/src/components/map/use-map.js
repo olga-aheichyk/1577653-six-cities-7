@@ -28,6 +28,13 @@ function useMap(mapRef, location) {
       setMap(instance);
     }
 
+    if (mapRef.current !== null && map !== null) {
+      map.setView({
+        lat: location.latitude,
+        lng: location.longitude,
+      }, location.zoom);
+    }
+
   }, [mapRef, map, location]);
 
   return map;

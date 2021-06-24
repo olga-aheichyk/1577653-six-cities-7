@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import classNames from 'classnames';
 import Logo from '../logo/logo.jsx';
 import PlaceCard from '../place-card/place-card.jsx';
 import SvgSprite from '../svg-sprite/svg-sprite.jsx';
@@ -16,7 +17,10 @@ function OfferPropertyScreen(props) {
   //const firstOffer = offers.slice().find((offer) => offer.id === currentId)
 
   const nearestOffers = offers.slice(0, 3);
-  const [firstOffer] = offers;
+  // const [firstOffer] = offers;
+
+  const firstOffer = offers[2];
+
   const {
     bedrooms,
     //city,
@@ -55,7 +59,6 @@ function OfferPropertyScreen(props) {
     setActiveOffer(firstOffer);
   };
 
-
   return (
     <>
       <SvgSprite />
@@ -88,22 +91,22 @@ function OfferPropertyScreen(props) {
             </div>
             <div className="property__container container">
               <div className="property__wrapper">
-                {isPremium ? (
+                {isPremium && (
                   <div className="property__mark">
                     <span>Premium</span>
-                  </div>) : null}
+                  </div>)}
                 <div className="property__name-wrapper">
                   <h1 className="property__name">
                     {title}
                   </h1>
                   <button
-                    className={`property__bookmark-button ${isFavorite ? 'property__bookmark-button--active' : null} button`}
+                    className={classNames('property__bookmark-button', {'property__bookmark-button--active' : isFavorite}, 'button')}
                     type="button"
                   >
                     <svg className="property__bookmark-icon" width="31" height="33">
                       <use xlinkHref="#icon-bookmark"></use>
                     </svg>
-                    <span className="visually-hidden">To bookmarks</span>
+                    <span className="visually-hidden">{isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
                   </button>
                 </div>
                 <div className="property__rating rating">
@@ -147,7 +150,7 @@ function OfferPropertyScreen(props) {
                       />
                     </div>
                     <span className="property__user-name">{name}</span>
-                    {isPro ? <span className="property__user-status">Pro</span> : null}
+                    {isPro && <span className="property__user-status">Pro</span>}
                   </div>
                   <div className="property__description">
                     <p className="property__text">

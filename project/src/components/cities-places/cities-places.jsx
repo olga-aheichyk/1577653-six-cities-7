@@ -6,7 +6,11 @@ import Sort from '../sort/sort.jsx';
 import { SortType } from '../../consts.js';
 
 function CitiesPlaces(props) {
-  const { activeCity, activeCityOffers, onPlaceCardHover, onPlaceCardAwayHover } = props;
+  const {
+    activeCity,
+    activeCityOffers,
+    onPlaceCardHover,
+    onPlaceCardAwayHover } = props;
 
   const [activeSortType, setActiveSortType] = useState(SortType.POPULAR);
 
