@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import Logo from '../logo/logo.jsx';
 import PlaceCard from '../place-card/place-card.jsx';
@@ -14,12 +14,9 @@ import Map from '../map/map.jsx';
 
 function OfferPropertyScreen(props) {
   const { offers, reviews } = props;
-  //const firstOffer = offers.slice().find((offer) => offer.id === currentId)
 
   const nearestOffers = offers.slice(0, 3);
-  // const [firstOffer] = offers;
-
-  const firstOffer = offers[2];
+  const currentOffer = offers[2];
 
   const {
     bedrooms,
@@ -37,7 +34,7 @@ function OfferPropertyScreen(props) {
     rating,
     title,
     type,
-  } = firstOffer;
+  } = currentOffer;
 
   const {
     avatarUrl,
@@ -46,18 +43,18 @@ function OfferPropertyScreen(props) {
     name,
   } = host;
 
-  const [activeOffer, setActiveOffer] = useState(firstOffer);
+  // const [activeOffer, setActiveOffer] = useState(firstOffer);
 
-  const onPlaceCardHover = (placeCardId) => {
-    const currentOffer = nearestOffers.find((offer) =>
-      offer.id === Number(placeCardId),
-    );
-    setActiveOffer(currentOffer);
-  };
+  // const onPlaceCardHover = (placeCardId) => {
+  //   const currentOffer = nearestOffers.find((offer) =>
+  //     offer.id === Number(placeCardId),
+  //   );
+  //   setActiveOffer(currentOffer);
+  // };
 
-  const onPlaceCardAwayHover = () => {
-    setActiveOffer(firstOffer);
-  };
+  // const onPlaceCardAwayHover = () => {
+  //   setActiveOffer(firstOffer);
+  // };
 
   return (
     <>
@@ -171,9 +168,9 @@ function OfferPropertyScreen(props) {
             </div>
             <section className="property__map map" style={{maxWidth: '1144px', margin: '0 auto 50px'}}>
               <Map
-                location={offers.slice().find((offer) => offer.city.name === firstOffer.city.name).city.location}
+                location={offers.slice().find((offer) => offer.city.name === currentOffer.city.name).city.location}
                 offers={nearestOffers}
-                activeOffer={activeOffer}
+                activeOffer={currentOffer}
               />
 
             </section>
@@ -188,8 +185,8 @@ function OfferPropertyScreen(props) {
                   <PlaceCard
                     key={offer.id}
                     offer={offer}
-                    onPlaceCardHover={onPlaceCardHover}
-                    onPlaceCardAwayHover={onPlaceCardAwayHover}
+                    // onPlaceCardHover={onPlaceCardHover}
+                    // onPlaceCardAwayHover={onPlaceCardAwayHover}
                   />
                 ))}
               </div>

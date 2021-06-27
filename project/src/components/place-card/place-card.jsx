@@ -96,6 +96,11 @@ function PlaceCard(props) {
   );
 }
 
+PlaceCard.defaultProps = {
+  onPlaceCardHover: () => {},
+  onPlaceCardAwayHover: () => {},
+};
+
 PlaceCard.propTypes = {
   offer: placeCardProp,
   onPlaceCardHover: PropTypes.func.isRequired,
