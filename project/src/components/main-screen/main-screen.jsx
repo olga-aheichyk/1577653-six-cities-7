@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/action.js';
@@ -45,7 +46,7 @@ function MainScreen(props) {
           </div>
         </header>
 
-        <main className={`page__main page__main--index ${activeCityOffers.length > 0 ? '' : 'page__main--index-empty'}`}>
+        <main className={classNames('page__main', 'page__main--index', { 'page__main--index-empty': activeCityOffers.length === 0 })}>
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
             <section className="locations container">
@@ -58,7 +59,7 @@ function MainScreen(props) {
               >
                 {CITIES.map((city) => (
                   <li className="locations__item" key={city}>
-                    <a className={`locations__item-link tabs__item ${activeCity === city ? 'tabs__item--active' : ''}`} href="/#">
+                    <a className={classNames('locations__item-link', 'tabs__item', {'tabs__item--active' : activeCity === city })} href="/#">
                       <span>{city}</span>
                     </a>
                   </li>
@@ -67,7 +68,7 @@ function MainScreen(props) {
             </section>
           </div>
           <div className="cities">
-            <div className={`cities__places-container ${activeCityOffers.length > 0 ? '' : 'cities__places-container--empty'} container`}>
+            <div className={classNames('cities__places-container', {'cities__places-container--empty' : activeCityOffers.length === 0}, 'container')}>
               {activeCityOffers.length ?
                 <CitiesPlaces
                   activeCity={activeCity}
@@ -80,15 +81,14 @@ function MainScreen(props) {
                 />}
 
               <div className="cities__right-section">
-                {activeCityOffers.length > 0 ? (
+                {activeCityOffers.length > 0 && (
                   <section className="cities__map map" style={{height: '100vh'}}>
                     <Map
                       location={activeCityOffers[0].city.location}
                       offers={activeCityOffers}
                       activeOffer={activeOffer}
-                      // onCityChange={onCityChange(activeCity)}
                     />
-                  </section>) : null}
+                  </section>)}
               </div>
             </div>
           </div>

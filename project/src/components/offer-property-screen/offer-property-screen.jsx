@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React from 'react';
+import classNames from 'classnames';
 import Logo from '../logo/logo.jsx';
 import PlaceCard from '../place-card/place-card.jsx';
 import SvgSprite from '../svg-sprite/svg-sprite.jsx';
@@ -13,10 +14,10 @@ import Map from '../map/map.jsx';
 
 function OfferPropertyScreen(props) {
   const { offers, reviews } = props;
-  //const firstOffer = offers.slice().find((offer) => offer.id === currentId)
 
   const nearestOffers = offers.slice(0, 3);
-  const [firstOffer] = offers;
+  const currentOffer = offers[2];
+
   const {
     bedrooms,
     //city,
@@ -33,7 +34,7 @@ function OfferPropertyScreen(props) {
     rating,
     title,
     type,
-  } = firstOffer;
+  } = currentOffer;
 
   const {
     avatarUrl,
@@ -42,19 +43,18 @@ function OfferPropertyScreen(props) {
     name,
   } = host;
 
-  const [activeOffer, setActiveOffer] = useState(firstOffer);
+  // const [activeOffer, setActiveOffer] = useState(firstOffer);
 
-  const onPlaceCardHover = (placeCardId) => {
-    const currentOffer = nearestOffers.find((offer) =>
-      offer.id === Number(placeCardId),
-    );
-    setActiveOffer(currentOffer);
-  };
+  // const onPlaceCardHover = (placeCardId) => {
+  //   const currentOffer = nearestOffers.find((offer) =>
+  //     offer.id === Number(placeCardId),
+  //   );
+  //   setActiveOffer(currentOffer);
+  // };
 
-  const onPlaceCardAwayHover = () => {
-    setActiveOffer(firstOffer);
-  };
-
+  // const onPlaceCardAwayHover = () => {
+  //   setActiveOffer(firstOffer);
+  // };
 
   return (
     <>
@@ -88,22 +88,22 @@ function OfferPropertyScreen(props) {
             </div>
             <div className="property__container container">
               <div className="property__wrapper">
-                {isPremium ? (
+                {isPremium && (
                   <div className="property__mark">
                     <span>Premium</span>
-                  </div>) : null}
+                  </div>)}
                 <div className="property__name-wrapper">
                   <h1 className="property__name">
                     {title}
                   </h1>
                   <button
-                    className={`property__bookmark-button ${isFavorite ? 'property__bookmark-button--active' : null} button`}
+                    className={classNames('property__bookmark-button', {'property__bookmark-button--active' : isFavorite}, 'button')}
                     type="button"
                   >
                     <svg className="property__bookmark-icon" width="31" height="33">
                       <use xlinkHref="#icon-bookmark"></use>
                     </svg>
-                    <span className="visually-hidden">To bookmarks</span>
+                    <span className="visually-hidden">{isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
                   </button>
                 </div>
                 <div className="property__rating rating">
@@ -147,7 +147,7 @@ function OfferPropertyScreen(props) {
                       />
                     </div>
                     <span className="property__user-name">{name}</span>
-                    {isPro ? <span className="property__user-status">Pro</span> : null}
+                    {isPro && <span className="property__user-status">Pro</span>}
                   </div>
                   <div className="property__description">
                     <p className="property__text">
@@ -168,9 +168,9 @@ function OfferPropertyScreen(props) {
             </div>
             <section className="property__map map" style={{maxWidth: '1144px', margin: '0 auto 50px'}}>
               <Map
-                location={offers.slice().find((offer) => offer.city.name === firstOffer.city.name).city.location}
+                location={offers.slice().find((offer) => offer.city.name === currentOffer.city.name).city.location}
                 offers={nearestOffers}
-                activeOffer={activeOffer}
+                activeOffer={currentOffer}
               />
 
             </section>
@@ -185,8 +185,8 @@ function OfferPropertyScreen(props) {
                   <PlaceCard
                     key={offer.id}
                     offer={offer}
-                    onPlaceCardHover={onPlaceCardHover}
-                    onPlaceCardAwayHover={onPlaceCardAwayHover}
+                    // onPlaceCardHover={onPlaceCardHover}
+                    // onPlaceCardAwayHover={onPlaceCardAwayHover}
                   />
                 ))}
               </div>

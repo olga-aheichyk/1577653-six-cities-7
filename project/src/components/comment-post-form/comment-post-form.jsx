@@ -11,7 +11,6 @@ function CommentPostForm() {
       onSubmit={(evt) => {
         evt.preventDefault();
         return state;
-        //console.log(state);
       }}
       className="reviews__form form"
       action="#"
