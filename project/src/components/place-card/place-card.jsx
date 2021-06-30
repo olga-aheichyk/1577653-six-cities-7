@@ -27,12 +27,12 @@ function PlaceCard(props) {
 
   const placeCardHoverHandler = (evt) => {
     onPlaceCardHover(evt.currentTarget.id);
-    setActiveCardId(evt.target.closest('article').id);
+    setActiveCardId(evt.currentTarget.id);
   };
 
   return (
     <article
-      onMouseEnter={placeCardHoverHandler}
+      onMouseOver={placeCardHoverHandler}
       onMouseOut={onPlaceCardAwayHover}
       className="cities__place-card place-card"
       // className="favorites__card place-card"

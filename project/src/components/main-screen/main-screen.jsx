@@ -7,16 +7,22 @@ import {ActionCreator} from '../../store/action.js';
 import SvgSprite from '../svg-sprite/svg-sprite.jsx';
 import Logo from '../logo/logo.jsx';
 import NavNotAuthorizedUser from '../nav-not-authorized-user/nav-not-authorized-user.jsx';
+import NavAuthorizedUser from '../nav-authorized-user/nav-authorized-user.jsx';
 
 import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
 
-import { CITIES } from '../../consts.js';
+import { AuthorizationStatus, CITIES, userEmail } from '../../consts.js';
 import CitiesPlaces from '../cities-places/cities-places.jsx';
 import CitiesNoPlaces from '../cities-no-places/cities-no-places.jsx';
 import Map from '../map/map.jsx';
+import { filterActiveCityOffers } from '../utils.js';
 
 function MainScreen(props) {
-  const { activeCity, activeCityOffers, onCityChange } = props;
+  const {
+    activeCity,
+    activeCityOffers,
+    authorizationStatus,
+    onCityChange } = props;
 
   const [activeOffer, setActiveOffer] = useState({});
 
@@ -41,7 +47,7 @@ function MainScreen(props) {
               <div className="header__left">
                 <Logo />
               </div>
-              <NavNotAuthorizedUser />
+              {authorizationStatus === AuthorizationStatus.AUTH ? <NavAuthorizedUser userEmail={userEmail} /> : <NavNotAuthorizedUser />}
             </div>
           </div>
         </header>
@@ -101,12 +107,14 @@ function MainScreen(props) {
 MainScreen.propTypes = {
   activeCity: PropTypes.string.isRequired,
   activeCityOffers: placeCardsListProp,
+  authorizationStatus: PropTypes.string.isRequired,
   onCityChange: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   activeCity: state.activeCity,
-  activeCityOffers: state.activeCityOffers,
+  activeCityOffers: filterActiveCityOffers(state.activeCity, state.offers),
+  authorizationStatus: state.authorizationStatus,
 });
 
 const mapDispatchToProps = (dispatch) => ({

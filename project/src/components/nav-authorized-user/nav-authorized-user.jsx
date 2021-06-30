@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import { Link } from 'react-router-dom';
+import { logout } from '../../store/api-actions.js';
 
 function NavAuthorizedUser(props) {
-  const { userEmail } = props;
+  const { userEmail, signOut } = props;
   return (
     <nav className="header__nav">
       <ul className="header__nav-list">
@@ -19,9 +21,15 @@ function NavAuthorizedUser(props) {
           </Link>
         </li>
         <li className="header__nav-item">
-          <a className="header__nav-link" href="/#">
+          <Link
+            className="header__nav-link" to="/"
+            onClick={(evt) => {
+              evt.preventDefault();
+              signOut();
+            }}
+          >
             <span className="header__signout">Sign out</span>
-          </a>
+          </Link>
         </li>
       </ul>
     </nav>
@@ -30,6 +38,14 @@ function NavAuthorizedUser(props) {
 
 NavAuthorizedUser.propTypes = {
   userEmail: PropTypes.string.isRequired,
+  signOut: PropTypes.func.isRequired,
 };
 
-export default NavAuthorizedUser;
+const mapDispatchToProps = (dispatch) => ({
+  signOut() {
+    dispatch(logout());
+  },
+});
+
+export {NavAuthorizedUser};
+export default connect(null, mapDispatchToProps)(NavAuthorizedUser);

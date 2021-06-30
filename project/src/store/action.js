@@ -1,23 +1,15 @@
 export const ActionType = {
   CITY_CHANGE: 'cityChange',
-  OFFERS_COUNT_CHANGE: 'offersCountChange',
-  RESET_APP: 'resetApp',
   LOAD_OFFERS: 'loadOffers',
   AUTHORIZATION_REQUIRED: 'authorizationRequired',
-  LOG_OUT: 'logOut',
+  REDIRECT_TO_ROUTE: 'redirectToRoute',
+  LOG_OUT: 'logout',
 };
 
 export const ActionCreator = {
   cityChange: (evtTargetTextContent) => ({
     type: ActionType.CITY_CHANGE,
     payload: evtTargetTextContent,
-  }),
-  offersCountChange: (offers) => ({
-    type: ActionType.OFFERS_COUNT_CHANGE,
-    payload: offers,
-  }),
-  resetApp: () => ({
-    type: ActionType.RESET_APP,
   }),
   loadOffers: (offers) => ({
     type: ActionType.LOAD_OFFERS,
@@ -27,7 +19,11 @@ export const ActionCreator = {
     type: ActionType.AUTHORIZATION_REQUIRED,
     payload: status,
   }),
-  logOut: () => ({
+  redirectToRoute: (url) => ({
+    type: ActionType.REDIRECT_TO_ROUTE,
+    payload: url,
+  }),
+  logout: () => ({
     type: ActionType.LOG_OUT,
   }),
 };
