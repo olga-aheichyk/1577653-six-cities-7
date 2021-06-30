@@ -1,5 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import Logo from '../logo/logo.jsx';
 import PlaceCard from '../place-card/place-card.jsx';
 import SvgSprite from '../svg-sprite/svg-sprite.jsx';
@@ -9,26 +11,31 @@ import ReviewsList from '../reviews-list/reviews-list.jsx';
 import reviewsListProp from '../reviews-list/reviews-list.prop.js';
 import {calculateWidthForRating} from '../utils.js';
 import NavAuthorizedUser from '../nav-authorized-user/nav-authorized-user.jsx';
-import { userEmail } from '../../consts.js';
+import NavNotAuthorizedUser from '../nav-not-authorized-user/nav-not-authorized-user.jsx';
+import { AuthorizationStatus, userEmail } from '../../consts.js';
 import Map from '../map/map.jsx';
+import { filterActiveCityOffers } from '../utils.js';
 
 function OfferPropertyScreen(props) {
-  const { offers, reviews } = props;
+  const {
+    id,
+    offers,
+    reviews,
+    activeCity,
+    authorizationStatus } = props;
 
-  const nearestOffers = offers.slice(0, 3);
-  const currentOffer = offers[2];
+  const nearestOffers = filterActiveCityOffers(activeCity, offers).slice(0, 3);
+
+  const currentOffer = offers.find((offer) => Number(offer.id) === Number(id));
 
   const {
     bedrooms,
-    //city,
     description,
     goods,
     host,
-    //id,
     images,
     isFavorite,
     isPremium,
-    //location,
     maxAdults,
     price,
     rating,
@@ -38,23 +45,9 @@ function OfferPropertyScreen(props) {
 
   const {
     avatarUrl,
-    //hostId,
     isPro,
     name,
   } = host;
-
-  // const [activeOffer, setActiveOffer] = useState(firstOffer);
-
-  // const onPlaceCardHover = (placeCardId) => {
-  //   const currentOffer = nearestOffers.find((offer) =>
-  //     offer.id === Number(placeCardId),
-  //   );
-  //   setActiveOffer(currentOffer);
-  // };
-
-  // const onPlaceCardAwayHover = () => {
-  //   setActiveOffer(firstOffer);
-  // };
 
   return (
     <>
@@ -66,7 +59,7 @@ function OfferPropertyScreen(props) {
               <div className="header__left">
                 <Logo />
               </div>
-              <NavAuthorizedUser userEmail={userEmail} />
+              {authorizationStatus === AuthorizationStatus.AUTH ? <NavAuthorizedUser userEmail={userEmail} /> : <NavNotAuthorizedUser />}
             </div>
           </div>
         </header>
@@ -75,8 +68,11 @@ function OfferPropertyScreen(props) {
           <section className="property">
             <div className="property__gallery-container container">
               <div className="property__gallery">
-                {images.map((image, i = 1) => (
-                  <div className="property__image-wrapper" key={i++}>
+                {images.map((image) => (
+                  <div
+                    className="property__image-wrapper"
+                    key={image.match(/\d+?(?=.jpg)/)}
+                  >
                     <img
                       className="property__image"
                       src={image}
@@ -131,7 +127,7 @@ function OfferPropertyScreen(props) {
                 <div className="property__inside">
                   <h2 className="property__inside-title">What&apos;s inside</h2>
                   <ul className="property__inside-list">
-                    {goods.map((good, i = 1) => <li className="property__inside-item" key={i++}>{good}</li>)}
+                    {goods.map((good) => <li className="property__inside-item" key={good}>{good}</li>)}
                   </ul>
                 </div>
                 <div className="property__host">
@@ -162,13 +158,13 @@ function OfferPropertyScreen(props) {
                   <ReviewsList
                     reviews={reviews}
                   />
-                  <CommentPostForm />
+                  {authorizationStatus === AuthorizationStatus.AUTH && <CommentPostForm />}
                 </section>
               </div>
             </div>
             <section className="property__map map" style={{maxWidth: '1144px', margin: '0 auto 50px'}}>
               <Map
-                location={offers.slice().find((offer) => offer.city.name === currentOffer.city.name).city.location}
+                location={currentOffer.city.location}
                 offers={nearestOffers}
                 activeOffer={currentOffer}
               />
@@ -181,12 +177,10 @@ function OfferPropertyScreen(props) {
                 Other places in the neighbourhood
               </h2>
               <div className="near-places__list places__list">
-                {offers.slice(0, 3).map((offer) => (
+                {nearestOffers.map((offer) => (
                   <PlaceCard
                     key={offer.id}
                     offer={offer}
-                    // onPlaceCardHover={onPlaceCardHover}
-                    // onPlaceCardAwayHover={onPlaceCardAwayHover}
                   />
                 ))}
               </div>
@@ -201,6 +195,20 @@ function OfferPropertyScreen(props) {
 OfferPropertyScreen.propTypes = {
   offers: placeCardsListProp,
   reviews: reviewsListProp,
+  id: PropTypes.oneOfType([
+    PropTypes.number.isRequired,
+    PropTypes.string.isRequired,
+  ]),
+  activeCity: PropTypes.string.isRequired,
+  authorizationStatus: PropTypes.string.isRequired,
 };
 
-export default OfferPropertyScreen;
+const mapStateToProps = (state) => ({
+  activeCity: state.activeCity,
+  offers: state.offers,
+  authorizationStatus: state.authorizationStatus,
+});
+
+
+export {OfferPropertyScreen};
+export default connect(mapStateToProps)(OfferPropertyScreen);

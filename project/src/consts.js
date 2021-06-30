@@ -22,11 +22,6 @@ export const SortType = {
   TOP_RATED_FIRST: 'Top rated first',
 };
 
-export const SortingTableState = {
-  OPENED: 'open',
-  CLOSED: 'close',
-};
-
 export const AuthorizationStatus = {
   AUTH: 'AUTH',
   NO_AUTH: 'NO_AUTH',

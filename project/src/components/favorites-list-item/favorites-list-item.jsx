@@ -10,8 +10,8 @@ function FavoritesListItem(props) {
     new Set(offers.slice().map((offer) => offer.city.name)),
   );
 
-  return cityNames.map((cityName, i = 1) => (
-    <li className="favorites__locations-items" key={cityName + i++}>
+  return cityNames.map((cityName) => (
+    <li className="favorites__locations-items" key={cityName}>
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
           <Link className="locations__item-link" to="/">
