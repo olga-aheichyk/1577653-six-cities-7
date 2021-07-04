@@ -8,8 +8,6 @@ export const AppRoute = {
 export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 export const TYPES = ['apartment', 'room', 'house', 'hotel'];
 
-export const userEmail = 'Oliver.conner@gmail.com';
-
 export const PinParameter = {
   X: 27,
   Y: 39,
@@ -28,8 +26,11 @@ export const AuthorizationStatus = {
   UNKNOWN: 'UNKNOWN',
 };
 
+export const BACKEND_URL = 'https://7.react.pages.academy/six-cities';
+
 export const ApiRoute = {
   OFFERS: '/hotels',
   LOGIN: '/login',
   LOGOUT: '/logout',
+  REVIEWS: '/comments/',
 };
