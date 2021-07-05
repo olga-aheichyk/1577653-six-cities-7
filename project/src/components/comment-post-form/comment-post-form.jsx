@@ -10,14 +10,25 @@ const RatingStar = new Map([
   [1, 'terribly'],
 ]);
 
+const CommentCharactersCount = {
+  MIN: 50,
+  MAX: 300,
+};
+
 function CommentPostForm({id}) {
   const [state, setState] = useState({
     rating: 0,
     review: '',
   });
 
+  const [formState, changeFormState] = useState({
+    formDisabled: false,
+    formValid: false,
+  });
+
   const onSuccess = () => {
     setState((prevState) => ({...prevState, rating: 0, review: ''}));
+    changeFormState({...formState, formDisabled: true});
   };
 
   return (
@@ -29,6 +40,7 @@ function CommentPostForm({id}) {
       className="reviews__form form"
       action="#"
       method="post"
+      disabled={formState.formDisabled}
     >
       <label className="reviews__label form__label" htmlFor="review">
         Your review
@@ -38,7 +50,11 @@ function CommentPostForm({id}) {
           <Fragment key={ratingStar[0]}>
             <input
               onChange={(evt) => {
-                setState({ ...state, rating: Number(evt.target.value) });
+                setState({ ...state, rating: Number(evt.target.value)});
+                if (state.rating !== 0 &&
+                  state.review.length >= CommentCharactersCount.MIN) {
+                  changeFormState({...formState, formValid: true});
+                }
               }}
               className="form__rating-input visually-hidden"
               name="rating"
@@ -62,11 +78,21 @@ function CommentPostForm({id}) {
       <textarea
         onChange={(evt) => {
           setState({ ...state, review: evt.target.value });
+          if (state.rating !== 0 &&
+            state.review.length >= CommentCharactersCount.MIN) {
+            changeFormState({...formState, formValid: true});
+          }
+
+          if (state.review.length <= CommentCharactersCount.MAX) {
+            changeFormState({...formState, formValid: false});
+          }
         }}
         className="reviews__textarea form__textarea"
         id="review"
         name="review"
         value={state.review}
+        min={CommentCharactersCount.MIN}
+        max={CommentCharactersCount.MAX}
         placeholder="Tell how was your stay, what you like and what can be improved"
       >
       </textarea>
@@ -80,7 +106,7 @@ function CommentPostForm({id}) {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled=""
+          disabled={!formState.formValid}
         >
           Submit
         </button>
@@ -90,10 +116,10 @@ function CommentPostForm({id}) {
 }
 
 CommentPostForm.propTypes = {
-  id: PropTypes.oneOfType(
+  id: PropTypes.oneOfType([
     PropTypes.number.isRequired,
     PropTypes.string.isRequired,
-  ),
+  ]),
 };
 
 export default CommentPostForm;

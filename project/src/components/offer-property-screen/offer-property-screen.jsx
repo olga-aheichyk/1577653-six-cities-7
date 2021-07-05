@@ -118,10 +118,10 @@ function OfferPropertyScreen(props) {
                     {type}
                   </li>
                   <li className="property__feature property__feature--bedrooms">
-                    {bedrooms} Bedrooms
+                    {bedrooms} {bedrooms === 1 ? 'Bedroom' : 'Bedrooms'}
                   </li>
                   <li className="property__feature property__feature--adults">
-                    Max {maxAdults} adults
+                    Max {maxAdults} {maxAdults === 1 ? 'adult' : 'adults'}
                   </li>
                 </ul>
                 <div className="property__price">
