@@ -11,7 +11,7 @@ import NavAuthorizedUser from '../nav-authorized-user/nav-authorized-user.jsx';
 
 import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
 
-import { AuthorizationStatus, CITIES, userEmail } from '../../consts.js';
+import { AuthorizationStatus, CITIES } from '../../consts.js';
 import CitiesPlaces from '../cities-places/cities-places.jsx';
 import CitiesNoPlaces from '../cities-no-places/cities-no-places.jsx';
 import Map from '../map/map.jsx';
@@ -47,7 +47,7 @@ function MainScreen(props) {
               <div className="header__left">
                 <Logo />
               </div>
-              {authorizationStatus === AuthorizationStatus.AUTH ? <NavAuthorizedUser userEmail={userEmail} /> : <NavNotAuthorizedUser />}
+              {authorizationStatus === AuthorizationStatus.AUTH ? <NavAuthorizedUser /> : <NavNotAuthorizedUser />}
             </div>
           </div>
         </header>

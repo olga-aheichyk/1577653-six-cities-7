@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
@@ -8,26 +8,30 @@ import SvgSprite from '../svg-sprite/svg-sprite.jsx';
 import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
 import CommentPostForm from '../comment-post-form/comment-post-form.jsx';
 import ReviewsList from '../reviews-list/reviews-list.jsx';
-import reviewsListProp from '../reviews-list/reviews-list.prop.js';
 import {calculateWidthForRating} from '../utils.js';
 import NavAuthorizedUser from '../nav-authorized-user/nav-authorized-user.jsx';
 import NavNotAuthorizedUser from '../nav-not-authorized-user/nav-not-authorized-user.jsx';
-import { AuthorizationStatus, userEmail } from '../../consts.js';
+import {AuthorizationStatus } from '../../consts.js';
 import Map from '../map/map.jsx';
-import { filterActiveCityOffers } from '../utils.js';
+import { loadNearestOffers, loadReviews } from '../../store/api-actions.js';
+//import { fetchReviewsList } from '../../store/api-actions.js';
 
 function OfferPropertyScreen(props) {
   const {
     id,
     offers,
-    reviews,
-    activeCity,
     authorizationStatus } = props;
 
-  const nearestOffers = filterActiveCityOffers(activeCity, offers).slice(0, 3);
+  const [reviews, setReviews] = useState([]);
+  const [nearestOffers, setNearestOffers] = useState([]);
+
+
+  useEffect(() => {
+    loadReviews(id, setReviews);
+    loadNearestOffers(id, setNearestOffers);
+  }, [id]);
 
   const currentOffer = offers.find((offer) => Number(offer.id) === Number(id));
-
   const {
     bedrooms,
     description,
@@ -59,7 +63,7 @@ function OfferPropertyScreen(props) {
               <div className="header__left">
                 <Logo />
               </div>
-              {authorizationStatus === AuthorizationStatus.AUTH ? <NavAuthorizedUser userEmail={userEmail} /> : <NavNotAuthorizedUser />}
+              {authorizationStatus === AuthorizationStatus.AUTH ? <NavAuthorizedUser /> : <NavNotAuthorizedUser />}
             </div>
           </div>
         </header>
@@ -114,10 +118,10 @@ function OfferPropertyScreen(props) {
                     {type}
                   </li>
                   <li className="property__feature property__feature--bedrooms">
-                    {bedrooms} Bedrooms
+                    {bedrooms} {bedrooms === 1 ? 'Bedroom' : 'Bedrooms'}
                   </li>
                   <li className="property__feature property__feature--adults">
-                    Max {maxAdults} adults
+                    Max {maxAdults} {maxAdults === 1 ? 'adult' : 'adults'}
                   </li>
                 </ul>
                 <div className="property__price">
@@ -158,14 +162,15 @@ function OfferPropertyScreen(props) {
                   <ReviewsList
                     reviews={reviews}
                   />
-                  {authorizationStatus === AuthorizationStatus.AUTH && <CommentPostForm />}
+                  {/* {authorizationStatus === AuthorizationStatus.AUTH && <CommentPostForm />} */}
+                  <CommentPostForm id={id}/>
                 </section>
               </div>
             </div>
             <section className="property__map map" style={{maxWidth: '1144px', margin: '0 auto 50px'}}>
               <Map
                 location={currentOffer.city.location}
-                offers={nearestOffers}
+                offers={[...nearestOffers, currentOffer]}
                 activeOffer={currentOffer}
               />
 
@@ -194,17 +199,14 @@ function OfferPropertyScreen(props) {
 
 OfferPropertyScreen.propTypes = {
   offers: placeCardsListProp,
-  reviews: reviewsListProp,
   id: PropTypes.oneOfType([
     PropTypes.number.isRequired,
     PropTypes.string.isRequired,
   ]),
-  activeCity: PropTypes.string.isRequired,
   authorizationStatus: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  activeCity: state.activeCity,
   offers: state.offers,
   authorizationStatus: state.authorizationStatus,
 });

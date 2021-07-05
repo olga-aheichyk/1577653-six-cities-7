@@ -10,7 +10,6 @@ function PrivateRoute({render, path, exact, authorizationStatus}) {
     <Route
       path={path}
       exact={exact}
-      authorizationStatus={authorizationStatus}
       render={(routeProps) => (
         authorizationStatus === AuthorizationStatus.AUTH
           ? render(routeProps)

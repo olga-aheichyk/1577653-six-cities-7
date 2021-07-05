@@ -6,6 +6,7 @@ const initialState = {
   offers: [],
   authorizationStatus: AuthorizationStatus.UNKNOWN,
   isDataLoaded: false,
+  userEmail: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -27,12 +28,21 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         authorizationStatus: action.payload,
+        //userEmail: action.payload.email,
+      };
+
+    case ActionType.LOG_IN:
+      return {
+        ...state,
+        authorizationStatus: AuthorizationStatus.AUTH,
+        userEmail: action.payload,
       };
 
     case ActionType.LOG_OUT:
       return {
         ...state,
         authorizationStatus: AuthorizationStatus.NO_AUTH,
+        userEmail: null,
       };
 
     default:

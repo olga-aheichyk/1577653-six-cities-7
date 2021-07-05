@@ -18,25 +18,35 @@ const activePinIcon = leaflet.icon({
   iconAnchor: [(PinParameter.X)/ 2, PinParameter.Y],
 });
 
+const pinsOnMap = [];
 
+const removePins = () => {
+  pinsOnMap.forEach((pin) => {
+    pin.remove();
+  });
+  pinsOnMap.length = 0;
+};
 function Map({location, offers, activeOffer}) {
   const mapRef = useRef(null);
   const map = useMap(mapRef, location);
 
   useEffect(() => {
     if (map) {
+      removePins();
       offers.forEach((offer) => {
-        leaflet
+        const pin = leaflet
           .marker({
             lat: offer.location.latitude,
             lng: offer.location.longitude,
           }, {
             icon: (offer.id === activeOffer.id) ? activePinIcon : defaultPinIcon,
-          })
-          .addTo(map);
+          });
+        pin.addTo(map);
+        pinsOnMap.push(pin);
       });
     }
   }, [map, offers, activeOffer]);
+
 
   return (
     <div
@@ -46,6 +56,7 @@ function Map({location, offers, activeOffer}) {
     </div>
   );
 }
+
 
 Map.propTypes = {
   location: PropTypes.object.isRequired,

@@ -1,15 +1,14 @@
 import React from 'react';
 import Logo from '../logo/logo.jsx';
+import { connect } from 'react-redux';
 import SvgSprite from '../svg-sprite/svg-sprite.jsx';
 import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
 import FavoritesNotEmpty from '../favorites-not-empty/favorites-not-empty.jsx';
 import FavoritesEmpty from '../favorites-empty/favorites-empty.jsx';
 import NavAuthorizedUser from '../nav-authorized-user/nav-authorized-user.jsx';
-import { userEmail } from '../../consts.js';
 
 function FavoritesScreen(props) {
-  const { offers } = props;
-  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
+  const { favoriteOffers } = props;
 
   return (
     <>
@@ -22,9 +21,7 @@ function FavoritesScreen(props) {
               <div className="header__left">
                 <Logo />
               </div>
-              <NavAuthorizedUser
-                userEmail={userEmail}
-              />
+              <NavAuthorizedUser/>
             </div>
           </div>
         </header>
@@ -51,7 +48,13 @@ function FavoritesScreen(props) {
 }
 
 FavoritesScreen.propTypes = {
-  offers: placeCardsListProp,
+  favoriteOffers: placeCardsListProp,
 };
 
-export default FavoritesScreen;
+const mapStateToProps = (state) => ({
+  favoriteOffers: state.offers.slice().filter((offer) => offer.isFavorite),
+});
+
+
+export {FavoritesScreen};
+export default connect(mapStateToProps, null)(FavoritesScreen);

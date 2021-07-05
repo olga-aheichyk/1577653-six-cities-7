@@ -6,10 +6,8 @@ import {createApi} from './services/api.js';
 import {Provider} from 'react-redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import App from './components/app/app.jsx';
-import {reviews} from './mocks/reviews.js';
 import {reducer} from './store/reducer.js';
 import {ActionCreator} from './store/action.js';
-import {checkAuth, fetchOffersList} from './store/api-actions.js';
 import {AuthorizationStatus} from './consts.js';
 import {redirect} from './store/middlewares/redirect.js';
 
@@ -25,13 +23,8 @@ const store = createStore(
   ),
 );
 
-store.dispatch(checkAuth());
-store.dispatch(fetchOffersList());
-
 ReactDOM.render(
   <Provider store={store}>
-    <App
-      reviews={reviews}
-    />
+    <App/>
   </Provider>,
   document.getElementById('root'));

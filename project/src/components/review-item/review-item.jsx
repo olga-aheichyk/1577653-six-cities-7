@@ -1,5 +1,6 @@
 import React from 'react';
 import reviewItemProp from './review-item.prop.js';
+import dayjs from 'dayjs';
 
 import {calculateWidthForRating} from '../utils.js';
 
@@ -12,13 +13,6 @@ function ReviewItem(props) {
     rating,
     user,
   } = review;
-
-  //user {
-  //   avatarUrl,
-  //   id,
-  //   isPro,
-  //   name,
-  // },
 
   return (
     <li className="reviews__item" key={id}>
@@ -42,9 +36,8 @@ function ReviewItem(props) {
           </div>
         </div>
         <p className="reviews__text">{comment}</p>
-        <time className="reviews__time" dateTime="2019-04-24">
-          {/* {April 2019} */}
-          {date}
+        <time className="reviews__time" dateTime={dayjs(date).format('YYYY-MM-DD')}>
+          {dayjs(date).format('MMMM YYYY')}
         </time>
       </div>
     </li>
