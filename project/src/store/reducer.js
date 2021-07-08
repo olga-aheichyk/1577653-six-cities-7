@@ -7,6 +7,7 @@ const initialState = {
   authorizationStatus: AuthorizationStatus.UNKNOWN,
   isDataLoaded: false,
   userEmail: null,
+  reviews: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -22,6 +23,18 @@ const reducer = (state = initialState, action) => {
         ...state,
         offers: action.payload,
         isDataLoaded: true,
+      };
+
+    case ActionType.LOAD_REVIEWS:
+      return {
+        ...state,
+        reviews: action.payload,
+      };
+
+    case ActionType.ADD_REVIEW:
+      return {
+        ...state,
+        reviews: action.payload,
       };
 
     case ActionType.AUTHORIZATION_REQUIRED:

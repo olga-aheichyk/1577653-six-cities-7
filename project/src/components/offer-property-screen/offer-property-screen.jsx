@@ -13,27 +13,31 @@ import NavAuthorizedUser from '../nav-authorized-user/nav-authorized-user.jsx';
 import NavNotAuthorizedUser from '../nav-not-authorized-user/nav-not-authorized-user.jsx';
 import {AuthorizationStatus } from '../../consts.js';
 import Map from '../map/map.jsx';
-import { loadNearestOffers, loadReviews } from '../../store/api-actions.js';
-//import { fetchReviewsList } from '../../store/api-actions.js';
+import { checkAuth, fetchReviewsList, loadNearestOffers } from '../../store/api-actions.js';
+import { createApi } from '../../services/api.js';
+import reviewsListProp from '../reviews-list/reviews-list.prop.js';
 
 function OfferPropertyScreen(props) {
   const {
     id,
     offers,
-    authorizationStatus } = props;
+    authorizationStatus,
+    loadReviews,
+    reviews } = props;
 
-  const [reviews, setReviews] = useState([]);
   const [nearestOffers, setNearestOffers] = useState([]);
 
+  const api = createApi(checkAuth);
 
   useEffect(() => {
-    loadReviews(id, setReviews);
-    loadNearestOffers(id, setNearestOffers);
+    loadReviews(id);
+    loadNearestOffers(id, setNearestOffers, api);
   }, [id]);
 
   const currentOffer = offers.find((offer) => Number(offer.id) === Number(id));
   const {
     bedrooms,
+    city,
     description,
     goods,
     host,
@@ -162,14 +166,13 @@ function OfferPropertyScreen(props) {
                   <ReviewsList
                     reviews={reviews}
                   />
-                  {/* {authorizationStatus === AuthorizationStatus.AUTH && <CommentPostForm />} */}
-                  <CommentPostForm id={id}/>
+                  {authorizationStatus === AuthorizationStatus.AUTH && <CommentPostForm id={id} />}
                 </section>
               </div>
             </div>
             <section className="property__map map" style={{maxWidth: '1144px', margin: '0 auto 50px'}}>
               <Map
-                location={currentOffer.city.location}
+                location={city.location}
                 offers={[...nearestOffers, currentOffer]}
                 activeOffer={currentOffer}
               />
@@ -204,13 +207,20 @@ OfferPropertyScreen.propTypes = {
     PropTypes.string.isRequired,
   ]),
   authorizationStatus: PropTypes.string.isRequired,
+  reviews: reviewsListProp,
+  loadReviews: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   offers: state.offers,
   authorizationStatus: state.authorizationStatus,
+  reviews: state.reviews,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  loadReviews: (id) => dispatch(fetchReviewsList(id)),
 });
 
 
 export {OfferPropertyScreen};
-export default connect(mapStateToProps)(OfferPropertyScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(OfferPropertyScreen);

@@ -73,14 +73,17 @@ const mapStateToProps = (state) => ({
   isDataLoaded: state.isDataLoaded,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  loadOffers() {
-    dispatch(fetchOffersList());
-  },
-  authorizationRequired() {
-    dispatch(checkAuth());
-  },
-});
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     loadOffers: () => dispatch(fetchOffersList()),
+//     authorizationRequired: () => (checkAuth()),
+//   }
+// };
+
+const mapDispatchToProps = {
+  loadOffers: fetchOffersList,
+  authorizationRequired: checkAuth,
+};
 
 export {App};
 export default connect(mapStateToProps, mapDispatchToProps)(App);

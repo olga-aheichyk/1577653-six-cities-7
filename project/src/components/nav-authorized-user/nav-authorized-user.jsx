@@ -45,11 +45,9 @@ const mapStateToProps = (state) => ({
   userEmail: state.userEmail,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  signOut() {
-    dispatch(logout());
-  },
-});
+const mapDispatchToProps = {
+  signOut: logout,
+};
 
 export {NavAuthorizedUser};
 export default connect(mapStateToProps, mapDispatchToProps)(NavAuthorizedUser);

@@ -118,9 +118,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onCityChange(evtTargetTextContent) {
-    dispatch(ActionCreator.cityChange(evtTargetTextContent));
-  },
+  onCityChange:
+  (evtTargetTextContent) => dispatch(ActionCreator.cityChange(evtTargetTextContent)),
 });
 
 export {MainScreen};
