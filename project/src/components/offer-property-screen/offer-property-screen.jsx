@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+// import { Redirect } from 'react-router-dom';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
@@ -11,11 +12,11 @@ import ReviewsList from '../reviews-list/reviews-list.jsx';
 import {calculateWidthForRating} from '../utils.js';
 import NavAuthorizedUser from '../nav-authorized-user/nav-authorized-user.jsx';
 import NavNotAuthorizedUser from '../nav-not-authorized-user/nav-not-authorized-user.jsx';
-import {AuthorizationStatus } from '../../consts.js';
+import { AuthorizationStatus } from '../../consts.js';
 import Map from '../map/map.jsx';
-import { checkAuth, fetchReviewsList, loadNearestOffers } from '../../store/api-actions.js';
-import { createApi } from '../../services/api.js';
+import { fetchNearestOffers, fetchReviewsList } from '../../store/api-actions.js';
 import reviewsListProp from '../reviews-list/reviews-list.prop.js';
+import NotFoundScreen from '../not-found-screen/not-found-screen.jsx';
 
 function OfferPropertyScreen(props) {
   const {
@@ -23,16 +24,18 @@ function OfferPropertyScreen(props) {
     offers,
     authorizationStatus,
     loadReviews,
-    reviews } = props;
-
-  const [nearestOffers, setNearestOffers] = useState([]);
-
-  const api = createApi(checkAuth);
+    loadNearestOffers,
+    reviews,
+    nearestOffers } = props;
 
   useEffect(() => {
     loadReviews(id);
-    loadNearestOffers(id, setNearestOffers, api);
+    loadNearestOffers(id);
   }, [id]);
+
+  if (!offers.find((offer) => Number(offer.id) === Number(id))) {
+    return <NotFoundScreen />;
+  }
 
   const currentOffer = offers.find((offer) => Number(offer.id) === Number(id));
   const {
@@ -208,17 +211,21 @@ OfferPropertyScreen.propTypes = {
   ]),
   authorizationStatus: PropTypes.string.isRequired,
   reviews: reviewsListProp,
+  nearestOffers: placeCardsListProp,
   loadReviews: PropTypes.func.isRequired,
+  loadNearestOffers: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   offers: state.offers,
   authorizationStatus: state.authorizationStatus,
   reviews: state.reviews,
+  nearestOffers: state.nearestOffers,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   loadReviews: (id) => dispatch(fetchReviewsList(id)),
+  loadNearestOffers: (id) => dispatch(fetchNearestOffers(id)),
 });
 
 

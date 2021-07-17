@@ -3,6 +3,7 @@ export const ActionType = {
   CITY_CHANGE: 'cityChange',
   LOAD_OFFERS: 'loadOffers',
   LOAD_REVIEWS: 'loadReviews',
+  LOAD_NEAREST_OFFERS: 'loadNearestOffers',
   ADD_REVIEW: 'addReview',
   AUTHORIZATION_REQUIRED: 'authorizationRequired',
   REDIRECT_TO_ROUTE: 'redirectToRoute',
@@ -22,6 +23,10 @@ export const ActionCreator = {
   loadReviews: (reviews) => ({
     type: ActionType.LOAD_REVIEWS,
     payload: reviews,
+  }),
+  loadNearestOffers: (nearestOffers) => ({
+    type: ActionType.LOAD_NEAREST_OFFERS,
+    payload: nearestOffers,
   }),
   addReview: (newReviewsList) => ({
     type: ActionType.ADD_REVIEW,

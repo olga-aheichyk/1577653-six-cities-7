@@ -28,22 +28,16 @@ export const logout = () => (dispatch, _getState, api) => (
     .then(() => dispatch(ActionCreator.logout()))
 );
 
-// export const loadReviews = (id, setState, api) => {
-//   api.get(`${BACKEND_URL}${ApiRoute.REVIEWS}${id}`)
-//     .then(({data}) => data.map(adaptReviewToClient))
-//     .then((adaptedReviews) => setState(adaptedReviews));
-// };
-
 export const fetchReviewsList = (id) => (dispatch, _getState, api) => (
   api.get(`${BACKEND_URL}${ApiRoute.REVIEWS}${id}`)
     .then(({data}) => data.map(adaptReviewToClient))
     .then((reviews) => dispatch(ActionCreator.loadReviews(reviews)))
 );
 
-export const loadNearestOffers = (id, setState, api) => {
+export const fetchNearestOffers = (id) => (dispatch, _getState, api) => {
   api.get(`${BACKEND_URL}/hotels/${id}/nearby`)
     .then(({data}) => data.map(adaptOfferToClient))
-    .then((adaptedNearestOffers) => setState(adaptedNearestOffers));
+    .then((adaptedNearestOffers) => dispatch(ActionCreator.loadNearestOffers(adaptedNearestOffers)));
 };
 
 

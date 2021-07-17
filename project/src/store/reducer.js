@@ -8,6 +8,7 @@ const initialState = {
   isDataLoaded: false,
   userEmail: null,
   reviews: [],
+  nearestOffers: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -29,6 +30,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         reviews: action.payload,
+      };
+
+    case ActionType.LOAD_NEAREST_OFFERS:
+      return {
+        ...state,
+        nearestOffers: action.payload,
       };
 
     case ActionType.ADD_REVIEW:

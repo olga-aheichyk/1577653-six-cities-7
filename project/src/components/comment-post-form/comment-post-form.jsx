@@ -53,8 +53,8 @@ function CommentPostForm({id, onCommentPost}) {
           return (
             <Fragment key={key}>
               <input
-                onChange={(evt) => {
-                  setState((prevState) => ({ ...prevState, rating: Number(evt.target.value)}));
+                onChange={({target}) => {
+                  setState((prevState) =>({...prevState, rating: Number(target.value)}));
                   if (state.rating !== 0 &&
                     state.comment.length >= CommentCharactersCount.MIN &&
                     state.comment.length <= CommentCharactersCount.MAX) {
@@ -97,8 +97,8 @@ function CommentPostForm({id, onCommentPost}) {
         id="review"
         name="review"
         value={state.comment}
-        // min={CommentCharactersCount.MIN}
-        // max={CommentCharactersCount.MAX}
+        minLength={CommentCharactersCount.MIN}
+        maxLength={CommentCharactersCount.MAX}
         placeholder="Tell how was your stay, what you like and what can be improved"
       >
       </textarea>

@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {Switch, Route, Router as BrowserRouter} from 'react-router-dom';
+import {Switch, Route, Redirect, Router as BrowserRouter} from 'react-router-dom';
 import NotFoundScreen from '../not-found-screen/not-found-screen.jsx';
 import MainScreen from '../main-screen/main-screen.jsx';
 import FavoritesScreen from '../favorites-screen/favorites-screen.jsx';
@@ -45,7 +45,13 @@ function App(props) {
             () => <FavoritesScreen />
           }
         />
-        <Route exact path={AppRoute.LOGIN} component={LogInScreen} />
+        <Route exact path={AppRoute.LOGIN}>
+          {authorizationStatus === AuthorizationStatus.AUTH ? <Redirect to={AppRoute.ROOT} /> : <LogInScreen />}
+        </Route>
+        {/* Так не работает
+        <Route exact path={AppRoute.OFFER}
+          render={(props) => (<OfferPropertyScreen {...props} />)}
+        /> */}
         <Route exact path={AppRoute.OFFER}
           render={({match}) => (
             <OfferPropertyScreen
