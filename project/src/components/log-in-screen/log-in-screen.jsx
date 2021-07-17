@@ -85,11 +85,8 @@ LogInScreen.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
 
-
 const mapDispatchToProps = (dispatch) => ({
-  onSubmit(authData) {
-    dispatch(login(authData));
-  },
+  onSubmit: (authData) => dispatch(login(authData)),
 });
 
 export {LogInScreen};

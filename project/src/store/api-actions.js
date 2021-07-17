@@ -28,26 +28,23 @@ export const logout = () => (dispatch, _getState, api) => (
     .then(() => dispatch(ActionCreator.logout()))
 );
 
+export const fetchReviewsList = (id) => (dispatch, _getState, api) => (
+  api.get(`${BACKEND_URL}${ApiRoute.REVIEWS}${id}`)
+    .then(({data}) => data.map(adaptReviewToClient))
+    .then((reviews) => dispatch(ActionCreator.loadReviews(reviews)))
+);
 
-export const loadReviews = (id, setState) => {
-  fetch(`${BACKEND_URL}${ApiRoute.REVIEWS}${id}`)
-    .then((response) => response.json())
-    .then((reviews) => reviews.map(adaptReviewToClient))
-    .then((adaptedReviews) => setState(adaptedReviews));
-};
-
-export const loadNearestOffers = (id, setState) => {
-  fetch(`${BACKEND_URL}/hotels/${id}/nearby`)
-    .then((response) => response.json())
-    .then((offers) => offers.map(adaptOfferToClient))
-    .then((adaptedNearestOffers) => setState(adaptedNearestOffers));
+export const fetchNearestOffers = (id) => (dispatch, _getState, api) => {
+  api.get(`${BACKEND_URL}/hotels/${id}/nearby`)
+    .then(({data}) => data.map(adaptOfferToClient))
+    .then((adaptedNearestOffers) => dispatch(ActionCreator.loadNearestOffers(adaptedNearestOffers)));
 };
 
 
-export const postReview = (id, formData, onSuccess) => {
-  fetch(`${BACKEND_URL}${ApiRoute.REVIEWS}${id}`, {
-    method: 'POST',
-    body: formData,
-  })
-    .then((response) => onSuccess(response));
-};
+export const postComment = (api, id, {rating, comment}, onSuccess) => (
+  api.post(`${BACKEND_URL}${ApiRoute.REVIEWS}${id}`, {rating, comment})
+    .then(({data}) => data.map(adaptReviewToClient))
+    .then((newReviewsList) => {
+      onSuccess(newReviewsList);
+    })
+);

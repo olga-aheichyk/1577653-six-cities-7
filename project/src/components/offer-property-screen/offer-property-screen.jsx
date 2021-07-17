@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+// import { Redirect } from 'react-router-dom';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
@@ -11,29 +12,35 @@ import ReviewsList from '../reviews-list/reviews-list.jsx';
 import {calculateWidthForRating} from '../utils.js';
 import NavAuthorizedUser from '../nav-authorized-user/nav-authorized-user.jsx';
 import NavNotAuthorizedUser from '../nav-not-authorized-user/nav-not-authorized-user.jsx';
-import {AuthorizationStatus } from '../../consts.js';
+import { AuthorizationStatus } from '../../consts.js';
 import Map from '../map/map.jsx';
-import { loadNearestOffers, loadReviews } from '../../store/api-actions.js';
-//import { fetchReviewsList } from '../../store/api-actions.js';
+import { fetchNearestOffers, fetchReviewsList } from '../../store/api-actions.js';
+import reviewsListProp from '../reviews-list/reviews-list.prop.js';
+import NotFoundScreen from '../not-found-screen/not-found-screen.jsx';
 
 function OfferPropertyScreen(props) {
   const {
     id,
     offers,
-    authorizationStatus } = props;
-
-  const [reviews, setReviews] = useState([]);
-  const [nearestOffers, setNearestOffers] = useState([]);
-
+    authorizationStatus,
+    loadReviews,
+    loadNearestOffers,
+    reviews,
+    nearestOffers } = props;
 
   useEffect(() => {
-    loadReviews(id, setReviews);
-    loadNearestOffers(id, setNearestOffers);
+    loadReviews(id);
+    loadNearestOffers(id);
   }, [id]);
+
+  if (!offers.find((offer) => Number(offer.id) === Number(id))) {
+    return <NotFoundScreen />;
+  }
 
   const currentOffer = offers.find((offer) => Number(offer.id) === Number(id));
   const {
     bedrooms,
+    city,
     description,
     goods,
     host,
@@ -162,14 +169,13 @@ function OfferPropertyScreen(props) {
                   <ReviewsList
                     reviews={reviews}
                   />
-                  {/* {authorizationStatus === AuthorizationStatus.AUTH && <CommentPostForm />} */}
-                  <CommentPostForm id={id}/>
+                  {authorizationStatus === AuthorizationStatus.AUTH && <CommentPostForm id={id} />}
                 </section>
               </div>
             </div>
             <section className="property__map map" style={{maxWidth: '1144px', margin: '0 auto 50px'}}>
               <Map
-                location={currentOffer.city.location}
+                location={city.location}
                 offers={[...nearestOffers, currentOffer]}
                 activeOffer={currentOffer}
               />
@@ -204,13 +210,24 @@ OfferPropertyScreen.propTypes = {
     PropTypes.string.isRequired,
   ]),
   authorizationStatus: PropTypes.string.isRequired,
+  reviews: reviewsListProp,
+  nearestOffers: placeCardsListProp,
+  loadReviews: PropTypes.func.isRequired,
+  loadNearestOffers: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   offers: state.offers,
   authorizationStatus: state.authorizationStatus,
+  reviews: state.reviews,
+  nearestOffers: state.nearestOffers,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  loadReviews: (id) => dispatch(fetchReviewsList(id)),
+  loadNearestOffers: (id) => dispatch(fetchNearestOffers(id)),
 });
 
 
 export {OfferPropertyScreen};
-export default connect(mapStateToProps)(OfferPropertyScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(OfferPropertyScreen);
