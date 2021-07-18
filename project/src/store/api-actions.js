@@ -40,6 +40,12 @@ export const fetchNearestOffers = (id) => (dispatch, _getState, api) => {
     .then((adaptedNearestOffers) => dispatch(ActionCreator.loadNearestOffers(adaptedNearestOffers)));
 };
 
+export const changeFavoritesStatus = (id, status) => (dispatch, _getState, api) => {
+  api.post(`${BACKEND_URL}/favorite/${id}/${status}`)
+    .then(({data}) => adaptOfferToClient(data))
+    .then((offer) => dispatch(ActionCreator.updateOffers(offer)));
+};
+
 
 export const postComment = (api, id, {rating, comment}, onSuccess) => (
   api.post(`${BACKEND_URL}${ApiRoute.REVIEWS}${id}`, {rating, comment})

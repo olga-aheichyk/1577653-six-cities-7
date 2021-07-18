@@ -2,6 +2,7 @@ export const ActionType = {
   INIT: 'init',
   CITY_CHANGE: 'cityChange',
   LOAD_OFFERS: 'loadOffers',
+  UPDATE_OFFERS: 'updateOffers',
   LOAD_REVIEWS: 'loadReviews',
   LOAD_NEAREST_OFFERS: 'loadNearestOffers',
   ADD_REVIEW: 'addReview',
@@ -19,6 +20,10 @@ export const ActionCreator = {
   loadOffers: (offers) => ({
     type: ActionType.LOAD_OFFERS,
     payload: offers,
+  }),
+  updateOffers: (offer) => ({
+    type: ActionType.UPDATE_OFFERS,
+    payload: offer,
   }),
   loadReviews: (reviews) => ({
     type: ActionType.LOAD_REVIEWS,

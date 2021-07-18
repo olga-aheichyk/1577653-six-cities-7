@@ -17,6 +17,7 @@ import Map from '../map/map.jsx';
 import { fetchNearestOffers, fetchReviewsList } from '../../store/api-actions.js';
 import reviewsListProp from '../reviews-list/reviews-list.prop.js';
 import NotFoundScreen from '../not-found-screen/not-found-screen.jsx';
+import FavoritesButton from '../favorites-button/favorites-button.jsx';
 
 function OfferPropertyScreen(props) {
   const {
@@ -59,6 +60,13 @@ function OfferPropertyScreen(props) {
     isPro,
     name,
   } = host;
+
+  const FavoritesButtonProps = {
+    BUTTON: classNames('property__bookmark-button', {'property__bookmark-button--active' : isFavorite}, 'button'),
+    SVG: 'property__bookmark-icon',
+    WIDTH: 31,
+    HEIGHT: 33,
+  };
 
   return (
     <>
@@ -103,7 +111,13 @@ function OfferPropertyScreen(props) {
                   <h1 className="property__name">
                     {title}
                   </h1>
-                  <button
+
+                  <FavoritesButton
+                    namesOfClasses={FavoritesButtonProps}
+                    isFavorite={isFavorite}
+                    id={id}
+                  />
+                  {/* <button
                     className={classNames('property__bookmark-button', {'property__bookmark-button--active' : isFavorite}, 'button')}
                     type="button"
                   >
@@ -111,7 +125,7 @@ function OfferPropertyScreen(props) {
                       <use xlinkHref="#icon-bookmark"></use>
                     </svg>
                     <span className="visually-hidden">{isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
-                  </button>
+                  </button> */}
                 </div>
                 <div className="property__rating rating">
                   <div className="property__stars rating__stars">

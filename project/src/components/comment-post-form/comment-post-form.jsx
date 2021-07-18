@@ -54,12 +54,13 @@ function CommentPostForm({id, onCommentPost}) {
             <Fragment key={key}>
               <input
                 onChange={({target}) => {
-                  setState((prevState) =>({...prevState, rating: Number(target.value)}));
+                  // setState((prevState) =>({...prevState, rating: Number(target.value)}));
                   if (state.rating !== 0 &&
                     state.comment.length >= CommentCharactersCount.MIN &&
                     state.comment.length <= CommentCharactersCount.MAX) {
                     changeFormState({...formState, formValid: true});
                   }
+                  setState((prevState) =>({...prevState, rating: Number(target.value)}));
                 }}
                 className="form__rating-input visually-hidden"
                 name="rating"
@@ -83,9 +84,9 @@ function CommentPostForm({id, onCommentPost}) {
       <textarea
         onChange={(evt) => {
           setState((prevState) => ({ ...prevState, comment: evt.target.value}));
+          //console.log(evt.target.reportValidity())
           if (state.rating !== 0 &&
-            state.comment.length >= CommentCharactersCount.MIN &&
-            state.comment.length <= CommentCharactersCount.MAX) {
+            evt.target.reportValidity()) {
             changeFormState({...formState, formValid: true});
           }
 

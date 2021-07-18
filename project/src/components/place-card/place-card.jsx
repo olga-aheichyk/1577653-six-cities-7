@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import placeCardProp from './place-card.prop.js';
 import { calculateWidthForRating } from '../utils.js';
-
+import FavoritesButton from '../favorites-button/favorites-button.jsx';
 
 function PlaceCard(props) {
   const {
@@ -28,6 +28,13 @@ function PlaceCard(props) {
   const placeCardHoverHandler = (evt) => {
     setActiveCardId(evt.currentTarget.id);
     onPlaceCardHover(evt.currentTarget.id);
+  };
+
+  const FavoritesButtonProps = {
+    BUTTON: classNames('place-card__bookmark-button', { 'place-card__bookmark-button--active': isFavorite }, 'button'),
+    SVG: 'place-card__bookmark-icon',
+    WIDTH: 18,
+    HEIGHT: 19,
   };
 
   return (
@@ -68,7 +75,13 @@ function PlaceCard(props) {
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
 
-          <button
+          <FavoritesButton
+            namesOfClasses={FavoritesButtonProps}
+            isFavorite={isFavorite}
+            id={id}
+          />
+
+          {/* <button
             className={classNames('place-card__bookmark-button', {'place-card__bookmark-button--active' : isFavorite}, 'button')}
             type="button"
           >
@@ -76,7 +89,7 @@ function PlaceCard(props) {
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
             <span className="visually-hidden">{isFavorite ? 'In bookmarks' : 'Add to bookmarks'}</span>
-          </button>
+          </button> */}
         </div>
 
         <div className="place-card__rating rating">
