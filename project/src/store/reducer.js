@@ -4,6 +4,7 @@ import { AuthorizationStatus } from '../consts.js';
 const initialState = {
   activeCity: 'Paris',
   offers: [],
+  favoriteOffers: [],
   authorizationStatus: AuthorizationStatus.UNKNOWN,
   isDataLoaded: false,
   userEmail: null,
@@ -24,6 +25,12 @@ const reducer = (state = initialState, action) => {
         ...state,
         offers: action.payload,
         isDataLoaded: true,
+      };
+
+    case ActionType.LOAD_FAVORITE_OFFERS:
+      return {
+        ...state,
+        favoriteOffers: action.payload,
       };
 
     case ActionType.UPDATE_OFFERS:

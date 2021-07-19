@@ -18,7 +18,17 @@ import { fetchNearestOffers, fetchReviewsList } from '../../store/api-actions.js
 import reviewsListProp from '../reviews-list/reviews-list.prop.js';
 import NotFoundScreen from '../not-found-screen/not-found-screen.jsx';
 import FavoritesButton from '../favorites-button/favorites-button.jsx';
+import { sortByDateDescending } from '../utils.js';
 
+const OfferTypeName = {
+  apartment: 'Apartment',
+  room: 'Private Room',
+  house: 'House',
+  hotel: 'Hotel',
+};
+
+const MAX_IMAGES_COUNT = 6;
+const MAX_REVIEWS_COUNT = 10;
 function OfferPropertyScreen(props) {
   const {
     id,
@@ -87,7 +97,7 @@ function OfferPropertyScreen(props) {
           <section className="property">
             <div className="property__gallery-container container">
               <div className="property__gallery">
-                {images.map((image) => (
+                {images.slice(0, MAX_IMAGES_COUNT).map((image) => (
                   <div
                     className="property__image-wrapper"
                     key={image.match(/\d+?(?=.jpg)/)}
@@ -117,15 +127,6 @@ function OfferPropertyScreen(props) {
                     isFavorite={isFavorite}
                     id={id}
                   />
-                  {/* <button
-                    className={classNames('property__bookmark-button', {'property__bookmark-button--active' : isFavorite}, 'button')}
-                    type="button"
-                  >
-                    <svg className="property__bookmark-icon" width="31" height="33">
-                      <use xlinkHref="#icon-bookmark"></use>
-                    </svg>
-                    <span className="visually-hidden">{isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
-                  </button> */}
                 </div>
                 <div className="property__rating rating">
                   <div className="property__stars rating__stars">
@@ -136,7 +137,7 @@ function OfferPropertyScreen(props) {
                 </div>
                 <ul className="property__features">
                   <li className="property__feature property__feature--entire">
-                    {type}
+                    {OfferTypeName[type]}
                   </li>
                   <li className="property__feature property__feature--bedrooms">
                     {bedrooms} {bedrooms === 1 ? 'Bedroom' : 'Bedrooms'}
@@ -181,7 +182,9 @@ function OfferPropertyScreen(props) {
                 </div>
                 <section className="property__reviews reviews">
                   <ReviewsList
-                    reviews={reviews}
+                    reviews={reviews
+                      .sort(sortByDateDescending)
+                      .slice(0, MAX_REVIEWS_COUNT)}
                   />
                   {authorizationStatus === AuthorizationStatus.AUTH && <CommentPostForm id={id} />}
                 </section>

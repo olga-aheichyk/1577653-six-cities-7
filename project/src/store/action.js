@@ -2,6 +2,7 @@ export const ActionType = {
   INIT: 'init',
   CITY_CHANGE: 'cityChange',
   LOAD_OFFERS: 'loadOffers',
+  LOAD_FAVORITE_OFFERS: 'loadFavoriteOffers',
   UPDATE_OFFERS: 'updateOffers',
   LOAD_REVIEWS: 'loadReviews',
   LOAD_NEAREST_OFFERS: 'loadNearestOffers',
@@ -20,6 +21,10 @@ export const ActionCreator = {
   loadOffers: (offers) => ({
     type: ActionType.LOAD_OFFERS,
     payload: offers,
+  }),
+  loadFavoriteOffers: (favoriteOffers) => ({
+    type: ActionType.LOAD_FAVORITE_OFFERS,
+    payload: favoriteOffers,
   }),
   updateOffers: (offer) => ({
     type: ActionType.UPDATE_OFFERS,

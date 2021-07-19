@@ -12,6 +12,7 @@ import LoadingScreen from '../loading-screen/loading-screen.jsx';
 import PrivateRoute from '../private-route/private-route.jsx';
 import browserHistory from '../../browser-history';
 import { checkAuth, fetchOffersList } from '../../store/api-actions.js';
+import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
 
 const isCheckingAuth = (authorizationStatus) =>
   authorizationStatus === AuthorizationStatus.UNKNOWN;
@@ -21,12 +22,13 @@ function App(props) {
     isDataLoaded,
     loadOffers,
     authorizationRequired,
+    favoriteOffers,
   } = props;
 
   useEffect(() => {
     loadOffers();
     authorizationRequired();
-  }, []);
+  }, [favoriteOffers]);
 
   if (isCheckingAuth(authorizationStatus) || !isDataLoaded) {
     return (
@@ -48,10 +50,6 @@ function App(props) {
         <Route exact path={AppRoute.LOGIN}>
           {authorizationStatus === AuthorizationStatus.AUTH ? <Redirect to={AppRoute.ROOT} /> : <LogInScreen />}
         </Route>
-        {/* Так не работает
-        <Route exact path={AppRoute.OFFER}
-          render={(props) => (<OfferPropertyScreen {...props} />)}
-        /> */}
         <Route exact path={AppRoute.OFFER}
           render={({match}) => (
             <OfferPropertyScreen
@@ -72,19 +70,14 @@ App.propTypes = {
   isDataLoaded: PropTypes.bool.isRequired,
   loadOffers: PropTypes.func.isRequired,
   authorizationRequired: PropTypes.func.isRequired,
+  favoriteOffers: placeCardsListProp,
 };
 
 const mapStateToProps = (state) => ({
   authorizationStatus: state.authorizationStatus,
   isDataLoaded: state.isDataLoaded,
+  favoriteOffers: state.favoriteOffers,
 });
-
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     loadOffers: () => dispatch(fetchOffersList()),
-//     authorizationRequired: () => (checkAuth()),
-//   }
-// };
 
 const mapDispatchToProps = {
   loadOffers: fetchOffersList,

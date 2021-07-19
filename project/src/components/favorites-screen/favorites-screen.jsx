@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Logo from '../logo/logo.jsx';
 import { connect } from 'react-redux';
 import SvgSprite from '../svg-sprite/svg-sprite.jsx';
@@ -6,9 +7,16 @@ import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
 import FavoritesNotEmpty from '../favorites-not-empty/favorites-not-empty.jsx';
 import FavoritesEmpty from '../favorites-empty/favorites-empty.jsx';
 import NavAuthorizedUser from '../nav-authorized-user/nav-authorized-user.jsx';
+import { fetchFavoriteOffersList } from '../../store/api-actions.js';
 
 function FavoritesScreen(props) {
-  const { favoriteOffers } = props;
+  const {
+    favoriteOffers,
+    loadFavoriteOffers } = props;
+
+  useEffect(() => {
+    loadFavoriteOffers();
+  }, [favoriteOffers]);
 
   return (
     <>
@@ -49,12 +57,17 @@ function FavoritesScreen(props) {
 
 FavoritesScreen.propTypes = {
   favoriteOffers: placeCardsListProp,
+  loadFavoriteOffers: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  favoriteOffers: state.offers.slice().filter((offer) => offer.isFavorite),
+  favoriteOffers: state.favoriteOffers,
 });
+
+const mapDispatchToProps = {
+  loadFavoriteOffers: fetchFavoriteOffersList,
+};
 
 
 export {FavoritesScreen};
-export default connect(mapStateToProps, null)(FavoritesScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(FavoritesScreen);

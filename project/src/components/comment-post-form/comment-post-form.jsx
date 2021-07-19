@@ -1,9 +1,7 @@
 import React,  { useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { checkAuth, postComment} from '../../store/api-actions.js';
-import { ActionCreator } from '../../store/action.js';
-import { createApi } from '../../services/api.js';
+import { postComment } from '../../store/api-actions.js';
 
 const RatingStar = new Map([
   [5, 'perfect'],
@@ -29,13 +27,11 @@ function CommentPostForm({id, onCommentPost}) {
     formValid: false,
   });
 
-  const api = createApi(checkAuth);
-
   return (
     <form
       onSubmit={(evt) => {
         evt.preventDefault();
-        postComment(api, id, state, onCommentPost);
+        onCommentPost(id, state);
         changeFormState({...formState, formDisabled: true});
         setState((prevState) => ({...prevState, rating: 0, comment: ''}));
       }}
@@ -54,13 +50,12 @@ function CommentPostForm({id, onCommentPost}) {
             <Fragment key={key}>
               <input
                 onChange={({target}) => {
-                  // setState((prevState) =>({...prevState, rating: Number(target.value)}));
+                  setState((prevState) =>({...prevState, rating: Number(target.value)}));
                   if (state.rating !== 0 &&
                     state.comment.length >= CommentCharactersCount.MIN &&
                     state.comment.length <= CommentCharactersCount.MAX) {
                     changeFormState({...formState, formValid: true});
                   }
-                  setState((prevState) =>({...prevState, rating: Number(target.value)}));
                 }}
                 className="form__rating-input visually-hidden"
                 name="rating"
@@ -131,8 +126,7 @@ CommentPostForm.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  onCommentPost:
-  (newReviewsList) => dispatch(ActionCreator.addReview(newReviewsList)),
+  onCommentPost: (id, state) => dispatch(postComment(id, state)),
 });
 
 export {CommentPostForm};
