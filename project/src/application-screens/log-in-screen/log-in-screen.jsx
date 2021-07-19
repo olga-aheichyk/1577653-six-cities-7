@@ -2,8 +2,8 @@ import React, {useRef} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {login} from '../../store/api-actions.js';
-import Logo from '../logo/logo.jsx';
-import NavNotAuthorizedUser from '../nav-not-authorized-user/nav-not-authorized-user.jsx';
+import Logo from '../../components/logo/logo.jsx';
+import NavNotAuthorizedUser from '../../components/nav-not-authorized-user/nav-not-authorized-user.jsx';
 
 function LogInScreen(props) {
   const {onSubmit} = props;

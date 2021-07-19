@@ -17,7 +17,12 @@ export const fetchFavoriteOffersList = () => (dispatch, _getState, api) => (
 
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(ApiRoute.LOGIN)
-    .then(() => dispatch(ActionCreator.authorizationRequired(AuthorizationStatus.AUTH)))
+    .then(({data}) => {
+      if (localStorage.getItem('token') === data.token) {
+        dispatch(ActionCreator.login(data.email));
+        dispatch(ActionCreator.authorizationRequired(AuthorizationStatus.AUTH));
+      }
+    })
     .catch(() => {})
 );
 

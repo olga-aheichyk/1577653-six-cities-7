@@ -3,22 +3,22 @@ import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import Logo from '../logo/logo.jsx';
-import PlaceCard from '../place-card/place-card.jsx';
-import SvgSprite from '../svg-sprite/svg-sprite.jsx';
-import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
-import CommentPostForm from '../comment-post-form/comment-post-form.jsx';
-import ReviewsList from '../reviews-list/reviews-list.jsx';
-import {calculateWidthForRating} from '../utils.js';
-import NavAuthorizedUser from '../nav-authorized-user/nav-authorized-user.jsx';
-import NavNotAuthorizedUser from '../nav-not-authorized-user/nav-not-authorized-user.jsx';
+import Logo from '../../components/logo/logo.jsx';
+import PlaceCard from '../../components/place-card/place-card.jsx';
+import SvgSprite from '../../components/svg-sprite/svg-sprite.jsx';
+import placeCardsListProp from '../../components/place-cards-list/place-cards-list.prop.js';
+import CommentPostForm from '../../components/comment-post-form/comment-post-form.jsx';
+import ReviewsList from '../../components/reviews-list/reviews-list.jsx';
+import {calculateWidthForRating} from '../../components/utils.js';
+import NavAuthorizedUser from '../../components/nav-authorized-user/nav-authorized-user.jsx';
+import NavNotAuthorizedUser from '../../components/nav-not-authorized-user/nav-not-authorized-user.jsx';
 import { AuthorizationStatus } from '../../consts.js';
-import Map from '../map/map.jsx';
+import Map from '../../components/map/map.jsx';
 import { fetchNearestOffers, fetchReviewsList } from '../../store/api-actions.js';
-import reviewsListProp from '../reviews-list/reviews-list.prop.js';
+import reviewsListProp from '../../components/reviews-list/reviews-list.prop.js';
 import NotFoundScreen from '../not-found-screen/not-found-screen.jsx';
-import FavoritesButton from '../favorites-button/favorites-button.jsx';
-import { sortByDateDescending } from '../utils.js';
+import FavoritesButton from '../../components/favorites-button/favorites-button.jsx';
+import { sortByDateDescending } from '../../components/utils.js';
 
 const OfferTypeName = {
   apartment: 'Apartment',

@@ -1,5 +1,4 @@
 export const ActionType = {
-  INIT: 'init',
   CITY_CHANGE: 'cityChange',
   LOAD_OFFERS: 'loadOffers',
   LOAD_FAVORITE_OFFERS: 'loadFavoriteOffers',

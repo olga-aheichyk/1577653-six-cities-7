@@ -66,7 +66,6 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         authorizationStatus: action.payload,
-        //userEmail: action.payload.email,
       };
 
     case ActionType.LOG_IN:
