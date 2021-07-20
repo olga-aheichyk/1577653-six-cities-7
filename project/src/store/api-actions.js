@@ -7,6 +7,9 @@ export const fetchOffersList = () => (dispatch, _getState, api) => (
   api.get(ApiRoute.OFFERS)
     .then(({data}) => data.map(adaptOfferToClient))
     .then((offers) => dispatch(ActionCreator.loadOffers(offers)))
+    .catch(() => {
+      // сообщение об ошибке загрузки
+    })
 );
 
 export const fetchFavoriteOffersList = () => (dispatch, _getState, api) => (
