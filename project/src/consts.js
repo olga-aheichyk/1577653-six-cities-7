@@ -33,4 +33,7 @@ export const ApiRoute = {
   LOGIN: '/login',
   LOGOUT: '/logout',
   REVIEWS: '/comments/',
+  FAVORITE: '/favorite',
 };
+
+

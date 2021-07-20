@@ -1,4 +1,6 @@
-export const calculateWidthForRating = (rating) => rating / 5 * 100;
+import dayjs from 'dayjs';
+
+export const calculateWidthForRating = (rating) => Math.round(rating) / 5 * 100;
 
 export const filterActiveCityOffers = (activeCity, offers) => offers.slice().filter((offer) => offer.city.name === activeCity);
 
@@ -42,3 +44,5 @@ export const adaptReviewToClient = (review) => {
 
   return adaptedReview;
 };
+
+export const sortByDateDescending = (a, b) => dayjs(b.date).diff(dayjs(a.date));

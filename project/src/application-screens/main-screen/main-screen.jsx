@@ -4,18 +4,18 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/action.js';
 
-import SvgSprite from '../svg-sprite/svg-sprite.jsx';
-import Logo from '../logo/logo.jsx';
-import NavNotAuthorizedUser from '../nav-not-authorized-user/nav-not-authorized-user.jsx';
-import NavAuthorizedUser from '../nav-authorized-user/nav-authorized-user.jsx';
+import SvgSprite from '../../components/svg-sprite/svg-sprite.jsx';
+import Logo from '../../components/logo/logo.jsx';
+import NavNotAuthorizedUser from '../../components/nav-not-authorized-user/nav-not-authorized-user.jsx';
+import NavAuthorizedUser from '../../components/nav-authorized-user/nav-authorized-user.jsx';
 
-import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
+import placeCardsListProp from '../../components/place-cards-list/place-cards-list.prop.js';
 
 import { AuthorizationStatus, CITIES } from '../../consts.js';
-import CitiesPlaces from '../cities-places/cities-places.jsx';
-import CitiesNoPlaces from '../cities-no-places/cities-no-places.jsx';
-import Map from '../map/map.jsx';
-import { filterActiveCityOffers } from '../utils.js';
+import CitiesPlaces from '../../components/cities-places/cities-places.jsx';
+import CitiesNoPlaces from '../../components/cities-no-places/cities-no-places.jsx';
+import Map from '../../components/map/map.jsx';
+import { filterActiveCityOffers } from '../../components/utils.js';
 
 function MainScreen(props) {
   const {

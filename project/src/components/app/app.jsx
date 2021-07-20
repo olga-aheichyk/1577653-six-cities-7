@@ -2,16 +2,17 @@ import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Switch, Route, Redirect, Router as BrowserRouter} from 'react-router-dom';
-import NotFoundScreen from '../not-found-screen/not-found-screen.jsx';
-import MainScreen from '../main-screen/main-screen.jsx';
-import FavoritesScreen from '../favorites-screen/favorites-screen.jsx';
-import OfferPropertyScreen from '../offer-property-screen/offer-property-screen.jsx';
-import LogInScreen from '../log-in-screen/log-in-screen.jsx';
+import NotFoundScreen from '../../application-screens/not-found-screen/not-found-screen.jsx';
+import MainScreen from '../../application-screens/main-screen/main-screen.jsx';
+import FavoritesScreen from '../../application-screens/favorites-screen/favorites-screen.jsx';
+import OfferPropertyScreen from '../../application-screens/offer-property-screen/offer-property-screen.jsx';
+import LogInScreen from '../../application-screens/log-in-screen/log-in-screen.jsx';
 import { AppRoute, AuthorizationStatus } from '../../consts.js';
-import LoadingScreen from '../loading-screen/loading-screen.jsx';
+import LoadingScreen from '../../application-screens/loading-screen/loading-screen.jsx';
 import PrivateRoute from '../private-route/private-route.jsx';
 import browserHistory from '../../browser-history';
 import { checkAuth, fetchOffersList } from '../../store/api-actions.js';
+import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
 
 const isCheckingAuth = (authorizationStatus) =>
   authorizationStatus === AuthorizationStatus.UNKNOWN;
@@ -21,12 +22,13 @@ function App(props) {
     isDataLoaded,
     loadOffers,
     authorizationRequired,
+    favoriteOffers,
   } = props;
 
   useEffect(() => {
     loadOffers();
     authorizationRequired();
-  }, []);
+  }, [authorizationStatus, favoriteOffers]);
 
   if (isCheckingAuth(authorizationStatus) || !isDataLoaded) {
     return (
@@ -48,10 +50,6 @@ function App(props) {
         <Route exact path={AppRoute.LOGIN}>
           {authorizationStatus === AuthorizationStatus.AUTH ? <Redirect to={AppRoute.ROOT} /> : <LogInScreen />}
         </Route>
-        {/* Так не работает
-        <Route exact path={AppRoute.OFFER}
-          render={(props) => (<OfferPropertyScreen {...props} />)}
-        /> */}
         <Route exact path={AppRoute.OFFER}
           render={({match}) => (
             <OfferPropertyScreen
@@ -72,19 +70,14 @@ App.propTypes = {
   isDataLoaded: PropTypes.bool.isRequired,
   loadOffers: PropTypes.func.isRequired,
   authorizationRequired: PropTypes.func.isRequired,
+  favoriteOffers: placeCardsListProp,
 };
 
 const mapStateToProps = (state) => ({
   authorizationStatus: state.authorizationStatus,
   isDataLoaded: state.isDataLoaded,
+  favoriteOffers: state.favoriteOffers,
 });
-
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     loadOffers: () => dispatch(fetchOffersList()),
-//     authorizationRequired: () => (checkAuth()),
-//   }
-// };
 
 const mapDispatchToProps = {
   loadOffers: fetchOffersList,

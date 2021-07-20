@@ -1,9 +1,7 @@
 import React,  { useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { checkAuth, postComment} from '../../store/api-actions.js';
-import { ActionCreator } from '../../store/action.js';
-import { createApi } from '../../services/api.js';
+import { postComment } from '../../store/api-actions.js';
 
 const RatingStar = new Map([
   [5, 'perfect'],
@@ -26,18 +24,28 @@ function CommentPostForm({id, onCommentPost}) {
 
   const [formState, changeFormState] = useState({
     formDisabled: false,
-    formValid: false,
+    textareaValid: false,
+    ratingValid: false,
   });
-
-  const api = createApi(checkAuth);
 
   return (
     <form
       onSubmit={(evt) => {
         evt.preventDefault();
-        postComment(api, id, state, onCommentPost);
-        changeFormState({...formState, formDisabled: true});
-        setState((prevState) => ({...prevState, rating: 0, comment: ''}));
+        Promise.all([
+          changeFormState({...formState, formDisabled: true}),
+          onCommentPost(id, state),
+        ])
+          .then((response) => {
+            if (response[1].payload) {
+              setState((prevState) => ({...prevState, rating: 0, comment: ''}));
+              changeFormState({...formState, formDisabled: false, textareaValid: false, ratingValid: false});
+            }
+          })
+          .catch(() => {
+            changeFormState({...formState, formDisabled: false});
+            // здесь должно быть сообщение об ошибке отправки
+          });
       }}
       className="reviews__form form"
       action="#"
@@ -55,10 +63,8 @@ function CommentPostForm({id, onCommentPost}) {
               <input
                 onChange={({target}) => {
                   setState((prevState) =>({...prevState, rating: Number(target.value)}));
-                  if (state.rating !== 0 &&
-                    state.comment.length >= CommentCharactersCount.MIN &&
-                    state.comment.length <= CommentCharactersCount.MAX) {
-                    changeFormState({...formState, formValid: true});
+                  if (state.rating !== 0) {
+                    changeFormState({...formState, ratingValid: true});
                   }
                 }}
                 className="form__rating-input visually-hidden"
@@ -66,7 +72,7 @@ function CommentPostForm({id, onCommentPost}) {
                 value={key}
                 id={`${key}-stars`}
                 type="radio"
-                checked={state.rating === `${key}`}
+                checked={state.rating === Number(`${key}`)}
               />
               <label
                 htmlFor={`${key}-stars`}
@@ -83,14 +89,9 @@ function CommentPostForm({id, onCommentPost}) {
       <textarea
         onChange={(evt) => {
           setState((prevState) => ({ ...prevState, comment: evt.target.value}));
-          if (state.rating !== 0 &&
-            state.comment.length >= CommentCharactersCount.MIN &&
-            state.comment.length <= CommentCharactersCount.MAX) {
-            changeFormState({...formState, formValid: true});
-          }
-
-          if (state.comment.length <= CommentCharactersCount.MAX) {
-            changeFormState({...formState, formValid: false});
+          //console.log(evt.target.reportValidity())
+          if (evt.target.reportValidity()) {
+            changeFormState({...formState, textareaValid: true});
           }
         }}
         className="reviews__textarea form__textarea"
@@ -100,6 +101,7 @@ function CommentPostForm({id, onCommentPost}) {
         minLength={CommentCharactersCount.MIN}
         maxLength={CommentCharactersCount.MAX}
         placeholder="Tell how was your stay, what you like and what can be improved"
+        required
       >
       </textarea>
       <div className="reviews__button-wrapper">
@@ -112,7 +114,7 @@ function CommentPostForm({id, onCommentPost}) {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={!formState.formValid}
+          disabled={!formState.textareaValid && !formState.ratingValid}
         >
           Submit
         </button>
@@ -130,8 +132,7 @@ CommentPostForm.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  onCommentPost:
-  (newReviewsList) => dispatch(ActionCreator.addReview(newReviewsList)),
+  onCommentPost: (id, state) => dispatch(postComment(id, state)),
 });
 
 export {CommentPostForm};

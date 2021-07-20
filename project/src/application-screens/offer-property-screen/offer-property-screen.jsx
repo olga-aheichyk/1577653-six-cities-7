@@ -3,21 +3,32 @@ import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import Logo from '../logo/logo.jsx';
-import PlaceCard from '../place-card/place-card.jsx';
-import SvgSprite from '../svg-sprite/svg-sprite.jsx';
-import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
-import CommentPostForm from '../comment-post-form/comment-post-form.jsx';
-import ReviewsList from '../reviews-list/reviews-list.jsx';
-import {calculateWidthForRating} from '../utils.js';
-import NavAuthorizedUser from '../nav-authorized-user/nav-authorized-user.jsx';
-import NavNotAuthorizedUser from '../nav-not-authorized-user/nav-not-authorized-user.jsx';
+import Logo from '../../components/logo/logo.jsx';
+import PlaceCard from '../../components/place-card/place-card.jsx';
+import SvgSprite from '../../components/svg-sprite/svg-sprite.jsx';
+import placeCardsListProp from '../../components/place-cards-list/place-cards-list.prop.js';
+import CommentPostForm from '../../components/comment-post-form/comment-post-form.jsx';
+import ReviewsList from '../../components/reviews-list/reviews-list.jsx';
+import {calculateWidthForRating} from '../../components/utils.js';
+import NavAuthorizedUser from '../../components/nav-authorized-user/nav-authorized-user.jsx';
+import NavNotAuthorizedUser from '../../components/nav-not-authorized-user/nav-not-authorized-user.jsx';
 import { AuthorizationStatus } from '../../consts.js';
-import Map from '../map/map.jsx';
+import Map from '../../components/map/map.jsx';
 import { fetchNearestOffers, fetchReviewsList } from '../../store/api-actions.js';
-import reviewsListProp from '../reviews-list/reviews-list.prop.js';
+import reviewsListProp from '../../components/reviews-list/reviews-list.prop.js';
 import NotFoundScreen from '../not-found-screen/not-found-screen.jsx';
+import FavoritesButton from '../../components/favorites-button/favorites-button.jsx';
+import { sortByDateDescending } from '../../components/utils.js';
 
+const OfferTypeName = {
+  apartment: 'Apartment',
+  room: 'Private Room',
+  house: 'House',
+  hotel: 'Hotel',
+};
+
+const MAX_IMAGES_COUNT = 6;
+const MAX_REVIEWS_COUNT = 10;
 function OfferPropertyScreen(props) {
   const {
     id,
@@ -60,6 +71,13 @@ function OfferPropertyScreen(props) {
     name,
   } = host;
 
+  const FavoritesButtonProps = {
+    BUTTON: classNames('property__bookmark-button', {'property__bookmark-button--active' : isFavorite}, 'button'),
+    SVG: 'property__bookmark-icon',
+    WIDTH: 31,
+    HEIGHT: 33,
+  };
+
   return (
     <>
       <SvgSprite />
@@ -79,7 +97,7 @@ function OfferPropertyScreen(props) {
           <section className="property">
             <div className="property__gallery-container container">
               <div className="property__gallery">
-                {images.map((image) => (
+                {images.slice(0, MAX_IMAGES_COUNT).map((image) => (
                   <div
                     className="property__image-wrapper"
                     key={image.match(/\d+?(?=.jpg)/)}
@@ -103,15 +121,12 @@ function OfferPropertyScreen(props) {
                   <h1 className="property__name">
                     {title}
                   </h1>
-                  <button
-                    className={classNames('property__bookmark-button', {'property__bookmark-button--active' : isFavorite}, 'button')}
-                    type="button"
-                  >
-                    <svg className="property__bookmark-icon" width="31" height="33">
-                      <use xlinkHref="#icon-bookmark"></use>
-                    </svg>
-                    <span className="visually-hidden">{isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
-                  </button>
+
+                  <FavoritesButton
+                    namesOfClasses={FavoritesButtonProps}
+                    isFavorite={isFavorite}
+                    id={id}
+                  />
                 </div>
                 <div className="property__rating rating">
                   <div className="property__stars rating__stars">
@@ -122,7 +137,7 @@ function OfferPropertyScreen(props) {
                 </div>
                 <ul className="property__features">
                   <li className="property__feature property__feature--entire">
-                    {type}
+                    {OfferTypeName[type]}
                   </li>
                   <li className="property__feature property__feature--bedrooms">
                     {bedrooms} {bedrooms === 1 ? 'Bedroom' : 'Bedrooms'}
@@ -167,7 +182,9 @@ function OfferPropertyScreen(props) {
                 </div>
                 <section className="property__reviews reviews">
                   <ReviewsList
-                    reviews={reviews}
+                    reviews={reviews
+                      .sort(sortByDateDescending)
+                      .slice(0, MAX_REVIEWS_COUNT)}
                   />
                   {authorizationStatus === AuthorizationStatus.AUTH && <CommentPostForm id={id} />}
                 </section>

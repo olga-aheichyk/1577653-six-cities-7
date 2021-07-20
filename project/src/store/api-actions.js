@@ -7,11 +7,25 @@ export const fetchOffersList = () => (dispatch, _getState, api) => (
   api.get(ApiRoute.OFFERS)
     .then(({data}) => data.map(adaptOfferToClient))
     .then((offers) => dispatch(ActionCreator.loadOffers(offers)))
+    .catch(() => {
+      // сообщение об ошибке загрузки
+    })
+);
+
+export const fetchFavoriteOffersList = () => (dispatch, _getState, api) => (
+  api.get(ApiRoute.FAVORITE)
+    .then(({data}) => data.map(adaptOfferToClient))
+    .then((favoriteOffers) => dispatch(ActionCreator.loadFavoriteOffers(favoriteOffers)))
 );
 
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(ApiRoute.LOGIN)
-    .then(() => dispatch(ActionCreator.authorizationRequired(AuthorizationStatus.AUTH)))
+    .then(({data}) => {
+      if (localStorage.getItem('token') === data.token) {
+        dispatch(ActionCreator.login(data.email));
+        dispatch(ActionCreator.authorizationRequired(AuthorizationStatus.AUTH));
+      }
+    })
     .catch(() => {})
 );
 
@@ -34,17 +48,20 @@ export const fetchReviewsList = (id) => (dispatch, _getState, api) => (
     .then((reviews) => dispatch(ActionCreator.loadReviews(reviews)))
 );
 
-export const fetchNearestOffers = (id) => (dispatch, _getState, api) => {
+export const fetchNearestOffers = (id) => (dispatch, _getState, api) => (
   api.get(`${BACKEND_URL}/hotels/${id}/nearby`)
     .then(({data}) => data.map(adaptOfferToClient))
-    .then((adaptedNearestOffers) => dispatch(ActionCreator.loadNearestOffers(adaptedNearestOffers)));
-};
+    .then((adaptedNearestOffers) => dispatch(ActionCreator.loadNearestOffers(adaptedNearestOffers)))
+);
 
+export const changeFavoritesStatus = (id, status) => (dispatch, _getState, api) => (
+  api.post(`${ApiRoute.FAVORITE}/${id}/${status}`)
+    .then(({data}) => adaptOfferToClient(data))
+    .then((offer) => dispatch(ActionCreator.updateOffers(offer)))
+);
 
-export const postComment = (api, id, {rating, comment}, onSuccess) => (
+export const postComment = (id, {rating, comment}) => (dispatch, _getState, api) => (
   api.post(`${BACKEND_URL}${ApiRoute.REVIEWS}${id}`, {rating, comment})
     .then(({data}) => data.map(adaptReviewToClient))
-    .then((newReviewsList) => {
-      onSuccess(newReviewsList);
-    })
+    .then((newReviewsList) => dispatch(ActionCreator.addReview(newReviewsList)))
 );

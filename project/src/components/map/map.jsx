@@ -2,7 +2,7 @@ import React, {useRef, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import useMap from './use-map.js';
+import useMap from '../../hooks/use-map.js';
 import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
 import { PinParameter } from '../../consts.js';
 

@@ -4,6 +4,7 @@ import { AuthorizationStatus } from '../consts.js';
 const initialState = {
   activeCity: 'Paris',
   offers: [],
+  favoriteOffers: [],
   authorizationStatus: AuthorizationStatus.UNKNOWN,
   isDataLoaded: false,
   userEmail: null,
@@ -24,6 +25,23 @@ const reducer = (state = initialState, action) => {
         ...state,
         offers: action.payload,
         isDataLoaded: true,
+      };
+
+    case ActionType.LOAD_FAVORITE_OFFERS:
+      return {
+        ...state,
+        favoriteOffers: action.payload,
+      };
+
+    case ActionType.UPDATE_OFFERS:
+      //const offerIndex = state.offers.findIndex((offer) => offer.id === action.payload.id);
+      return {
+        ...state,
+        offers: [
+          ...state.offers.slice(0, (state.offers.findIndex((offer) => offer.id === action.payload.id))),
+          action.payload,
+          ...state.offers.slice((state.offers.findIndex((offer) => offer.id === action.payload.id)) + 1),
+        ],
       };
 
     case ActionType.LOAD_REVIEWS:
@@ -48,7 +66,6 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         authorizationStatus: action.payload,
-        //userEmail: action.payload.email,
       };
 
     case ActionType.LOG_IN:
