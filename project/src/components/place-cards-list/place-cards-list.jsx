@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import PlaceCard from '../place-card/place-card.jsx';
 import placeCardsListProp from './place-cards-list.prop.js';
+import { PlaceCardVariant, PlaceCardVariantDetails } from '../../consts.js';
 
 function PlaceCardsList(props) {
   const {offers, onPlaceCardHover, onPlaceCardAwayHover} = props;
@@ -12,6 +13,7 @@ function PlaceCardsList(props) {
       {offers.map((offer) => (
         <PlaceCard
           key={offer.id}
+          details={PlaceCardVariantDetails[PlaceCardVariant.MAIN]}
           offer={offer}
           onPlaceCardHover={onPlaceCardHover}
           onPlaceCardAwayHover={onPlaceCardAwayHover}

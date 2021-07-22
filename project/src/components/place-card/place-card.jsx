@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import placeCardProp from './place-card.prop.js';
 import { calculateWidthForRating } from '../utils.js';
 import FavoritesButton from '../favorites-button/favorites-button.jsx';
+import { FavoritesButtonVariantDetails, FavoritesButtonVariant } from '../../consts.js';
+
 
 function PlaceCard(props) {
   const {
+    details,
     offer,
     onPlaceCardHover,
     onPlaceCardAwayHover } = props;
@@ -30,20 +32,11 @@ function PlaceCard(props) {
     onPlaceCardHover(evt.currentTarget.id);
   };
 
-  const FavoritesButtonProps = {
-    BUTTON: classNames('place-card__bookmark-button', { 'place-card__bookmark-button--active': isFavorite }, 'button'),
-    SVG: 'place-card__bookmark-icon',
-    WIDTH: 18,
-    HEIGHT: 19,
-  };
-
   return (
     <article
       onMouseEnter={placeCardHoverHandler}
       onMouseLeave={onPlaceCardAwayHover}
-      className="cities__place-card place-card"
-      // className="favorites__card place-card"
-      // className="near-places__card place-card"
+      className={`${details.articleClassName} place-card`}
       id={id}
     >
       {isPremium && (
@@ -52,23 +45,20 @@ function PlaceCard(props) {
         </div>)}
 
       <div
-        className="cities__image-wrapper place-card__image-wrapper"
-        // className="favorites__image-wrapper place-card__image-wrapper"
-        // className="near-places__image-wrapper place-card__image-wrapper"
+        className={`${details.imgWrapperClassName} place-card__image-wrapper`}
       >
         <Link to={`/offer/${activeCardId}`}>
           <img
             className="place-card__image"
             src={previewImage}
-            width="260"
-            height="200"
-            // favorites: width="150" height="110"
+            width={details.imgWidth}
+            height={details.imgHeight}
             alt="Place"
           />
         </Link>
       </div>
 
-      <div className="place-card__info">{/* className="favorites__card-info place-card__info" */}
+      <div className={`${details.infoExtraClass} place-card__info`}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>
@@ -76,20 +66,10 @@ function PlaceCard(props) {
           </div>
 
           <FavoritesButton
-            namesOfClasses={FavoritesButtonProps}
+            details={FavoritesButtonVariantDetails[FavoritesButtonVariant.PLACE_CARD]}
             isFavorite={isFavorite}
             id={id}
           />
-
-          {/* <button
-            className={classNames('place-card__bookmark-button', {'place-card__bookmark-button--active' : isFavorite}, 'button')}
-            type="button"
-          >
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">{isFavorite ? 'In bookmarks' : 'Add to bookmarks'}</span>
-          </button> */}
         </div>
 
         <div className="place-card__rating rating">
@@ -115,6 +95,7 @@ PlaceCard.defaultProps = {
 };
 
 PlaceCard.propTypes = {
+  details: PropTypes.object.isRequired,
   offer: placeCardProp,
   onPlaceCardHover: PropTypes.func.isRequired,
   onPlaceCardAwayHover: PropTypes.func.isRequired,

@@ -5,6 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import useMap from '../../hooks/use-map.js';
 import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
 import { PinParameter } from '../../consts.js';
+import placeCardProp from '../place-card/place-card.prop.js';
 
 const defaultPinIcon = leaflet.icon({
   iconUrl: 'img/pin.svg',
@@ -59,9 +60,13 @@ function Map({location, offers, activeOffer}) {
 
 
 Map.propTypes = {
-  location: PropTypes.object.isRequired,
+  location: PropTypes.PropTypes.shape({
+    latitude: PropTypes.number.isRequired,
+    longitude: PropTypes.number.isRequired,
+    zoom: PropTypes.number.isRequired,
+  }).isRequired,
   offers: placeCardsListProp,
-  activeOffer: PropTypes.object.isRequired,
+  activeOffer: placeCardProp,
 };
 
 export default Map;

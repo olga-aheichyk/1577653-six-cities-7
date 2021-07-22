@@ -2,6 +2,7 @@ import React,  { useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { postComment } from '../../store/api-actions.js';
+import ErrorNotification from '../error-notification/error-notification.jsx';
 
 const RatingStar = new Map([
   [5, 'perfect'],
@@ -28,23 +29,27 @@ function CommentPostForm({id, onCommentPost}) {
     ratingValid: false,
   });
 
+  const [postCommentError, setPostCommentError] = useState(false);
+
   return (
     <form
       onSubmit={(evt) => {
         evt.preventDefault();
-        Promise.all([
-          changeFormState({...formState, formDisabled: true}),
-          onCommentPost(id, state),
-        ])
+        changeFormState({...formState, formDisabled: true});
+        if (formState.formDisabled) {
+          return;
+        }
+
+        onCommentPost(id, state)
           .then((response) => {
-            if (response[1].payload) {
+            if (response.payload) {
               setState((prevState) => ({...prevState, rating: 0, comment: ''}));
               changeFormState({...formState, formDisabled: false, textareaValid: false, ratingValid: false});
             }
           })
           .catch(() => {
             changeFormState({...formState, formDisabled: false});
-            // здесь должно быть сообщение об ошибке отправки
+            setPostCommentError(true);
           });
       }}
       className="reviews__form form"
@@ -52,6 +57,7 @@ function CommentPostForm({id, onCommentPost}) {
       method="post"
       disabled={formState.formDisabled}
     >
+      {postCommentError && <ErrorNotification message={'Your review can not been sent. Please, retry later'} />}
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
@@ -89,7 +95,6 @@ function CommentPostForm({id, onCommentPost}) {
       <textarea
         onChange={(evt) => {
           setState((prevState) => ({ ...prevState, comment: evt.target.value}));
-          //console.log(evt.target.reportValidity())
           if (evt.target.reportValidity()) {
             changeFormState({...formState, textareaValid: true});
           }
@@ -101,6 +106,7 @@ function CommentPostForm({id, onCommentPost}) {
         minLength={CommentCharactersCount.MIN}
         maxLength={CommentCharactersCount.MAX}
         placeholder="Tell how was your stay, what you like and what can be improved"
+        disabled={formState.formDisabled}
         required
       >
       </textarea>

@@ -36,4 +36,51 @@ export const ApiRoute = {
   FAVORITE: '/favorite',
 };
 
+export const FavoritesButtonVariant = {
+  PLACE_CARD: 'PLACE_CARD',
+  PROPERTY: 'PROPERTY',
+};
+
+export const FavoritesButtonVariantDetails = {
+  PLACE_CARD: {
+    commonClassName: 'place-card',
+    svgWidth: 18,
+    svgHeight: 19,
+  },
+  PROPERTY: {
+    commonClassName: 'property',
+    svgWidth: 31,
+    svgHeight: 33,
+  },
+};
+
+export const PlaceCardVariant = {
+  MAIN: 'MAIN',
+  FAVORITES: 'FAVORITES',
+  NEAREST: 'NEAREST',
+};
+
+export const PlaceCardVariantDetails = {
+  MAIN: {
+    articleClassName: 'cities__place-card',
+    imgWrapperClassName: 'cities__image-wrapper',
+    imgWidth: 260,
+    imgHeight: 200,
+    infoExtraClass: '',
+  },
+  FAVORITES: {
+    articleClassName: 'favorites__card',
+    imgWrapperClassName: 'favorites__image-wrapper',
+    imgWidth: 150,
+    imgHeight: 110,
+    infoExtraClass: 'favorites__card-info',
+  },
+  NEAREST: {
+    articleClassName: 'near-places__card',
+    imgWrapperClassName: 'near-places__image-wrapper',
+    imgWidth: 260,
+    imgHeight: 200,
+    infoExtraClass: '',
+  },
+};
 

@@ -10,6 +10,7 @@ const initialState = {
   userEmail: null,
   reviews: [],
   nearestOffers: [],
+  loadingDataError: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -25,6 +26,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         offers: action.payload,
         isDataLoaded: true,
+        loadingDataError: false,
       };
 
     case ActionType.LOAD_FAVORITE_OFFERS:
@@ -34,7 +36,6 @@ const reducer = (state = initialState, action) => {
       };
 
     case ActionType.UPDATE_OFFERS:
-      //const offerIndex = state.offers.findIndex((offer) => offer.id === action.payload.id);
       return {
         ...state,
         offers: [
@@ -80,6 +81,13 @@ const reducer = (state = initialState, action) => {
         ...state,
         authorizationStatus: AuthorizationStatus.NO_AUTH,
         userEmail: null,
+      };
+
+    case ActionType.ACTIVE_ERROR_NOTIFICATION:
+      return {
+        ...state,
+        loadingDataError: true,
+        isDataLoaded: true,
       };
 
     default:

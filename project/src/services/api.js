@@ -1,6 +1,6 @@
 import axios from 'axios';
+import { BACKEND_URL } from '../consts.js';
 
-const BACKEND_URL = 'https://7.react.pages.academy/six-cities';
 const REQUEST_TIMEOUT = 5000;
 
 const HttpCode = {
@@ -30,7 +30,14 @@ export const createApi = (onNotAuthorized) => {
     throw err;
   };
 
+  const onRequest = (config) => {
+    config.headers['x-token'] = localStorage.getItem('token');
+
+    return config;
+  };
+
   api.interceptors.response.use(onSuccess, onError);
+  api.interceptors.request.use(onRequest);
 
   return api;
 };

@@ -16,12 +16,14 @@ import CitiesPlaces from '../../components/cities-places/cities-places.jsx';
 import CitiesNoPlaces from '../../components/cities-no-places/cities-no-places.jsx';
 import Map from '../../components/map/map.jsx';
 import { filterActiveCityOffers } from '../../components/utils.js';
+import ErrorNotification from '../../components/error-notification/error-notification.jsx';
 
 function MainScreen(props) {
   const {
     activeCity,
     activeCityOffers,
     authorizationStatus,
+    loadingDataError,
     onCityChange } = props;
 
   const [activeOffer, setActiveOffer] = useState({});
@@ -44,6 +46,7 @@ function MainScreen(props) {
         <header className="header">
           <div className="container">
             <div className="header__wrapper">
+              {loadingDataError && <ErrorNotification message={'We can\'t load available offers now. Please, retry later'} />}
               <div className="header__left">
                 <Logo />
               </div>
@@ -108,6 +111,7 @@ MainScreen.propTypes = {
   activeCity: PropTypes.string.isRequired,
   activeCityOffers: placeCardsListProp,
   authorizationStatus: PropTypes.string.isRequired,
+  loadingDataError: PropTypes.bool.isRequired,
   onCityChange: PropTypes.func.isRequired,
 };
 
@@ -115,6 +119,7 @@ const mapStateToProps = (state) => ({
   activeCity: state.activeCity,
   activeCityOffers: filterActiveCityOffers(state.activeCity, state.offers),
   authorizationStatus: state.authorizationStatus,
+  loadingDataError: state.loadingDataError,
 });
 
 const mapDispatchToProps = (dispatch) => ({
