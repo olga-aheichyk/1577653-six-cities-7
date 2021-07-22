@@ -95,7 +95,6 @@ function CommentPostForm({id, onCommentPost}) {
       <textarea
         onChange={(evt) => {
           setState((prevState) => ({ ...prevState, comment: evt.target.value}));
-          //console.log(evt.target.reportValidity())
           if (evt.target.reportValidity()) {
             changeFormState({...formState, textareaValid: true});
           }
