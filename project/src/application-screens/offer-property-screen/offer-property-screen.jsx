@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 // import { Redirect } from 'react-router-dom';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import Logo from '../../components/logo/logo.jsx';
@@ -12,7 +11,7 @@ import ReviewsList from '../../components/reviews-list/reviews-list.jsx';
 import {calculateWidthForRating} from '../../components/utils.js';
 import NavAuthorizedUser from '../../components/nav-authorized-user/nav-authorized-user.jsx';
 import NavNotAuthorizedUser from '../../components/nav-not-authorized-user/nav-not-authorized-user.jsx';
-import { AuthorizationStatus } from '../../consts.js';
+import { AuthorizationStatus, FavoritesButtonVariant, FavoritesButtonVariantDetails, PlaceCardVariant, PlaceCardVariantDetails } from '../../consts.js';
 import Map from '../../components/map/map.jsx';
 import { fetchNearestOffers, fetchReviewsList } from '../../store/api-actions.js';
 import reviewsListProp from '../../components/reviews-list/reviews-list.prop.js';
@@ -71,13 +70,6 @@ function OfferPropertyScreen(props) {
     name,
   } = host;
 
-  const FavoritesButtonProps = {
-    BUTTON: classNames('property__bookmark-button', {'property__bookmark-button--active' : isFavorite}, 'button'),
-    SVG: 'property__bookmark-icon',
-    WIDTH: 31,
-    HEIGHT: 33,
-  };
-
   return (
     <>
       <SvgSprite />
@@ -123,7 +115,7 @@ function OfferPropertyScreen(props) {
                   </h1>
 
                   <FavoritesButton
-                    namesOfClasses={FavoritesButtonProps}
+                    details={FavoritesButtonVariantDetails[FavoritesButtonVariant.PROPERTY]}
                     isFavorite={isFavorite}
                     id={id}
                   />
@@ -208,6 +200,7 @@ function OfferPropertyScreen(props) {
                 {nearestOffers.map((offer) => (
                   <PlaceCard
                     key={offer.id}
+                    details={PlaceCardVariantDetails[PlaceCardVariant.NEAREST]}
                     offer={offer}
                   />
                 ))}

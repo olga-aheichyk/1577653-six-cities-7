@@ -1,40 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
-//import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { changeFavoritesStatus } from '../../store/api-actions.js';
-import { AppRoute, AuthorizationStatus } from '../../consts.js';
-
 
 function FavoritesButton(props) {
   const {
-    namesOfClasses,
+    details,
     isFavorite,
     id,
-    authorizationStatus,
     onFavoritesChange,
   } = props;
 
   const changedStatus = Number(!isFavorite);
-  const history = useHistory();
 
   return (
     <button
-      onClick={() => {
-        if (authorizationStatus === AuthorizationStatus.AUTH) {
-          onFavoritesChange(id, changedStatus);
-          return;
-        }
-        history.push(AppRoute.LOGIN);
-      }}
-      className={namesOfClasses.BUTTON}
+      onClick={() => onFavoritesChange(id, changedStatus)}
+      className={`${details.commonClassName}__bookmark-button ${isFavorite ? `${details.commonClassName}__bookmark-button--active` : ''} button`}
       type="button"
     >
       <svg
-        className={namesOfClasses.SVG}
-        width={namesOfClasses.WIDTH}
-        height={namesOfClasses.HEIGHT}
+        className={`${details.commonClassName}__bookmark-icon`}
+        width={details.svgWidth}
+        height={details.svgHeight}
       >
         <use xlinkHref="#icon-bookmark"></use>
       </svg>
@@ -43,14 +31,13 @@ function FavoritesButton(props) {
 }
 
 FavoritesButton.propTypes = {
-  namesOfClasses: PropTypes.object.isRequired,
+  details: PropTypes.object.isRequired,
   isFavorite: PropTypes.bool.isRequired,
   id: PropTypes.oneOfType([
     PropTypes.number.isRequired,
     PropTypes.string.isRequired,
   ]),
   onFavoritesChange: PropTypes.func.isRequired,
-  authorizationStatus: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({

@@ -10,6 +10,8 @@ export const ActionType = {
   REDIRECT_TO_ROUTE: 'redirectToRoute',
   LOG_IN: 'login',
   LOG_OUT: 'logout',
+  ACTIVE_ERROR_NOTIFICATION: 'activeErrorNotification',
+  MAKE_COMMENT_POSTING: 'makeCommentPosting',
 };
 
 export const ActionCreator = {
@@ -55,6 +57,9 @@ export const ActionCreator = {
   }),
   logout: () => ({
     type: ActionType.LOG_OUT,
+  }),
+  activeErrorNotification: () => ({
+    type: ActionType.ACTIVE_ERROR_NOTIFICATION,
   }),
 };
 

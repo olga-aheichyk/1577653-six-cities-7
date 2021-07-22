@@ -7,9 +7,7 @@ export const fetchOffersList = () => (dispatch, _getState, api) => (
   api.get(ApiRoute.OFFERS)
     .then(({data}) => data.map(adaptOfferToClient))
     .then((offers) => dispatch(ActionCreator.loadOffers(offers)))
-    .catch(() => {
-      // сообщение об ошибке загрузки
-    })
+    .catch(() => dispatch(ActionCreator.activeErrorNotification()))
 );
 
 export const fetchFavoriteOffersList = () => (dispatch, _getState, api) => (
@@ -58,6 +56,7 @@ export const changeFavoritesStatus = (id, status) => (dispatch, _getState, api) 
   api.post(`${ApiRoute.FAVORITE}/${id}/${status}`)
     .then(({data}) => adaptOfferToClient(data))
     .then((offer) => dispatch(ActionCreator.updateOffers(offer)))
+    .catch(() => dispatch(ActionCreator.redirectToRoute(AppRoute.LOGIN)))
 );
 
 export const postComment = (id, {rating, comment}) => (dispatch, _getState, api) => (
