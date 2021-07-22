@@ -19,18 +19,18 @@ export const fetchFavoriteOffersList = () => (dispatch, _getState, api) => (
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(ApiRoute.LOGIN)
     .then(({data}) => {
-      if (localStorage.getItem('token') === data.token) {
+      if (data.token) {
         dispatch(ActionCreator.login(data.email));
-        dispatch(ActionCreator.authorizationRequired(AuthorizationStatus.AUTH));
       }
     })
-    .catch(() => {})
+    .catch(() => dispatch(ActionCreator.authorizationRequired(AuthorizationStatus.NO_AUTH)))
 );
 
 export const login = ({login: email, password}) => (dispatch, _getState, api) => (
   api.post(ApiRoute.LOGIN, {email, password})
     .then(({data}) => localStorage.setItem('token', data.token))
     .then(() => dispatch(ActionCreator.login(email)))
+    .then(() => dispatch(ActionCreator.authorizationRequired(AuthorizationStatus.AUTH)))
     .then(() => dispatch(ActionCreator.redirectToRoute(AppRoute.ROOT)))
 );
 

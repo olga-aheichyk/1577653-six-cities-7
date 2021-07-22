@@ -30,7 +30,14 @@ export const createApi = (onNotAuthorized) => {
     throw err;
   };
 
+  const onRequest = (config) => {
+    config.headers['x-token'] = localStorage.getItem('token');
+
+    return config;
+  };
+
   api.interceptors.response.use(onSuccess, onError);
+  api.interceptors.request.use(onRequest);
 
   return api;
 };
