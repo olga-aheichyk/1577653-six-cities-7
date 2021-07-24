@@ -12,6 +12,7 @@ export const ActionType = {
   LOG_OUT: 'logout',
   ACTIVE_ERROR_NOTIFICATION: 'activeErrorNotification',
   ACTIVE_FAVORITE_OFFERS_LOADING_ERROR: 'activeFavoriteOffersLoadingError',
+  CHANGE_COMMENT_SENDING_STATUS: 'changeCommentSendingStatus',
 };
 
 export const ActionCreator = {
@@ -63,6 +64,10 @@ export const ActionCreator = {
   }),
   activeFavoriteOffersLoadingError: () => ({
     type: ActionType.ACTIVE_FAVORITE_OFFERS_LOADING_ERROR,
+  }),
+  changeCommentSendingStatus: (status) => ({
+    type: ActionType.CHANGE_COMMENT_SENDING_STATUS,
+    payload: status,
   }),
 };
 

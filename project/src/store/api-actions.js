@@ -45,12 +45,14 @@ export const fetchReviewsList = (id) => (dispatch, _getState, api) => (
   api.get(`${BACKEND_URL}${ApiRoute.REVIEWS}${id}`)
     .then(({data}) => data.map(adaptReviewToClient))
     .then((reviews) => dispatch(ActionCreator.loadReviews(reviews)))
+    .catch(() => dispatch(ActionCreator.activeErrorNotification()))
 );
 
 export const fetchNearestOffers = (id) => (dispatch, _getState, api) => (
   api.get(`${BACKEND_URL}/hotels/${id}/nearby`)
     .then(({data}) => data.map(adaptOfferToClient))
     .then((adaptedNearestOffers) => dispatch(ActionCreator.loadNearestOffers(adaptedNearestOffers)))
+    .catch(() => dispatch(ActionCreator.activeErrorNotification()))
 );
 
 export const changeFavoritesStatus = (id, status) => (dispatch, _getState, api) => (

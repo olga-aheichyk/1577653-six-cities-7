@@ -17,6 +17,7 @@ import reviewsListProp from '../../components/reviews-list/reviews-list.prop.js'
 import NotFoundScreen from '../not-found-screen/not-found-screen.jsx';
 import FavoritesButton from '../../components/favorites-button/favorites-button.jsx';
 import { sortByDateDescending } from '../../components/utils.js';
+import ErrorNotification from '../../components/error-notification/error-notification.jsx';
 
 const OfferTypeName = {
   apartment: 'Apartment',
@@ -35,7 +36,9 @@ function OfferPropertyScreen(props) {
     loadReviews,
     loadNearestOffers,
     reviews,
-    nearestOffers } = props;
+    nearestOffers,
+    serverError,
+  } = props;
 
   useEffect(() => {
     loadReviews(id);
@@ -86,6 +89,7 @@ function OfferPropertyScreen(props) {
 
         <main className="page__main page__main--property">
           <section className="property">
+            {serverError && <ErrorNotification message={'We can\'t load all information about this offer. Please, retry later'} />}
             <div className="property__gallery-container container">
               <div className="property__gallery">
                 {images.slice(0, MAX_IMAGES_COUNT).map((image) => (
@@ -223,6 +227,7 @@ OfferPropertyScreen.propTypes = {
   nearestOffers: placeCardsListProp,
   loadReviews: PropTypes.func.isRequired,
   loadNearestOffers: PropTypes.func.isRequired,
+  serverError: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -230,6 +235,7 @@ const mapStateToProps = (state) => ({
   authorizationStatus: state.authorizationStatus,
   reviews: state.reviews,
   nearestOffers: state.nearestOffers,
+  serverError: state.serverError,
 });
 
 const mapDispatchToProps = (dispatch) => ({

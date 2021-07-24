@@ -13,6 +13,7 @@ const initialState = {
   nearestOffers: [],
   serverError: false,
   favoriteOffersLoadingError: false,
+  isCommentSending: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -36,6 +37,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         favoriteOffers: action.payload,
         favoriteOffersLoadingError: false,
+        serverError: false,
       };
 
     case ActionType.UPDATE_OFFERS:
@@ -46,18 +48,21 @@ const reducer = (state = initialState, action) => {
           action.payload,
           ...state.offers.slice((state.offers.findIndex((offer) => offer.id === action.payload.id)) + 1),
         ],
+        serverError: false,
       };
 
     case ActionType.LOAD_REVIEWS:
       return {
         ...state,
         reviews: action.payload,
+        serverError: false,
       };
 
     case ActionType.LOAD_NEAREST_OFFERS:
       return {
         ...state,
         nearestOffers: action.payload,
+        serverError: false,
       };
 
     case ActionType.ADD_REVIEW:
@@ -101,6 +106,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         favoriteOffersLoadingError: true,
+      };
+
+    case ActionType.CHANGE_COMMENT_SENDING_STATUS:
+      return {
+        ...state,
+        isCommentSending: action.payload,
       };
 
     default:

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { postComment } from '../../store/api-actions.js';
 import ErrorNotification from '../error-notification/error-notification.jsx';
+import { ActionCreator } from '../../store/action.js';
 
 const RatingStar = new Map([
   [5, 'perfect'],
@@ -17,16 +18,13 @@ const CommentCharactersCount = {
   MAX: 300,
 };
 
-function CommentPostForm({id, onCommentPost}) {
+function CommentPostForm({id, isCommentSending, changeCommentSendingStatus, onCommentPost}) {
   const [state, setState] = useState({
     rating: 0,
     comment: '',
   });
 
-  const [formState, changeFormState] = useState({
-    formDisabled: false,
-    textareaValid: false,
-  });
+  const [isTextareaValid, changeTextareaValidity] = useState(false);
 
   const [postCommentError, setPostCommentError] = useState(false);
 
@@ -34,21 +32,20 @@ function CommentPostForm({id, onCommentPost}) {
     <form
       onSubmit={(evt) => {
         evt.preventDefault();
-        changeFormState({...formState, formDisabled: true});
-        if (formState.formDisabled) {
-          return;
-        }
+        setPostCommentError(false);
+        changeCommentSendingStatus(true);
 
         onCommentPost(id, state)
           .then((response) => {
             if (response.payload) {
               setState((prevState) => ({...prevState, rating: 0, comment: ''}));
-              changeFormState({...formState, formDisabled: false, textareaValid: false});
+              changeTextareaValidity(false);
+              changeCommentSendingStatus(false);
             }
           })
           .catch(() => {
-            changeFormState({...formState, formDisabled: false});
             setPostCommentError(true);
+            changeCommentSendingStatus(false);
           });
       }}
       className="reviews__form form"
@@ -74,7 +71,7 @@ function CommentPostForm({id, onCommentPost}) {
                 id={`${key}-stars`}
                 type="radio"
                 checked={state.rating === Number(`${key}`)}
-                disabled={formState.formDisabled}
+                disabled={isCommentSending}
               />
               <label
                 htmlFor={`${key}-stars`}
@@ -92,7 +89,7 @@ function CommentPostForm({id, onCommentPost}) {
         onChange={(evt) => {
           setState((prevState) => ({ ...prevState, comment: evt.target.value}));
           if (evt.target.reportValidity()) {
-            changeFormState((prevFormState) => ({...prevFormState, textareaValid: true}));
+            changeTextareaValidity(true);
           }
         }}
         className="reviews__textarea form__textarea"
@@ -102,7 +99,7 @@ function CommentPostForm({id, onCommentPost}) {
         minLength={CommentCharactersCount.MIN}
         maxLength={CommentCharactersCount.MAX}
         placeholder="Tell how was your stay, what you like and what can be improved"
-        disabled={formState.formDisabled}
+        disabled={isCommentSending}
         required
       >
       </textarea>
@@ -116,7 +113,7 @@ function CommentPostForm({id, onCommentPost}) {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={!(state.rating) || !formState.textareaValid}
+          disabled={!(state.rating) || !isTextareaValid || isCommentSending}
         >
           Submit
         </button>
@@ -130,12 +127,20 @@ CommentPostForm.propTypes = {
     PropTypes.number.isRequired,
     PropTypes.string.isRequired,
   ]),
+  isCommentSending: PropTypes.bool.isRequired,
+  changeCommentSendingStatus: PropTypes.func.isRequired,
   onCommentPost: PropTypes.func.isRequired,
 };
 
+const mapStateToProps = (state) => ({
+  isCommentSending: state.isCommentSending,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   onCommentPost: (id, state) => dispatch(postComment(id, state)),
+  changeCommentSendingStatus:
+  (status) => dispatch(ActionCreator.changeCommentSendingStatus(status)),
 });
 
 export {CommentPostForm};
-export default connect(null, mapDispatchToProps)(CommentPostForm);
+export default connect(mapStateToProps, mapDispatchToProps)(CommentPostForm);
