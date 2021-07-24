@@ -40,7 +40,7 @@ function OfferPropertyScreen(props) {
   useEffect(() => {
     loadReviews(id);
     loadNearestOffers(id);
-  }, [id]);
+  }, [loadReviews, loadNearestOffers, id]);
 
   if (!offers.find((offer) => Number(offer.id) === Number(id))) {
     return <NotFoundScreen />;
@@ -173,7 +173,7 @@ function OfferPropertyScreen(props) {
                 </div>
                 <section className="property__reviews reviews">
                   <ReviewsList
-                    reviews={reviews
+                    reviews={reviews.slice()
                       .sort(sortByDateDescending)
                       .slice(0, MAX_REVIEWS_COUNT)}
                   />

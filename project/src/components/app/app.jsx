@@ -12,7 +12,6 @@ import LoadingScreen from '../../application-screens/loading-screen/loading-scre
 import PrivateRoute from '../private-route/private-route.jsx';
 import browserHistory from '../../browser-history';
 import { checkAuth, fetchOffersList } from '../../store/api-actions.js';
-import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
 
 const isCheckingAuth = (authorizationStatus) =>
   authorizationStatus === AuthorizationStatus.UNKNOWN;
@@ -22,13 +21,18 @@ function App(props) {
     isDataLoaded,
     loadOffers,
     authorizationRequired,
-    favoriteOffers,
   } = props;
 
   useEffect(() => {
-    loadOffers();
     authorizationRequired();
-  }, [authorizationStatus, favoriteOffers]);
+  }, [authorizationRequired]);
+
+  useEffect(() => {
+    if (authorizationStatus !== AuthorizationStatus.UNKNOWN) {
+      loadOffers();
+    }
+  }, [loadOffers, authorizationStatus]);
+
 
   if (isCheckingAuth(authorizationStatus) || !isDataLoaded) {
     return (
@@ -70,13 +74,11 @@ App.propTypes = {
   isDataLoaded: PropTypes.bool.isRequired,
   loadOffers: PropTypes.func.isRequired,
   authorizationRequired: PropTypes.func.isRequired,
-  favoriteOffers: placeCardsListProp,
 };
 
 const mapStateToProps = (state) => ({
   authorizationStatus: state.authorizationStatus,
   isDataLoaded: state.isDataLoaded,
-  favoriteOffers: state.favoriteOffers,
 });
 
 const mapDispatchToProps = {

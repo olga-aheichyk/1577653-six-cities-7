@@ -12,11 +12,12 @@ import { fetchFavoriteOffersList } from '../../store/api-actions.js';
 function FavoritesScreen(props) {
   const {
     favoriteOffers,
+    offers,
     loadFavoriteOffers } = props;
 
   useEffect(() => {
     loadFavoriteOffers();
-  }, [favoriteOffers]);
+  }, [loadFavoriteOffers, offers]);
 
   return (
     <>
@@ -57,11 +58,13 @@ function FavoritesScreen(props) {
 
 FavoritesScreen.propTypes = {
   favoriteOffers: placeCardsListProp,
+  offers: placeCardsListProp,
   loadFavoriteOffers: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   favoriteOffers: state.favoriteOffers,
+  offers: state.offers,
 });
 
 const mapDispatchToProps = {

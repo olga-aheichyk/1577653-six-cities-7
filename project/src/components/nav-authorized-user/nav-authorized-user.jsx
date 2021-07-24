@@ -5,7 +5,11 @@ import { Link } from 'react-router-dom';
 import { logout } from '../../store/api-actions.js';
 
 function NavAuthorizedUser(props) {
-  const { userEmail, signOut } = props;
+  const {
+    userEmail,
+    userAvatarUrl,
+    signOut } = props;
+
   return (
     <nav className="header__nav">
       <ul className="header__nav-list">
@@ -14,7 +18,9 @@ function NavAuthorizedUser(props) {
             className="header__nav-link header__nav-link--profile"
             to="/favorites"
           >
-            <div className="header__avatar-wrapper user__avatar-wrapper"></div>
+            <div className="header__avatar-wrapper user__avatar-wrapper">
+              {userAvatarUrl && (<img style={{borderRadius: '50%'}} src={userAvatarUrl} alt="User avatar"/>)}
+            </div>
             <span className="header__user-name user__name">
               {userEmail}
             </span>
@@ -38,11 +44,13 @@ function NavAuthorizedUser(props) {
 
 NavAuthorizedUser.propTypes = {
   userEmail: PropTypes.string.isRequired,
+  userAvatarUrl: PropTypes.string.isRequired,
   signOut: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   userEmail: state.userEmail,
+  userAvatarUrl: state.userAvatarUrl,
 });
 
 const mapDispatchToProps = {

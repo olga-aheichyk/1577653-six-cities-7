@@ -60,13 +60,16 @@ function Map({location, offers, activeOffer}) {
 
 
 Map.propTypes = {
-  location: PropTypes.PropTypes.shape({
+  location: PropTypes.shape({
     latitude: PropTypes.number.isRequired,
     longitude: PropTypes.number.isRequired,
     zoom: PropTypes.number.isRequired,
   }).isRequired,
   offers: placeCardsListProp,
-  activeOffer: placeCardProp,
+  activeOffer: PropTypes.oneOfType([
+    PropTypes.shape({}),
+    placeCardProp,
+  ]).isRequired,
 };
 
 export default Map;

@@ -1,6 +1,6 @@
 import { ApiRoute, AppRoute, AuthorizationStatus, BACKEND_URL } from '../consts.js';
 import { ActionCreator } from './action.js';
-import { adaptOfferToClient, adaptReviewToClient } from '../components/utils.js';
+import { adaptAuthInfoToClient, adaptOfferToClient, adaptReviewToClient } from '../components/utils.js';
 
 
 export const fetchOffersList = () => (dispatch, _getState, api) => (
@@ -18,19 +18,18 @@ export const fetchFavoriteOffersList = () => (dispatch, _getState, api) => (
 
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(ApiRoute.LOGIN)
-    .then(({data}) => {
-      if (data.token) {
-        dispatch(ActionCreator.login(data.email));
-      }
-    })
+    .then(({data}) => adaptAuthInfoToClient(data))
+    .then((adaptedAuthInfo) => dispatch(ActionCreator.login(adaptedAuthInfo)))
     .catch(() => dispatch(ActionCreator.authorizationRequired(AuthorizationStatus.NO_AUTH)))
 );
 
 export const login = ({login: email, password}) => (dispatch, _getState, api) => (
   api.post(ApiRoute.LOGIN, {email, password})
-    .then(({data}) => localStorage.setItem('token', data.token))
-    .then(() => dispatch(ActionCreator.login(email)))
-    .then(() => dispatch(ActionCreator.authorizationRequired(AuthorizationStatus.AUTH)))
+    .then(({data}) => adaptAuthInfoToClient(data))
+    .then((adaptedAuthInfo) => {
+      localStorage.setItem('token', adaptedAuthInfo.token);
+      dispatch(ActionCreator.login(adaptedAuthInfo));
+    })
     .then(() => dispatch(ActionCreator.redirectToRoute(AppRoute.ROOT)))
 );
 

@@ -45,4 +45,17 @@ export const adaptReviewToClient = (review) => {
   return adaptedReview;
 };
 
+export const adaptAuthInfoToClient = (authInfo) => {
+  const adaptedAuthInfo = {
+    ...authInfo,
+    avatarUrl: authInfo.avatar_url,
+    isPro: authInfo.is_pro,
+  };
+
+  delete adaptedAuthInfo.avatar_url;
+  delete adaptedAuthInfo.is_pro;
+
+  return adaptedAuthInfo;
+};
+
 export const sortByDateDescending = (a, b) => dayjs(b.date).diff(dayjs(a.date));

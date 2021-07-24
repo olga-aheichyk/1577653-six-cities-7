@@ -8,6 +8,7 @@ const initialState = {
   authorizationStatus: AuthorizationStatus.UNKNOWN,
   isDataLoaded: false,
   userEmail: null,
+  userAvatarUrl: null,
   reviews: [],
   nearestOffers: [],
   loadingDataError: false,
@@ -69,11 +70,13 @@ const reducer = (state = initialState, action) => {
         authorizationStatus: action.payload,
       };
 
+
     case ActionType.LOG_IN:
       return {
         ...state,
         authorizationStatus: AuthorizationStatus.AUTH,
-        userEmail: action.payload,
+        userEmail: action.payload.email,
+        userAvatarUrl: action.payload.avatarUrl,
       };
 
     case ActionType.LOG_OUT:
@@ -81,6 +84,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         authorizationStatus: AuthorizationStatus.NO_AUTH,
         userEmail: null,
+        userAvatarUrl: null,
       };
 
     case ActionType.ACTIVE_ERROR_NOTIFICATION:

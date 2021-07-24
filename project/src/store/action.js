@@ -46,9 +46,9 @@ export const ActionCreator = {
     type: ActionType.AUTHORIZATION_REQUIRED,
     payload,
   }),
-  login: (email) => ({
+  login: (payload) => ({
     type: ActionType.LOG_IN,
-    payload: email,
+    payload,
   }),
   redirectToRoute: (url) => ({
     type: ActionType.REDIRECT_TO_ROUTE,
