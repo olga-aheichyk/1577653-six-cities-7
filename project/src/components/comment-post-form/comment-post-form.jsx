@@ -26,7 +26,6 @@ function CommentPostForm({id, onCommentPost}) {
   const [formState, changeFormState] = useState({
     formDisabled: false,
     textareaValid: false,
-    ratingValid: false,
   });
 
   const [postCommentError, setPostCommentError] = useState(false);
@@ -44,7 +43,7 @@ function CommentPostForm({id, onCommentPost}) {
           .then((response) => {
             if (response.payload) {
               setState((prevState) => ({...prevState, rating: 0, comment: ''}));
-              changeFormState({...formState, formDisabled: false, textareaValid: false, ratingValid: false});
+              changeFormState({...formState, formDisabled: false, textareaValid: false});
             }
           })
           .catch(() => {
@@ -55,7 +54,6 @@ function CommentPostForm({id, onCommentPost}) {
       className="reviews__form form"
       action="#"
       method="post"
-      disabled={formState.formDisabled}
     >
       {postCommentError && <ErrorNotification message={'Your review can not been sent. Please, retry later'} />}
       <label className="reviews__label form__label" htmlFor="review">
@@ -69,9 +67,6 @@ function CommentPostForm({id, onCommentPost}) {
               <input
                 onChange={({target}) => {
                   setState((prevState) =>({...prevState, rating: Number(target.value)}));
-                  if (state.rating !== 0) {
-                    changeFormState({...formState, ratingValid: true});
-                  }
                 }}
                 className="form__rating-input visually-hidden"
                 name="rating"
@@ -79,6 +74,7 @@ function CommentPostForm({id, onCommentPost}) {
                 id={`${key}-stars`}
                 type="radio"
                 checked={state.rating === Number(`${key}`)}
+                disabled={formState.formDisabled}
               />
               <label
                 htmlFor={`${key}-stars`}
@@ -96,7 +92,7 @@ function CommentPostForm({id, onCommentPost}) {
         onChange={(evt) => {
           setState((prevState) => ({ ...prevState, comment: evt.target.value}));
           if (evt.target.reportValidity()) {
-            changeFormState({...formState, textareaValid: true});
+            changeFormState((prevFormState) => ({...prevFormState, textareaValid: true}));
           }
         }}
         className="reviews__textarea form__textarea"
@@ -120,7 +116,7 @@ function CommentPostForm({id, onCommentPost}) {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={!formState.textareaValid && !formState.ratingValid}
+          disabled={!(state.rating) || !formState.textareaValid}
         >
           Submit
         </button>

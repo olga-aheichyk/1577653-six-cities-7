@@ -14,6 +14,7 @@ export const fetchFavoriteOffersList = () => (dispatch, _getState, api) => (
   api.get(ApiRoute.FAVORITE)
     .then(({data}) => data.map(adaptOfferToClient))
     .then((favoriteOffers) => dispatch(ActionCreator.loadFavoriteOffers(favoriteOffers)))
+    .catch(() => dispatch(ActionCreator.activeFavoriteOffersLoadingError()))
 );
 
 export const checkAuth = () => (dispatch, _getState, api) => (
@@ -31,6 +32,7 @@ export const login = ({login: email, password}) => (dispatch, _getState, api) =>
       dispatch(ActionCreator.login(adaptedAuthInfo));
     })
     .then(() => dispatch(ActionCreator.redirectToRoute(AppRoute.ROOT)))
+    .catch(() => dispatch(ActionCreator.activeErrorNotification()))
 );
 
 export const logout = () => (dispatch, _getState, api) => (

@@ -95,7 +95,13 @@ PlaceCard.defaultProps = {
 };
 
 PlaceCard.propTypes = {
-  details: PropTypes.object.isRequired,
+  details: PropTypes.shape({
+    articleClassName: PropTypes.string.isRequired,
+    imgWrapperClassName: PropTypes.string.isRequired,
+    imgWidth: PropTypes.number.isRequired,
+    imgHeight: PropTypes.number.isRequired,
+    infoExtraClass: PropTypes.string.isRequired,
+  }).isRequired,
   offer: placeCardProp,
   onPlaceCardHover: PropTypes.func.isRequired,
   onPlaceCardAwayHover: PropTypes.func.isRequired,

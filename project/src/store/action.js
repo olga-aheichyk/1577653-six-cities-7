@@ -11,6 +11,7 @@ export const ActionType = {
   LOG_IN: 'login',
   LOG_OUT: 'logout',
   ACTIVE_ERROR_NOTIFICATION: 'activeErrorNotification',
+  ACTIVE_FAVORITE_OFFERS_LOADING_ERROR: 'activeFavoriteOffersLoadingError',
 };
 
 export const ActionCreator = {
@@ -59,6 +60,9 @@ export const ActionCreator = {
   }),
   activeErrorNotification: () => ({
     type: ActionType.ACTIVE_ERROR_NOTIFICATION,
+  }),
+  activeFavoriteOffersLoadingError: () => ({
+    type: ActionType.ACTIVE_FAVORITE_OFFERS_LOADING_ERROR,
   }),
 };
 

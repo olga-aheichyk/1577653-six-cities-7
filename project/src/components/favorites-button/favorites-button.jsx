@@ -31,7 +31,11 @@ function FavoritesButton(props) {
 }
 
 FavoritesButton.propTypes = {
-  details: PropTypes.object.isRequired,
+  details: PropTypes.shape({
+    commonClassName: PropTypes.string.isRequired,
+    svgWidth: PropTypes.number.isRequired,
+    svgHeight: PropTypes.number.isRequired,
+  }).isRequired,
   isFavorite: PropTypes.bool.isRequired,
   id: PropTypes.oneOfType([
     PropTypes.number.isRequired,

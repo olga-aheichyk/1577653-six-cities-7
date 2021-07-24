@@ -23,19 +23,19 @@ function MainScreen(props) {
     activeCity,
     activeCityOffers,
     authorizationStatus,
-    loadingDataError,
+    serverError,
     onCityChange } = props;
 
   const [activeOffer, setActiveOffer] = useState({});
 
-  const onPlaceCardHover = (placeCardId) => {
+  const handlePlaceCardHover = (placeCardId) => {
     const currentOffer = activeCityOffers.find((offer) =>
       offer.id === Number(placeCardId),
     );
     setActiveOffer(currentOffer);
   };
 
-  const onPlaceCardAwayHover = () => {
+  const handlePlaceCardAwayHover = () => {
     setActiveOffer({});
   };
 
@@ -46,7 +46,7 @@ function MainScreen(props) {
         <header className="header">
           <div className="container">
             <div className="header__wrapper">
-              {loadingDataError && <ErrorNotification message={'We can\'t load available offers now. Please, retry later'} />}
+              {serverError && <ErrorNotification message={'We can\'t load available offers now. Please, retry later'} />}
               <div className="header__left">
                 <Logo />
               </div>
@@ -82,8 +82,8 @@ function MainScreen(props) {
                 <CitiesPlaces
                   activeCity={activeCity}
                   activeCityOffers={activeCityOffers}
-                  onPlaceCardHover={onPlaceCardHover}
-                  onPlaceCardAwayHover={onPlaceCardAwayHover}
+                  onPlaceCardHover={handlePlaceCardHover}
+                  onPlaceCardAwayHover={handlePlaceCardAwayHover}
                 /> :
                 <CitiesNoPlaces
                   activeCity={activeCity}
@@ -111,7 +111,7 @@ MainScreen.propTypes = {
   activeCity: PropTypes.string.isRequired,
   activeCityOffers: placeCardsListProp,
   authorizationStatus: PropTypes.string.isRequired,
-  loadingDataError: PropTypes.bool.isRequired,
+  serverError: PropTypes.bool.isRequired,
   onCityChange: PropTypes.func.isRequired,
 };
 
@@ -119,7 +119,7 @@ const mapStateToProps = (state) => ({
   activeCity: state.activeCity,
   activeCityOffers: filterActiveCityOffers(state.activeCity, state.offers),
   authorizationStatus: state.authorizationStatus,
-  loadingDataError: state.loadingDataError,
+  serverError: state.serverError,
 });
 
 const mapDispatchToProps = (dispatch) => ({

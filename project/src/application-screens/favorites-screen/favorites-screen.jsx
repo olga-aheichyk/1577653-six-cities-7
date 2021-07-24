@@ -8,12 +8,15 @@ import FavoritesNotEmpty from '../../components/favorites-not-empty/favorites-no
 import FavoritesEmpty from '../../components/favorites-empty/favorites-empty.jsx';
 import NavAuthorizedUser from '../../components/nav-authorized-user/nav-authorized-user.jsx';
 import { fetchFavoriteOffersList } from '../../store/api-actions.js';
+import ErrorNotification from '../../components/error-notification/error-notification.jsx';
 
 function FavoritesScreen(props) {
   const {
     favoriteOffers,
     offers,
-    loadFavoriteOffers } = props;
+    loadFavoriteOffers,
+    favoriteOffersLoadingError,
+  } = props;
 
   useEffect(() => {
     loadFavoriteOffers();
@@ -37,6 +40,7 @@ function FavoritesScreen(props) {
 
         <main className="page__main page__main--favorites">
           <div className="page__favorites-container container">
+            {favoriteOffersLoadingError && <ErrorNotification message={'We can\'t load your favorite offers now. Please, retry later'} />}
             {favoriteOffers.length ? <FavoritesNotEmpty favoriteOffers={favoriteOffers} /> : <FavoritesEmpty />}
           </div>
         </main>
@@ -60,11 +64,13 @@ FavoritesScreen.propTypes = {
   favoriteOffers: placeCardsListProp,
   offers: placeCardsListProp,
   loadFavoriteOffers: PropTypes.func.isRequired,
+  favoriteOffersLoadingError: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   favoriteOffers: state.favoriteOffers,
   offers: state.offers,
+  favoriteOffersLoadingError: state.favoriteOffersLoadingError,
 });
 
 const mapDispatchToProps = {

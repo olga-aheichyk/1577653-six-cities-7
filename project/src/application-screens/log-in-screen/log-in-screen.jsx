@@ -4,9 +4,13 @@ import {connect} from 'react-redux';
 import {login} from '../../store/api-actions.js';
 import Logo from '../../components/logo/logo.jsx';
 import NavNotAuthorizedUser from '../../components/nav-not-authorized-user/nav-not-authorized-user.jsx';
+import ErrorNotification from '../../components/error-notification/error-notification.jsx';
 
 function LogInScreen(props) {
-  const {onSubmit} = props;
+  const {
+    onSubmit,
+    serverError,
+  } = props;
 
   const loginRef = useRef();
   const passwordRef = useRef();
@@ -14,10 +18,12 @@ function LogInScreen(props) {
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
-    onSubmit({
-      login: loginRef.current.value,
-      password: passwordRef.current.value,
-    });
+    if (passwordRef.current.value.trim()) {
+      onSubmit({
+        login: loginRef.current.value,
+        password: passwordRef.current.value,
+      });
+    }
   };
 
   return (
@@ -37,6 +43,7 @@ function LogInScreen(props) {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
+            {serverError && <ErrorNotification message={'Sorry, we can\'t authorize you. \n You need to enter valid email'} />}
             <form className="login__form form" action="#" method="post" onSubmit={handleSubmit}>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
@@ -46,7 +53,7 @@ function LogInScreen(props) {
                   type="email"
                   name="email"
                   placeholder="Email"
-                  required=""
+                  required
                 />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
@@ -57,7 +64,7 @@ function LogInScreen(props) {
                   type="password"
                   name="password"
                   placeholder="Password"
-                  required=""
+                  required
                 />
               </div>
               <button
@@ -83,11 +90,16 @@ function LogInScreen(props) {
 
 LogInScreen.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  serverError: PropTypes.bool.isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  serverError: state.serverError,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   onSubmit: (authData) => dispatch(login(authData)),
 });
 
 export {LogInScreen};
-export default connect(null, mapDispatchToProps)(LogInScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(LogInScreen);

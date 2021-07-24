@@ -11,7 +11,8 @@ const initialState = {
   userAvatarUrl: null,
   reviews: [],
   nearestOffers: [],
-  loadingDataError: false,
+  serverError: false,
+  favoriteOffersLoadingError: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -27,13 +28,14 @@ const reducer = (state = initialState, action) => {
         ...state,
         offers: action.payload,
         isDataLoaded: true,
-        loadingDataError: false,
+        serverError: false,
       };
 
     case ActionType.LOAD_FAVORITE_OFFERS:
       return {
         ...state,
         favoriteOffers: action.payload,
+        favoriteOffersLoadingError: false,
       };
 
     case ActionType.UPDATE_OFFERS:
@@ -77,6 +79,7 @@ const reducer = (state = initialState, action) => {
         authorizationStatus: AuthorizationStatus.AUTH,
         userEmail: action.payload.email,
         userAvatarUrl: action.payload.avatarUrl,
+        serverError: false,
       };
 
     case ActionType.LOG_OUT:
@@ -90,8 +93,14 @@ const reducer = (state = initialState, action) => {
     case ActionType.ACTIVE_ERROR_NOTIFICATION:
       return {
         ...state,
-        loadingDataError: true,
+        serverError: true,
         isDataLoaded: true,
+      };
+
+    case ActionType.ACTIVE_FAVORITE_OFFERS_LOADING_ERROR:
+      return {
+        ...state,
+        favoriteOffersLoadingError: true,
       };
 
     default:
