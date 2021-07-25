@@ -4,13 +4,13 @@ import {connect} from 'react-redux';
 import {login} from '../../store/api-actions.js';
 import Logo from '../../components/logo/logo.jsx';
 import NavNotAuthorizedUser from '../../components/nav-not-authorized-user/nav-not-authorized-user.jsx';
-import ErrorNotification from '../../components/error-notification/error-notification.jsx';
+//import ErrorNotification from '../../components/error-notification/error-notification.jsx';
 import { getUserServerError } from '../../store/user/selectors.js';
 
 function LogInScreen(props) {
   const {
     onSubmit,
-    serverError,
+    //serverError,
   } = props;
 
   const loginRef = useRef();
@@ -44,7 +44,7 @@ function LogInScreen(props) {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            {serverError && <ErrorNotification message={'Sorry, we can\'t authorize you. \n You need to enter valid email'} />}
+            {/* {serverError && <ErrorNotification message={'Sorry, we can\'t authorize you. \n You need to enter valid email'} />} */}
             <form className="login__form form" action="#" method="post" onSubmit={handleSubmit}>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
@@ -91,7 +91,7 @@ function LogInScreen(props) {
 
 LogInScreen.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  serverError: PropTypes.bool.isRequired,
+  //serverError: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({

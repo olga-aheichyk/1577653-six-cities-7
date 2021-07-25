@@ -1,20 +1,15 @@
-import { ActionType } from '../action.js';
+import { cityChange } from '../action.js';
+import { createReducer } from '@reduxjs/toolkit';
 
 const initialState = {
   activeCity: 'Paris',
 };
 
-const appChange = (state = initialState, action) => {
-  switch (action.type) {
-    case ActionType.CITY_CHANGE:
-      return {
-        ...state,
-        activeCity: action.payload,
-      };
-
-    default:
-      return state;
-  }
-};
+const appChange = createReducer(initialState, (builder) => {
+  builder
+    .addCase(cityChange, (state, action) => {
+      state.activeCity = action.payload;
+    });
+});
 
 export {appChange};

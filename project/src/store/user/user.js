@@ -1,41 +1,29 @@
-import { ActionType } from '../action.js';
+import { authorizationRequired, logIn, logOut } from '../action.js';
 import { AuthorizationStatus } from '../../consts.js';
+import {createReducer} from '@reduxjs/toolkit';
 
 const initialState = {
   authorizationStatus: AuthorizationStatus.UNKNOWN,
   userEmail: null,
   userAvatarUrl: null,
-  serverError: false,
+  //serverError: false,
 };
 
-const user = (state = initialState, action) => {
-  switch (action.type) {
-    case ActionType.AUTHORIZATION_REQUIRED:
-      return {
-        ...state,
-        authorizationStatus: action.payload,
-      };
-
-    case ActionType.LOG_IN:
-      return {
-        ...state,
-        authorizationStatus: AuthorizationStatus.AUTH,
-        userEmail: action.payload.email,
-        userAvatarUrl: action.payload.avatarUrl,
-        serverError: false,
-      };
-
-    case ActionType.LOG_OUT:
-      return {
-        ...state,
-        authorizationStatus: AuthorizationStatus.NO_AUTH,
-        userEmail: null,
-        userAvatarUrl: null,
-      };
-
-    default:
-      return state;
-  }
-};
+const user = createReducer(initialState, (builder) => {
+  builder
+    .addCase(authorizationRequired, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(logIn, (state, action) => {
+      state.authorizationStatus = AuthorizationStatus.AUTH;
+      state.userEmail = action.payload.email;
+      state.userAvatarUrl = action.payload.avatarUrl;
+    })
+    .addCase(logOut, (state) => {
+      state.authorizationStatus = AuthorizationStatus.NO_AUTH;
+      state.userEmail = null;
+      state.userAvatarUrl = null;
+    });
+});
 
 export {user};

@@ -15,10 +15,10 @@ import { AuthorizationStatus, CITIES } from '../../consts.js';
 import CitiesPlaces from '../../components/cities-places/cities-places.jsx';
 import CitiesNoPlaces from '../../components/cities-no-places/cities-no-places.jsx';
 import Map from '../../components/map/map.jsx';
-import { filterActiveCityOffers } from '../../utils.js';
 import ErrorNotification from '../../components/error-notification/error-notification.jsx';
 import { getActiveCity } from '../../store/app-change/selectors.js';
 import { getOffers, getServerErrorOccurence } from '../../store/app-data/selectors.js';
+import { createSelector } from 'reselect';
 import { getAuthorizationStatus } from '../../store/user/selectors.js';
 
 function MainScreen(props) {
@@ -118,9 +118,15 @@ MainScreen.propTypes = {
   onCityChange: PropTypes.func.isRequired,
 };
 
+const activeCityOffersSelector = createSelector(
+  getActiveCity,
+  getOffers,
+  (activeCity, offers) => offers.slice().filter((offer) => offer.city.name === activeCity),
+);
+
 const mapStateToProps = (state) => ({
   activeCity: getActiveCity(state),
-  activeCityOffers: filterActiveCityOffers(getActiveCity(state), getOffers(state)), // ???
+  activeCityOffers: activeCityOffersSelector(state),
   authorizationStatus: getAuthorizationStatus(state),
   serverError: getServerErrorOccurence(state),
 });

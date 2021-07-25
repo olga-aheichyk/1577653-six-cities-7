@@ -1,4 +1,13 @@
-import { ActionType } from '../action.js';
+import { activeErrorNotification,
+  activeFavoriteOffersLoadingError,
+  addReview,
+  changeCommentSendingStatus,
+  loadFavoriteOffers,
+  loadNearestOffers,
+  loadOffers,
+  loadReviews,
+  updateOffers } from '../action.js';
+import { createReducer } from '@reduxjs/toolkit';
 
 const initialState = {
   offers: [],
@@ -11,78 +20,48 @@ const initialState = {
   isCommentSending: false,
 };
 
-const appData = (state = initialState, action) => {
-  const offerIndex = state.offers.findIndex((offer) => offer.id === action.payload.id);
-  switch (action.type) {
-    case ActionType.LOAD_OFFERS:
-      return {
-        ...state,
-        offers: action.payload,
-        isDataLoaded: true,
-        serverError: false,
-      };
-
-    case ActionType.LOAD_FAVORITE_OFFERS:
-      return {
-        ...state,
-        favoriteOffers: action.payload,
-        favoriteOffersLoadingError: false,
-        serverError: false,
-      };
-
-    case ActionType.UPDATE_OFFERS:
-      return {
-        ...state,
-        offers: [
-          ...state.offers.slice(0, (offerIndex)),
-          action.payload,
-          ...state.offers.slice(offerIndex + 1),
-        ],
-        serverError: false,
-      };
-
-    case ActionType.LOAD_REVIEWS:
-      return {
-        ...state,
-        reviews: action.payload,
-        serverError: false,
-      };
-
-    case ActionType.LOAD_NEAREST_OFFERS:
-      return {
-        ...state,
-        nearestOffers: action.payload,
-        serverError: false,
-      };
-
-    case ActionType.ADD_REVIEW:
-      return {
-        ...state,
-        reviews: action.payload,
-      };
-
-    case ActionType.ACTIVE_ERROR_NOTIFICATION:
-      return {
-        ...state,
-        serverError: true,
-        isDataLoaded: true,
-      };
-
-    case ActionType.ACTIVE_FAVORITE_OFFERS_LOADING_ERROR:
-      return {
-        ...state,
-        favoriteOffersLoadingError: true,
-      };
-
-    case ActionType.CHANGE_COMMENT_SENDING_STATUS:
-      return {
-        ...state,
-        isCommentSending: action.payload,
-      };
-
-    default:
-      return state;
-  }
-};
+const appData = createReducer(initialState, (builder) => {
+  builder
+    .addCase(loadOffers, (state, action) => {
+      state.offers = action.payload;
+      state.isDataLoaded = true;
+      state.serverError = false;
+    })
+    .addCase(loadFavoriteOffers, (state, action) => {
+      state.favoriteOffers = action.payload;
+      state.favoriteOffersLoadingError = false;
+      state.serverError = false;
+    })
+    .addCase(updateOffers, (state, action) => {
+      const offerIndex = state.offers.findIndex((offer) => offer.id === action.payload.id);
+      state.offers = [
+        ...state.offers.slice(0, (offerIndex)),
+        action.payload,
+        ...state.offers.slice(offerIndex + 1),
+      ];
+      state.serverError = false;
+    })
+    .addCase(loadReviews, (state, action) => {
+      state.reviews = action.payload;
+      state.serverError = false;
+    })
+    .addCase(loadNearestOffers, (state, action) => {
+      state.nearestOffers = action.payload;
+      state.serverError = false;
+    })
+    .addCase(addReview, (state, action) => {
+      state.reviews = action.payload;
+    })
+    .addCase(activeErrorNotification, (state) => {
+      state.serverError = true;
+      state.isDataLoaded = true;
+    })
+    .addCase(activeFavoriteOffersLoadingError, (state) => {
+      state.favoriteOffersLoadingError = true;
+    })
+    .addCase(changeCommentSendingStatus, (state, action) => {
+      state.isCommentSending = action.payload;
+    });
+});
 
 export { appData };

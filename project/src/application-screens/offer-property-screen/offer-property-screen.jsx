@@ -20,6 +20,7 @@ import { sortByDateDescending } from '../../utils.js';
 import ErrorNotification from '../../components/error-notification/error-notification.jsx';
 import { getNearestOffers, getOffers, getReviews, getServerErrorOccurence } from '../../store/app-data/selectors.js';
 import { getAuthorizationStatus } from '../../store/user/selectors.js';
+import { createSelector } from 'reselect';
 
 const OfferTypeName = {
   apartment: 'Apartment',
@@ -178,11 +179,7 @@ function OfferPropertyScreen(props) {
                   </div>
                 </div>
                 <section className="property__reviews reviews">
-                  <ReviewsList
-                    reviews={reviews.slice()
-                      .sort(sortByDateDescending)
-                      .slice(0, MAX_REVIEWS_COUNT)}
-                  />
+                  <ReviewsList reviews={reviews} />
                   {authorizationStatus === AuthorizationStatus.AUTH && <CommentPostForm id={id} />}
                 </section>
               </div>
@@ -232,10 +229,15 @@ OfferPropertyScreen.propTypes = {
   serverError: PropTypes.bool.isRequired,
 };
 
+const reviewsSelector = createSelector(
+  getReviews,
+  (reviews) => reviews.slice().sort(sortByDateDescending).slice(0, MAX_REVIEWS_COUNT),
+);
+
 const mapStateToProps = (state) => ({
   offers: getOffers(state),
   authorizationStatus: getAuthorizationStatus(state),
-  reviews: getReviews(state),
+  reviews: reviewsSelector(state),
   nearestOffers: getNearestOffers(state),
   serverError: getServerErrorOccurence(state),
 });

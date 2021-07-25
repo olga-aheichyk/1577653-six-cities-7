@@ -1,3 +1,5 @@
+import {createAction} from '@reduxjs/toolkit';
+
 export const ActionType = {
   CITY_CHANGE: 'appChanges/cityChange',
   LOAD_OFFERS: 'appData/loadOffers',
@@ -15,70 +17,53 @@ export const ActionType = {
   CHANGE_COMMENT_SENDING_STATUS: 'appData/changeReviewSendingStatus',
 };
 
-export const cityChange = (evtTargetTextContent) => ({
-  type: ActionType.CITY_CHANGE,
-  payload: evtTargetTextContent,
-});
-
-export const loadOffers = (offers) => ({
-  type: ActionType.LOAD_OFFERS,
+export const loadOffers = createAction(ActionType.LOAD_OFFERS, (offers) => ({
   payload: offers,
-});
+}));
 
-export const loadFavoriteOffers = (favoriteOffers) => ({
-  type: ActionType.LOAD_FAVORITE_OFFERS,
+export const cityChange = createAction(ActionType.CITY_CHANGE, (evtTargetTextContent) => ({
+  payload: evtTargetTextContent,
+}));
+
+export const loadFavoriteOffers = createAction(ActionType.LOAD_FAVORITE_OFFERS, (favoriteOffers) => ({
   payload: favoriteOffers,
-});
+}));
 
-export const updateOffers = (offer) => ({
-  type: ActionType.UPDATE_OFFERS,
+export const updateOffers = createAction(ActionType.UPDATE_OFFERS, (offer) => ({
   payload: offer,
-});
+}));
 
-export const loadReviews = (reviews) => ({
-  type: ActionType.LOAD_REVIEWS,
+export const loadReviews = createAction(ActionType.LOAD_REVIEWS, (reviews) => ({
   payload: reviews,
-});
+}));
 
-export const loadNearestOffers = (nearestOffers) => ({
-  type: ActionType.LOAD_NEAREST_OFFERS,
+export const loadNearestOffers = createAction(ActionType.LOAD_NEAREST_OFFERS, (nearestOffers) => ({
   payload: nearestOffers,
-});
+}));
 
-export const addReview = (newReviewsList) => ({
-  type: ActionType.ADD_REVIEW,
+export const addReview = createAction(ActionType.ADD_REVIEW, (newReviewsList) => ({
   payload: newReviewsList,
-});
+}));
 
-export const authorizationRequired = (payload) => ({
-  type: ActionType.AUTHORIZATION_REQUIRED,
+export const authorizationRequired = createAction(ActionType.AUTHORIZATION_REQUIRED, (payload) => ({
   payload,
-});
+}));
 
-export const logIn = (payload) => ({
-  type: ActionType.LOG_IN,
+export const logIn = createAction(ActionType.LOG_IN, (payload) => ({
   payload,
-});
+}));
 
-export const redirectToRoute = (url) => ({
-  type: ActionType.REDIRECT_TO_ROUTE,
+export const redirectToRoute = createAction(ActionType.REDIRECT_TO_ROUTE, (url) => ({
   payload: url,
-});
+}));
 
-export const logOut = () => ({
-  type: ActionType.LOG_OUT,
-});
+export const logOut = createAction(ActionType.LOG_OUT);
 
-export const activeErrorNotification = () => ({
-  type: ActionType.ACTIVE_ERROR_NOTIFICATION,
-});
+export const activeErrorNotification = createAction(ActionType.ACTIVE_ERROR_NOTIFICATION);
 
-export const activeFavoriteOffersLoadingError = () => ({
-  type: ActionType.ACTIVE_FAVORITE_OFFERS_LOADING_ERROR,
-});
+export const activeFavoriteOffersLoadingError = createAction(ActionType.ACTIVE_FAVORITE_OFFERS_LOADING_ERROR);
 
-export const changeCommentSendingStatus = (status) => ({
-  type: ActionType.CHANGE_COMMENT_SENDING_STATUS,
+export const changeCommentSendingStatus = createAction(ActionType.CHANGE_COMMENT_SENDING_STATUS, (status) => ({
   payload: status,
-});
+}));
 

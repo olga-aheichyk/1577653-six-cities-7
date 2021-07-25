@@ -2,8 +2,6 @@ import dayjs from 'dayjs';
 
 export const calculateWidthForRating = (rating) => Math.round(rating) / 5 * 100;
 
-export const filterActiveCityOffers = (activeCity, offers) => offers.slice().filter((offer) => offer.city.name === activeCity);
-
 export const adaptOfferToClient = (offer) => {
   const adaptedOffer = {
     ...offer,
@@ -31,7 +29,7 @@ export const adaptOfferToClient = (offer) => {
 export const adaptReviewToClient = (review) => {
   const adaptedReview = {
     ...review,
-    date: new Date(review.date),
+    //date: new Date(review.date),
     user: {
       ...review.user,
       avatarUrl: review.user.avatar_url,

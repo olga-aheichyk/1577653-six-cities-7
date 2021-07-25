@@ -2,7 +2,10 @@ import PropTypes from 'prop-types';
 
 export default PropTypes.shape({
   comment: PropTypes.string.isRequired,
-  date: PropTypes.instanceOf(Date).isRequired,
+  date: PropTypes.oneOfType([
+    PropTypes.instanceOf(Date),
+    PropTypes.string,
+  ]).isRequired,
   id: PropTypes.number.isRequired,
   rating: PropTypes.number.isRequired,
   user: PropTypes.shape({

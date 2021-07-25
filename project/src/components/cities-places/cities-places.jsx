@@ -5,6 +5,22 @@ import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
 import Sort from '../sort/sort.jsx';
 import { SortType } from '../../consts.js';
 
+const sortOffers = (offers, currentSortType) => {
+  switch(currentSortType ) {
+    case SortType.PRICE_HIGH_TO_LOW:
+      return offers.slice().sort((a, b) => b.price - a.price);
+
+    case SortType.PRICE_LOW_TO_HIGH:
+      return offers.slice().sort((a, b) => a.price - b.price);
+
+    case SortType.TOP_RATED_FIRST:
+      return offers.slice().sort((a, b) => b.rating - a.rating);
+
+    default:
+      return offers;
+  }
+};
+
 function CitiesPlaces(props) {
   const {
     activeCity,
@@ -16,22 +32,6 @@ function CitiesPlaces(props) {
 
   const onSortingTypeClick = (evtTargetTextContent) => {
     setActiveSortType(evtTargetTextContent);
-  };
-
-  const sortOffers = (offers, currentSortType) => {
-    switch(currentSortType ) {
-      case SortType.PRICE_HIGH_TO_LOW:
-        return offers.slice().sort((a, b) => b.price - a.price);
-
-      case SortType.PRICE_LOW_TO_HIGH:
-        return offers.slice().sort((a, b) => a.price - b.price);
-
-      case SortType.TOP_RATED_FIRST:
-        return offers.slice().sort((a, b) => b.rating - a.rating);
-
-      default:
-        return offers;
-    }
   };
 
   return (

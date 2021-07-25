@@ -45,7 +45,7 @@ export const login = ({ login: email, password }) => (dispatch, _getState, api) 
       dispatch(logIn(adaptedAuthInfo));
     })
     .then(() => dispatch(redirectToRoute(AppRoute.ROOT)))
-    .catch(() => dispatch(activeErrorNotification()))
+    //.catch(() => dispatch(activeErrorNotification()))
 );
 
 export const logout = () => (dispatch, _getState, api) => (
