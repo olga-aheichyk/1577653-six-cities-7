@@ -12,6 +12,8 @@ import LoadingScreen from '../../application-screens/loading-screen/loading-scre
 import PrivateRoute from '../private-route/private-route.jsx';
 import browserHistory from '../../browser-history';
 import { checkAuth, fetchOffersList } from '../../store/api-actions.js';
+import { getAuthorizationStatus } from '../../store/user/selectors.js';
+import { getLoadedDataStatus } from '../../store/app-data/selectors.js';
 
 const isCheckingAuth = (authorizationStatus) =>
   authorizationStatus === AuthorizationStatus.UNKNOWN;
@@ -77,8 +79,8 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  authorizationStatus: state.authorizationStatus,
-  isDataLoaded: state.isDataLoaded,
+  authorizationStatus: getAuthorizationStatus(state),
+  isDataLoaded: getLoadedDataStatus(state),
 });
 
 const mapDispatchToProps = {

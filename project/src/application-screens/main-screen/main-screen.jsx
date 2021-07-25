@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {ActionCreator} from '../../store/action.js';
+import {cityChange} from '../../store/action.js';
 
 import SvgSprite from '../../components/svg-sprite/svg-sprite.jsx';
 import Logo from '../../components/logo/logo.jsx';
@@ -15,8 +15,11 @@ import { AuthorizationStatus, CITIES } from '../../consts.js';
 import CitiesPlaces from '../../components/cities-places/cities-places.jsx';
 import CitiesNoPlaces from '../../components/cities-no-places/cities-no-places.jsx';
 import Map from '../../components/map/map.jsx';
-import { filterActiveCityOffers } from '../../components/utils.js';
+import { filterActiveCityOffers } from '../../utils.js';
 import ErrorNotification from '../../components/error-notification/error-notification.jsx';
+import { getActiveCity } from '../../store/app-change/selectors.js';
+import { getOffers, getServerErrorOccurence } from '../../store/app-data/selectors.js';
+import { getAuthorizationStatus } from '../../store/user/selectors.js';
 
 function MainScreen(props) {
   const {
@@ -116,15 +119,15 @@ MainScreen.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  activeCity: state.activeCity,
-  activeCityOffers: filterActiveCityOffers(state.activeCity, state.offers),
-  authorizationStatus: state.authorizationStatus,
-  serverError: state.serverError,
+  activeCity: getActiveCity(state),
+  activeCityOffers: filterActiveCityOffers(getActiveCity(state), getOffers(state)), // ???
+  authorizationStatus: getAuthorizationStatus(state),
+  serverError: getServerErrorOccurence(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onCityChange:
-  (evtTargetTextContent) => dispatch(ActionCreator.cityChange(evtTargetTextContent)),
+  (evtTargetTextContent) => dispatch(cityChange(evtTargetTextContent)),
 });
 
 export {MainScreen};

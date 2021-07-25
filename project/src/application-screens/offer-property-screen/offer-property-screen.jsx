@@ -7,7 +7,7 @@ import SvgSprite from '../../components/svg-sprite/svg-sprite.jsx';
 import placeCardsListProp from '../../components/place-cards-list/place-cards-list.prop.js';
 import CommentPostForm from '../../components/comment-post-form/comment-post-form.jsx';
 import ReviewsList from '../../components/reviews-list/reviews-list.jsx';
-import {calculateWidthForRating} from '../../components/utils.js';
+import {calculateWidthForRating} from '../../utils.js';
 import NavAuthorizedUser from '../../components/nav-authorized-user/nav-authorized-user.jsx';
 import NavNotAuthorizedUser from '../../components/nav-not-authorized-user/nav-not-authorized-user.jsx';
 import { AuthorizationStatus, FavoritesButtonVariant, FavoritesButtonVariantDetails, PlaceCardVariant, PlaceCardVariantDetails } from '../../consts.js';
@@ -16,8 +16,10 @@ import { fetchNearestOffers, fetchReviewsList } from '../../store/api-actions.js
 import reviewsListProp from '../../components/reviews-list/reviews-list.prop.js';
 import NotFoundScreen from '../not-found-screen/not-found-screen.jsx';
 import FavoritesButton from '../../components/favorites-button/favorites-button.jsx';
-import { sortByDateDescending } from '../../components/utils.js';
+import { sortByDateDescending } from '../../utils.js';
 import ErrorNotification from '../../components/error-notification/error-notification.jsx';
+import { getNearestOffers, getOffers, getReviews, getServerErrorOccurence } from '../../store/app-data/selectors.js';
+import { getAuthorizationStatus } from '../../store/user/selectors.js';
 
 const OfferTypeName = {
   apartment: 'Apartment',
@@ -231,11 +233,11 @@ OfferPropertyScreen.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.offers,
-  authorizationStatus: state.authorizationStatus,
-  reviews: state.reviews,
-  nearestOffers: state.nearestOffers,
-  serverError: state.serverError,
+  offers: getOffers(state),
+  authorizationStatus: getAuthorizationStatus(state),
+  reviews: getReviews(state),
+  nearestOffers: getNearestOffers(state),
+  serverError: getServerErrorOccurence(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

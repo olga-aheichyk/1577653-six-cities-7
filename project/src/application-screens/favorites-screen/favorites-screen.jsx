@@ -9,6 +9,7 @@ import FavoritesEmpty from '../../components/favorites-empty/favorites-empty.jsx
 import NavAuthorizedUser from '../../components/nav-authorized-user/nav-authorized-user.jsx';
 import { fetchFavoriteOffersList } from '../../store/api-actions.js';
 import ErrorNotification from '../../components/error-notification/error-notification.jsx';
+import { getFavoriteOffers, getLoadingFavoriteOffersErrorOccurence, getOffers } from '../../store/app-data/selectors.js';
 
 function FavoritesScreen(props) {
   const {
@@ -68,9 +69,9 @@ FavoritesScreen.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  favoriteOffers: state.favoriteOffers,
-  offers: state.offers,
-  favoriteOffersLoadingError: state.favoriteOffersLoadingError,
+  favoriteOffers: getFavoriteOffers(state),
+  offers: getOffers(state),
+  favoriteOffersLoadingError: getLoadingFavoriteOffersErrorOccurence(state),
 });
 
 const mapDispatchToProps = {

@@ -5,6 +5,7 @@ import {login} from '../../store/api-actions.js';
 import Logo from '../../components/logo/logo.jsx';
 import NavNotAuthorizedUser from '../../components/nav-not-authorized-user/nav-not-authorized-user.jsx';
 import ErrorNotification from '../../components/error-notification/error-notification.jsx';
+import { getUserServerError } from '../../store/user/selectors.js';
 
 function LogInScreen(props) {
   const {
@@ -94,7 +95,7 @@ LogInScreen.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  serverError: state.serverError,
+  serverError: getUserServerError(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

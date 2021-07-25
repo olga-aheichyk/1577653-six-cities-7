@@ -2,7 +2,7 @@ import React from 'react';
 import reviewItemProp from './review-item.prop.js';
 import dayjs from 'dayjs';
 
-import {calculateWidthForRating} from '../utils.js';
+import {calculateWidthForRating} from '../../utils.js';
 
 function ReviewItem(props) {
   const { review } = props;

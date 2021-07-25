@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logout } from '../../store/api-actions.js';
+import { getUserAvatarUrl, getUserEmail } from '../../store/user/selectors.js';
 
 function NavAuthorizedUser(props) {
   const {
@@ -49,8 +50,8 @@ NavAuthorizedUser.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  userEmail: state.userEmail,
-  userAvatarUrl: state.userAvatarUrl,
+  userEmail: getUserEmail(state),
+  userAvatarUrl: getUserAvatarUrl(state),
 });
 
 const mapDispatchToProps = {

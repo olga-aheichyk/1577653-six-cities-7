@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { changeFavoritesStatus } from '../../store/api-actions.js';
+import { getAuthorizationStatus } from '../../store/user/selectors.js';
 
 function FavoritesButton(props) {
   const {
@@ -45,7 +46,7 @@ FavoritesButton.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  authorizationStatus: state.authorizationStatus,
+  authorizationStatus: getAuthorizationStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

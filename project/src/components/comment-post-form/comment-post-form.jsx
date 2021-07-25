@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { postComment } from '../../store/api-actions.js';
 import ErrorNotification from '../error-notification/error-notification.jsx';
-import { ActionCreator } from '../../store/action.js';
+import { changeCommentSendingStatus } from '../../store/action.js';
+import { getCommentSendingStatus } from '../../store/app-data/selectors.js';
 
 const RatingStar = new Map([
   [5, 'perfect'],
@@ -18,7 +19,7 @@ const CommentCharactersCount = {
   MAX: 300,
 };
 
-function CommentPostForm({id, isCommentSending, changeCommentSendingStatus, onCommentPost}) {
+function CommentPostForm({id, isCommentSending, toogleCommentSendingStatus, onCommentPost}) {
   const [state, setState] = useState({
     rating: 0,
     comment: '',
@@ -33,19 +34,19 @@ function CommentPostForm({id, isCommentSending, changeCommentSendingStatus, onCo
       onSubmit={(evt) => {
         evt.preventDefault();
         setPostCommentError(false);
-        changeCommentSendingStatus(true);
+        toogleCommentSendingStatus(true);
 
         onCommentPost(id, state)
           .then((response) => {
             if (response.payload) {
               setState((prevState) => ({...prevState, rating: 0, comment: ''}));
               changeTextareaValidity(false);
-              changeCommentSendingStatus(false);
+              toogleCommentSendingStatus(false);
             }
           })
           .catch(() => {
             setPostCommentError(true);
-            changeCommentSendingStatus(false);
+            toogleCommentSendingStatus(false);
           });
       }}
       className="reviews__form form"
@@ -128,18 +129,18 @@ CommentPostForm.propTypes = {
     PropTypes.string.isRequired,
   ]),
   isCommentSending: PropTypes.bool.isRequired,
-  changeCommentSendingStatus: PropTypes.func.isRequired,
+  toogleCommentSendingStatus: PropTypes.func.isRequired,
   onCommentPost: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  isCommentSending: state.isCommentSending,
+  isCommentSending: getCommentSendingStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onCommentPost: (id, state) => dispatch(postComment(id, state)),
-  changeCommentSendingStatus:
-  (status) => dispatch(ActionCreator.changeCommentSendingStatus(status)),
+  toogleCommentSendingStatus:
+  (status) => dispatch(changeCommentSendingStatus(status)),
 });
 
 export {CommentPostForm};

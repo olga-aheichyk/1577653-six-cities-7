@@ -1,29 +1,19 @@
-import { ActionType } from './action.js';
-import { AuthorizationStatus } from '../consts.js';
+import { ActionType } from '../action.js';
 
 const initialState = {
-  activeCity: 'Paris',
   offers: [],
   favoriteOffers: [],
-  authorizationStatus: AuthorizationStatus.UNKNOWN,
-  isDataLoaded: false,
-  userEmail: null,
-  userAvatarUrl: null,
-  reviews: [],
   nearestOffers: [],
+  reviews: [],
+  isDataLoaded: false,
   serverError: false,
   favoriteOffersLoadingError: false,
   isCommentSending: false,
 };
 
-const reducer = (state = initialState, action) => {
+const appData = (state = initialState, action) => {
+  const offerIndex = state.offers.findIndex((offer) => offer.id === action.payload.id);
   switch (action.type) {
-    case ActionType.CITY_CHANGE:
-      return {
-        ...state,
-        activeCity: action.payload,
-      };
-
     case ActionType.LOAD_OFFERS:
       return {
         ...state,
@@ -44,9 +34,9 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         offers: [
-          ...state.offers.slice(0, (state.offers.findIndex((offer) => offer.id === action.payload.id))),
+          ...state.offers.slice(0, (offerIndex)),
           action.payload,
-          ...state.offers.slice((state.offers.findIndex((offer) => offer.id === action.payload.id)) + 1),
+          ...state.offers.slice(offerIndex + 1),
         ],
         serverError: false,
       };
@@ -69,30 +59,6 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         reviews: action.payload,
-      };
-
-    case ActionType.AUTHORIZATION_REQUIRED:
-      return {
-        ...state,
-        authorizationStatus: action.payload,
-      };
-
-
-    case ActionType.LOG_IN:
-      return {
-        ...state,
-        authorizationStatus: AuthorizationStatus.AUTH,
-        userEmail: action.payload.email,
-        userAvatarUrl: action.payload.avatarUrl,
-        serverError: false,
-      };
-
-    case ActionType.LOG_OUT:
-      return {
-        ...state,
-        authorizationStatus: AuthorizationStatus.NO_AUTH,
-        userEmail: null,
-        userAvatarUrl: null,
       };
 
     case ActionType.ACTIVE_ERROR_NOTIFICATION:
@@ -119,4 +85,4 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export {reducer};
+export { appData };

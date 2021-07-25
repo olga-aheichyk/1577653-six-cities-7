@@ -1,73 +1,84 @@
 export const ActionType = {
-  CITY_CHANGE: 'cityChange',
-  LOAD_OFFERS: 'loadOffers',
-  LOAD_FAVORITE_OFFERS: 'loadFavoriteOffers',
-  UPDATE_OFFERS: 'updateOffers',
-  LOAD_REVIEWS: 'loadReviews',
-  LOAD_NEAREST_OFFERS: 'loadNearestOffers',
-  ADD_REVIEW: 'addReview',
-  AUTHORIZATION_REQUIRED: 'authorizationRequired',
-  REDIRECT_TO_ROUTE: 'redirectToRoute',
-  LOG_IN: 'login',
-  LOG_OUT: 'logout',
-  ACTIVE_ERROR_NOTIFICATION: 'activeErrorNotification',
-  ACTIVE_FAVORITE_OFFERS_LOADING_ERROR: 'activeFavoriteOffersLoadingError',
-  CHANGE_COMMENT_SENDING_STATUS: 'changeCommentSendingStatus',
+  CITY_CHANGE: 'appChanges/cityChange',
+  LOAD_OFFERS: 'appData/loadOffers',
+  LOAD_FAVORITE_OFFERS: 'appData/loadFavoriteOffers',
+  UPDATE_OFFERS: 'appData/updateOffers',
+  LOAD_REVIEWS: 'appData/loadReviews',
+  LOAD_NEAREST_OFFERS: 'appData/loadNearestOffers',
+  ADD_REVIEW: 'appData/addReview',
+  AUTHORIZATION_REQUIRED: 'user/authorizationRequired',
+  REDIRECT_TO_ROUTE: 'appChanges/redirectToRoute',
+  LOG_IN: 'user/login',
+  LOG_OUT: 'user/logout',
+  ACTIVE_ERROR_NOTIFICATION: 'appData/activeErrorNotification',
+  ACTIVE_FAVORITE_OFFERS_LOADING_ERROR: 'appData/activeFavoriteOffersLoadingError',
+  CHANGE_COMMENT_SENDING_STATUS: 'appData/changeReviewSendingStatus',
 };
 
-export const ActionCreator = {
-  cityChange: (evtTargetTextContent) => ({
-    type: ActionType.CITY_CHANGE,
-    payload: evtTargetTextContent,
-  }),
-  loadOffers: (offers) => ({
-    type: ActionType.LOAD_OFFERS,
-    payload: offers,
-  }),
-  loadFavoriteOffers: (favoriteOffers) => ({
-    type: ActionType.LOAD_FAVORITE_OFFERS,
-    payload: favoriteOffers,
-  }),
-  updateOffers: (offer) => ({
-    type: ActionType.UPDATE_OFFERS,
-    payload: offer,
-  }),
-  loadReviews: (reviews) => ({
-    type: ActionType.LOAD_REVIEWS,
-    payload: reviews,
-  }),
-  loadNearestOffers: (nearestOffers) => ({
-    type: ActionType.LOAD_NEAREST_OFFERS,
-    payload: nearestOffers,
-  }),
-  addReview: (newReviewsList) => ({
-    type: ActionType.ADD_REVIEW,
-    payload: newReviewsList,
-  }),
-  authorizationRequired: (payload) => ({
-    type: ActionType.AUTHORIZATION_REQUIRED,
-    payload,
-  }),
-  login: (payload) => ({
-    type: ActionType.LOG_IN,
-    payload,
-  }),
-  redirectToRoute: (url) => ({
-    type: ActionType.REDIRECT_TO_ROUTE,
-    payload: url,
-  }),
-  logout: () => ({
-    type: ActionType.LOG_OUT,
-  }),
-  activeErrorNotification: () => ({
-    type: ActionType.ACTIVE_ERROR_NOTIFICATION,
-  }),
-  activeFavoriteOffersLoadingError: () => ({
-    type: ActionType.ACTIVE_FAVORITE_OFFERS_LOADING_ERROR,
-  }),
-  changeCommentSendingStatus: (status) => ({
-    type: ActionType.CHANGE_COMMENT_SENDING_STATUS,
-    payload: status,
-  }),
-};
+export const cityChange = (evtTargetTextContent) => ({
+  type: ActionType.CITY_CHANGE,
+  payload: evtTargetTextContent,
+});
+
+export const loadOffers = (offers) => ({
+  type: ActionType.LOAD_OFFERS,
+  payload: offers,
+});
+
+export const loadFavoriteOffers = (favoriteOffers) => ({
+  type: ActionType.LOAD_FAVORITE_OFFERS,
+  payload: favoriteOffers,
+});
+
+export const updateOffers = (offer) => ({
+  type: ActionType.UPDATE_OFFERS,
+  payload: offer,
+});
+
+export const loadReviews = (reviews) => ({
+  type: ActionType.LOAD_REVIEWS,
+  payload: reviews,
+});
+
+export const loadNearestOffers = (nearestOffers) => ({
+  type: ActionType.LOAD_NEAREST_OFFERS,
+  payload: nearestOffers,
+});
+
+export const addReview = (newReviewsList) => ({
+  type: ActionType.ADD_REVIEW,
+  payload: newReviewsList,
+});
+
+export const authorizationRequired = (payload) => ({
+  type: ActionType.AUTHORIZATION_REQUIRED,
+  payload,
+});
+
+export const logIn = (payload) => ({
+  type: ActionType.LOG_IN,
+  payload,
+});
+
+export const redirectToRoute = (url) => ({
+  type: ActionType.REDIRECT_TO_ROUTE,
+  payload: url,
+});
+
+export const logOut = () => ({
+  type: ActionType.LOG_OUT,
+});
+
+export const activeErrorNotification = () => ({
+  type: ActionType.ACTIVE_ERROR_NOTIFICATION,
+});
+
+export const activeFavoriteOffersLoadingError = () => ({
+  type: ActionType.ACTIVE_FAVORITE_OFFERS_LOADING_ERROR,
+});
+
+export const changeCommentSendingStatus = (status) => ({
+  type: ActionType.CHANGE_COMMENT_SENDING_STATUS,
+  payload: status,
+});
 
