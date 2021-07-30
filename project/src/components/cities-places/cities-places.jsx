@@ -30,7 +30,7 @@ function CitiesPlaces(props) {
 
   const [activeSortType, setActiveSortType] = useState(SortType.POPULAR);
 
-  const onSortingTypeClick = (evtTargetTextContent) => {
+  const handleSortingTypeClick = (evtTargetTextContent) => {
     setActiveSortType(evtTargetTextContent);
   };
 
@@ -42,7 +42,7 @@ function CitiesPlaces(props) {
       </b>
       <Sort
         activeSortType={activeSortType}
-        onSortingTypeClick={onSortingTypeClick}
+        onSortingTypeClick={handleSortingTypeClick}
       />
       <PlaceCardsList
         offers={sortOffers(activeCityOffers, activeSortType)}

@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {Switch, Route, Redirect, Router as BrowserRouter} from 'react-router-dom';
 import NotFoundScreen from '../../application-screens/not-found-screen/not-found-screen.jsx';
 import MainScreen from '../../application-screens/main-screen/main-screen.jsx';
@@ -15,25 +14,29 @@ import { checkAuth, fetchOffersList } from '../../store/api-actions.js';
 import { getAuthorizationStatus } from '../../store/user/selectors.js';
 import { getLoadedDataStatus } from '../../store/app-data/selectors.js';
 
-const isCheckingAuth = (authorizationStatus) =>
-  authorizationStatus === AuthorizationStatus.UNKNOWN;
-function App(props) {
-  const {
-    authorizationStatus,
-    isDataLoaded,
-    loadOffers,
-    authorizationRequired,
-  } = props;
+const isCheckingAuth = (authorizationStatus) => authorizationStatus === AuthorizationStatus.UNKNOWN;
+
+function App() {
+  const authorizationStatus = useSelector(getAuthorizationStatus);
+  const isDataLoaded = useSelector(getLoadedDataStatus);
+
+  const dispatch = useDispatch();
+  const authorizationRequired = () => {
+    dispatch(checkAuth());
+  };
+  const loadOffers = () => {
+    dispatch(fetchOffersList());
+  };
 
   useEffect(() => {
     authorizationRequired();
-  }, [authorizationRequired]);
+  }, []);
 
   useEffect(() => {
     if (authorizationStatus !== AuthorizationStatus.UNKNOWN) {
       loadOffers();
     }
-  }, [loadOffers, authorizationStatus]);
+  }, [authorizationStatus]);
 
 
   if (isCheckingAuth(authorizationStatus) || !isDataLoaded) {
@@ -57,11 +60,7 @@ function App(props) {
           {authorizationStatus === AuthorizationStatus.AUTH ? <Redirect to={AppRoute.ROOT} /> : <LogInScreen />}
         </Route>
         <Route exact path={AppRoute.OFFER}
-          render={({match}) => (
-            <OfferPropertyScreen
-              id={match.params.id}
-            />
-          )}
+          render={() => <OfferPropertyScreen />}
         />
         <Route>
           <NotFoundScreen />
@@ -71,23 +70,5 @@ function App(props) {
   );
 }
 
-App.propTypes = {
-  authorizationStatus: PropTypes.string.isRequired,
-  isDataLoaded: PropTypes.bool.isRequired,
-  loadOffers: PropTypes.func.isRequired,
-  authorizationRequired: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  authorizationStatus: getAuthorizationStatus(state),
-  isDataLoaded: getLoadedDataStatus(state),
-});
-
-const mapDispatchToProps = {
-  loadOffers: fetchOffersList,
-  authorizationRequired: checkAuth,
-};
-
-export {App};
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;
 

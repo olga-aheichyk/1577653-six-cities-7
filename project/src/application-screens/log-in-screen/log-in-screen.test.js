@@ -4,7 +4,7 @@ import {Router} from 'react-router-dom';
 import {render, screen} from '@testing-library/react';
 import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { LogInScreen } from './log-in-screen.jsx';
+import LogInScreen from './log-in-screen.jsx';
 import { AppRoute } from '../../consts.js';
 import userEvent from '@testing-library/user-event';
 
@@ -18,7 +18,7 @@ describe('Component LogInScreen', () => {
     render(
       <Provider store={mockStore({})}>
         <Router history={history}>
-          <LogInScreen onSubmit={() => {}} />
+          <LogInScreen />
         </Router>
       </Provider>,
     );

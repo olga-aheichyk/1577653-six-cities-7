@@ -1,16 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { changeFavoritesStatus } from '../../store/api-actions.js';
-import { getAuthorizationStatus } from '../../store/user/selectors.js';
 
 function FavoritesButton(props) {
   const {
     details,
     isFavorite,
     id,
-    onFavoritesChange,
   } = props;
+
+  const dispatch = useDispatch();
+  const onFavoritesChange = (offerId, status) => dispatch(changeFavoritesStatus(offerId, status));
 
   const changedStatus = Number(!isFavorite);
 
@@ -42,17 +43,6 @@ FavoritesButton.propTypes = {
     PropTypes.number.isRequired,
     PropTypes.string.isRequired,
   ]),
-  onFavoritesChange: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  authorizationStatus: getAuthorizationStatus(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onFavoritesChange:
-  (id, changedStatus) => dispatch(changeFavoritesStatus(id, changedStatus)),
-});
-
-export {FavoritesButton};
-export default connect(mapStateToProps, mapDispatchToProps)(FavoritesButton);
+export default FavoritesButton;

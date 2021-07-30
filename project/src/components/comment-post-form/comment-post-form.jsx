@@ -1,10 +1,10 @@
 import React,  { useState, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { postComment } from '../../store/api-actions.js';
 import ErrorNotification from '../error-notification/error-notification.jsx';
 import { changeCommentSendingStatus } from '../../store/action.js';
 import { getCommentSendingStatus } from '../../store/app-data/selectors.js';
+import { useParams } from 'react-router-dom';
 
 const RatingStar = new Map([
   [5, 'perfect'],
@@ -19,7 +19,16 @@ const CommentCharactersCount = {
   MAX: 300,
 };
 
-function CommentPostForm({id, isCommentSending, toogleCommentSendingStatus, onCommentPost}) {
+function CommentPostForm() {
+  const isCommentSending = useSelector(getCommentSendingStatus);
+
+  const {id} = useParams();
+
+  const dispatch = useDispatch();
+
+  const onCommentPost = (offerId, comment) => dispatch(postComment(offerId, comment));
+  const toogleCommentSendingStatus = (status) => dispatch(changeCommentSendingStatus(status));
+
   const [state, setState] = useState({
     rating: 0,
     comment: '',
@@ -123,25 +132,5 @@ function CommentPostForm({id, isCommentSending, toogleCommentSendingStatus, onCo
   );
 }
 
-CommentPostForm.propTypes = {
-  id: PropTypes.oneOfType([
-    PropTypes.number.isRequired,
-    PropTypes.string.isRequired,
-  ]),
-  isCommentSending: PropTypes.bool.isRequired,
-  toogleCommentSendingStatus: PropTypes.func.isRequired,
-  onCommentPost: PropTypes.func.isRequired,
-};
+export default CommentPostForm;
 
-const mapStateToProps = (state) => ({
-  isCommentSending: getCommentSendingStatus(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onCommentPost: (id, state) => dispatch(postComment(id, state)),
-  toogleCommentSendingStatus:
-  (status) => dispatch(changeCommentSendingStatus(status)),
-});
-
-export {CommentPostForm};
-export default connect(mapStateToProps, mapDispatchToProps)(CommentPostForm);

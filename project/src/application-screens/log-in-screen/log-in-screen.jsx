@@ -1,17 +1,21 @@
 import React, {useRef} from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import {
+  useDispatch
+  //useSelector
+} from 'react-redux';
 import {login} from '../../store/api-actions.js';
 import Logo from '../../components/logo/logo.jsx';
 import NavNotAuthorizedUser from '../../components/nav-not-authorized-user/nav-not-authorized-user.jsx';
 //import ErrorNotification from '../../components/error-notification/error-notification.jsx';
-import { getUserServerError } from '../../store/user/selectors.js';
+//import { getUserServerError } from '../../store/user/selectors.js';
 
-function LogInScreen(props) {
-  const {
-    onSubmit,
-    //serverError,
-  } = props;
+function LogInScreen() {
+  //const serverError = useSelector(getUserServerError);
+  const dispatch = useDispatch();
+
+  const onSubmit = (authData) => {
+    dispatch(login(authData));
+  };
 
   const loginRef = useRef();
   const passwordRef = useRef();
@@ -93,18 +97,4 @@ function LogInScreen(props) {
   );
 }
 
-LogInScreen.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  //serverError: PropTypes.bool.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  serverError: getUserServerError(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onSubmit: (authData) => dispatch(login(authData)),
-});
-
-export {LogInScreen};
-export default connect(mapStateToProps, mapDispatchToProps)(LogInScreen);
+export default LogInScreen;

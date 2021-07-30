@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Logo from '../../components/logo/logo.jsx';
 import PlaceCard from '../../components/place-card/place-card.jsx';
 import SvgSprite from '../../components/svg-sprite/svg-sprite.jsx';
-import placeCardsListProp from '../../components/place-cards-list/place-cards-list.prop.js';
 import CommentPostForm from '../../components/comment-post-form/comment-post-form.jsx';
 import ReviewsList from '../../components/reviews-list/reviews-list.jsx';
 import {calculateWidthForRating} from '../../utils.js';
@@ -13,7 +11,6 @@ import NavNotAuthorizedUser from '../../components/nav-not-authorized-user/nav-n
 import { AuthorizationStatus, FavoritesButtonVariant, FavoritesButtonVariantDetails, PlaceCardVariant, PlaceCardVariantDetails } from '../../consts.js';
 import Map from '../../components/map/map.jsx';
 import { fetchNearestOffers, fetchReviewsList } from '../../store/api-actions.js';
-import reviewsListProp from '../../components/reviews-list/reviews-list.prop.js';
 import NotFoundScreen from '../not-found-screen/not-found-screen.jsx';
 import FavoritesButton from '../../components/favorites-button/favorites-button.jsx';
 import { sortByDateDescending } from '../../utils.js';
@@ -21,6 +18,7 @@ import ErrorNotification from '../../components/error-notification/error-notific
 import { getNearestOffers, getOffers, getReviews, getServerErrorOccurence } from '../../store/app-data/selectors.js';
 import { getAuthorizationStatus } from '../../store/user/selectors.js';
 import { createSelector } from 'reselect';
+import { useParams } from 'react-router-dom';
 
 const OfferTypeName = {
   apartment: 'Apartment',
@@ -31,22 +29,34 @@ const OfferTypeName = {
 
 const MAX_IMAGES_COUNT = 6;
 const MAX_REVIEWS_COUNT = 10;
-function OfferPropertyScreen(props) {
-  const {
-    id,
-    offers,
-    authorizationStatus,
-    loadReviews,
-    loadNearestOffers,
-    reviews,
-    nearestOffers,
-    serverError,
-  } = props;
+
+const reviewsSelector = createSelector(
+  getReviews,
+  (reviews) => reviews.slice().sort(sortByDateDescending).slice(0, MAX_REVIEWS_COUNT),
+);
+
+function OfferPropertyScreen() {
+  const offers = useSelector(getOffers);
+  const authorizationStatus = useSelector(getAuthorizationStatus);
+  const reviews = useSelector(reviewsSelector);
+  const nearestOffers = useSelector(getNearestOffers);
+  const serverError = useSelector(getServerErrorOccurence);
+
+  const {id} = useParams();
+
+  const dispatch = useDispatch();
+  const loadReviews = (offerId) => {
+    dispatch(fetchReviewsList(offerId));
+  };
+
+  const loadNearestOffers = (offerId) => {
+    dispatch(fetchNearestOffers(offerId));
+  };
 
   useEffect(() => {
     loadReviews(id);
     loadNearestOffers(id);
-  }, [loadReviews, loadNearestOffers, id]);
+  }, [id]);
 
   if (!offers.find((offer) => Number(offer.id) === Number(id))) {
     return <NotFoundScreen />;
@@ -68,6 +78,8 @@ function OfferPropertyScreen(props) {
     title,
     type,
   } = currentOffer;
+
+  const offerImages = images.slice(0, MAX_IMAGES_COUNT);
 
   const {
     avatarUrl,
@@ -95,7 +107,7 @@ function OfferPropertyScreen(props) {
             {serverError && <ErrorNotification message={'We can\'t load all information about this offer. Please, retry later'} />}
             <div className="property__gallery-container container">
               <div className="property__gallery">
-                {images.slice(0, MAX_IMAGES_COUNT).map((image) => (
+                {offerImages.map((image) => (
                   <div
                     className="property__image-wrapper"
                     key={image.match(/\d+?(?=.jpg)/)}
@@ -180,7 +192,7 @@ function OfferPropertyScreen(props) {
                 </div>
                 <section className="property__reviews reviews">
                   <ReviewsList reviews={reviews} />
-                  {authorizationStatus === AuthorizationStatus.AUTH && <CommentPostForm id={id} />}
+                  {authorizationStatus === AuthorizationStatus.AUTH && <CommentPostForm />}
                 </section>
               </div>
             </div>
@@ -215,38 +227,4 @@ function OfferPropertyScreen(props) {
   );
 }
 
-OfferPropertyScreen.propTypes = {
-  offers: placeCardsListProp,
-  id: PropTypes.oneOfType([
-    PropTypes.number.isRequired,
-    PropTypes.string.isRequired,
-  ]),
-  authorizationStatus: PropTypes.string.isRequired,
-  reviews: reviewsListProp,
-  nearestOffers: placeCardsListProp,
-  loadReviews: PropTypes.func.isRequired,
-  loadNearestOffers: PropTypes.func.isRequired,
-  serverError: PropTypes.bool.isRequired,
-};
-
-const reviewsSelector = createSelector(
-  getReviews,
-  (reviews) => reviews.slice().sort(sortByDateDescending).slice(0, MAX_REVIEWS_COUNT),
-);
-
-const mapStateToProps = (state) => ({
-  offers: getOffers(state),
-  authorizationStatus: getAuthorizationStatus(state),
-  reviews: reviewsSelector(state),
-  nearestOffers: getNearestOffers(state),
-  serverError: getServerErrorOccurence(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  loadReviews: (id) => dispatch(fetchReviewsList(id)),
-  loadNearestOffers: (id) => dispatch(fetchNearestOffers(id)),
-});
-
-
-export {OfferPropertyScreen};
-export default connect(mapStateToProps, mapDispatchToProps)(OfferPropertyScreen);
+export default OfferPropertyScreen;

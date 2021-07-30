@@ -29,7 +29,6 @@ export const adaptOfferToClient = (offer) => {
 export const adaptReviewToClient = (review) => {
   const adaptedReview = {
     ...review,
-    //date: new Date(review.date),
     user: {
       ...review.user,
       avatarUrl: review.user.avatar_url,

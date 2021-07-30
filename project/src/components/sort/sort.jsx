@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 function Sort(props) {
-  const { activeSortType, onSortingTypeClick } = props;
+  const {activeSortType, onSortingTypeClick} = props;
 
   const [isOpenSort, changeSortingTableState] = useState(false);
 
