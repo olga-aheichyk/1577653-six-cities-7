@@ -47,23 +47,27 @@ function LogInScreen(props) {
             {/* {serverError && <ErrorNotification message={'Sorry, we can\'t authorize you. \n You need to enter valid email'} />} */}
             <form className="login__form form" action="#" method="post" onSubmit={handleSubmit}>
               <div className="login__input-wrapper form__input-wrapper">
-                <label className="visually-hidden">E-mail</label>
+                <label className="visually-hidden" htmlFor="email">E-mail</label>
                 <input
                   ref={loginRef}
                   className="login__input form__input"
                   type="email"
                   name="email"
+                  id="email"
+                  data-testid="email"
                   placeholder="Email"
                   required
                 />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
-                <label className="visually-hidden">Password</label>
+                <label className="visually-hidden" htmlFor="password">Password</label>
                 <input
                   ref={passwordRef}
                   className="login__input form__input"
                   type="password"
                   name="password"
+                  id="password"
+                  data-testid="password"
                   placeholder="Password"
                   required
                 />

@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+//import PropTypes from 'prop-types';
+import {
+  //connect,
+  useDispatch, useSelector} from 'react-redux';
 import {cityChange} from '../../store/action.js';
 
 import SvgSprite from '../../components/svg-sprite/svg-sprite.jsx';
@@ -9,7 +11,7 @@ import Logo from '../../components/logo/logo.jsx';
 import NavNotAuthorizedUser from '../../components/nav-not-authorized-user/nav-not-authorized-user.jsx';
 import NavAuthorizedUser from '../../components/nav-authorized-user/nav-authorized-user.jsx';
 
-import placeCardsListProp from '../../components/place-cards-list/place-cards-list.prop.js';
+//import placeCardsListProp from '../../components/place-cards-list/place-cards-list.prop.js';
 
 import { AuthorizationStatus, CITIES } from '../../consts.js';
 import CitiesPlaces from '../../components/cities-places/cities-places.jsx';
@@ -21,15 +23,32 @@ import { getOffers, getServerErrorOccurence } from '../../store/app-data/selecto
 import { createSelector } from 'reselect';
 import { getAuthorizationStatus } from '../../store/user/selectors.js';
 
-function MainScreen(props) {
-  const {
-    activeCity,
-    activeCityOffers,
-    authorizationStatus,
-    serverError,
-    onCityChange } = props;
+function MainScreen() {
+  // const {
+  //   activeCity,
+  //   activeCityOffers,
+  //   authorizationStatus,
+  //   serverError,
+  //   onCityChange } = props;
+
+  const activeCityOffersSelector = createSelector(
+    getActiveCity,
+    getOffers,
+    (city, offers) => offers.slice().filter((offer) => offer.city.name === city),
+  );
 
   const [activeOffer, setActiveOffer] = useState({});
+
+  const activeCity = useSelector(getActiveCity);
+  const activeCityOffers = useSelector(activeCityOffersSelector);
+  const authorizationStatus = useSelector(getAuthorizationStatus);
+  const serverError = useSelector(getServerErrorOccurence);
+
+  const dispatch = useDispatch();
+
+  const onCityChange = (evtTargetTextContent) => {
+    dispatch(cityChange(evtTargetTextContent));
+  };
 
   const handlePlaceCardHover = (placeCardId) => {
     const currentOffer = activeCityOffers.find((offer) =>
@@ -110,31 +129,26 @@ function MainScreen(props) {
   );
 }
 
-MainScreen.propTypes = {
-  activeCity: PropTypes.string.isRequired,
-  activeCityOffers: placeCardsListProp,
-  authorizationStatus: PropTypes.string.isRequired,
-  serverError: PropTypes.bool.isRequired,
-  onCityChange: PropTypes.func.isRequired,
-};
+// MainScreen.propTypes = {
+//   activeCity: PropTypes.string.isRequired,
+//   activeCityOffers: placeCardsListProp,
+//   authorizationStatus: PropTypes.string.isRequired,
+//   serverError: PropTypes.bool.isRequired,
+//   onCityChange: PropTypes.func.isRequired,
+// };
 
-const activeCityOffersSelector = createSelector(
-  getActiveCity,
-  getOffers,
-  (activeCity, offers) => offers.slice().filter((offer) => offer.city.name === activeCity),
-);
+// const mapStateToProps = (state) => ({
+//   activeCity: getActiveCity(state),
+//   activeCityOffers: activeCityOffersSelector(state),
+//   authorizationStatus: getAuthorizationStatus(state),
+//   serverError: getServerErrorOccurence(state),
+// });
 
-const mapStateToProps = (state) => ({
-  activeCity: getActiveCity(state),
-  activeCityOffers: activeCityOffersSelector(state),
-  authorizationStatus: getAuthorizationStatus(state),
-  serverError: getServerErrorOccurence(state),
-});
+// const mapDispatchToProps = (dispatch) => ({
+//   onCityChange(evtTargetTextContent) {
+//     dispatch(cityChange(evtTargetTextContent));
+//   }
+// });
 
-const mapDispatchToProps = (dispatch) => ({
-  onCityChange:
-  (evtTargetTextContent) => dispatch(cityChange(evtTargetTextContent)),
-});
-
-export {MainScreen};
-export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
+export default MainScreen;
+// export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
