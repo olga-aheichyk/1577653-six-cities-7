@@ -1,13 +1,16 @@
 import React, { useEffect } from 'react';
-import Logo from '../../components/logo/logo.jsx';
+
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchFavoriteOffersList } from '../../store/api-actions.js';
+import { getFavoriteOffers, getLoadingFavoriteOffersErrorOccurence, getOffers } from '../../store/app-data/selectors.js';
+
+import Logo from '../../components/logo/logo.jsx';
 import SvgSprite from '../../components/svg-sprite/svg-sprite.jsx';
+import ErrorNotification from '../../components/error-notification/error-notification.jsx';
 import FavoritesNotEmpty from '../../components/favorites-not-empty/favorites-not-empty.jsx';
 import FavoritesEmpty from '../../components/favorites-empty/favorites-empty.jsx';
 import NavAuthorizedUser from '../../components/nav-authorized-user/nav-authorized-user.jsx';
-import { fetchFavoriteOffersList } from '../../store/api-actions.js';
-import ErrorNotification from '../../components/error-notification/error-notification.jsx';
-import { getFavoriteOffers, getLoadingFavoriteOffersErrorOccurence, getOffers } from '../../store/app-data/selectors.js';
+
 
 function FavoritesScreen() {
   const favoriteOffers = useSelector(getFavoriteOffers);
@@ -15,13 +18,10 @@ function FavoritesScreen() {
   const favoriteOffersLoadingError = useSelector(getLoadingFavoriteOffersErrorOccurence);
 
   const dispatch = useDispatch();
-  const loadFavoriteOffers = () => {
-    dispatch(fetchFavoriteOffersList());
-  };
 
   useEffect(() => {
-    loadFavoriteOffers();
-  }, [offers]);
+    dispatch(fetchFavoriteOffersList());
+  }, [dispatch, offers]);
 
   return (
     <>

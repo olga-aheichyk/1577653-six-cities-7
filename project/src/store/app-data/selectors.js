@@ -1,4 +1,4 @@
-import {NameSpace} from '../root-reducer';
+import { NameSpace } from '../root-reducer';
 
 export const getOffers = (state) => state[NameSpace.DATA].offers;
 export const getFavoriteOffers = (state) => state[NameSpace.DATA].favoriteOffers;

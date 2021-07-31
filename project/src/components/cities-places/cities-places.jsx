@@ -1,8 +1,10 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import PlaceCardsList from '../place-cards-list/place-cards-list.jsx';
 import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
+
 import Sort from '../sort/sort.jsx';
+
 import { SortType } from '../../consts.js';
 
 const sortOffers = (offers, currentSortType) => {

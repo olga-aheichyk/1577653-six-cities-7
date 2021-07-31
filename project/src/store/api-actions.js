@@ -1,4 +1,3 @@
-import { ApiRoute, AppRoute, AuthorizationStatus, BACKEND_URL } from '../consts.js';
 import {
   activeErrorNotification,
   activeFavoriteOffersLoadingError,
@@ -13,6 +12,8 @@ import {
   redirectToRoute,
   updateOffers
 } from './action.js';
+
+import { ApiRoute, AppRoute, AuthorizationStatus, BACKEND_URL } from '../consts.js';
 import { adaptAuthInfoToClient, adaptOfferToClient, adaptReviewToClient } from '../utils.js';
 
 

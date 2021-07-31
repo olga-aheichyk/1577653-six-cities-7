@@ -1,5 +1,5 @@
 import browserHistory from '../../browser-history.js';
-import {ActionType} from '../action.js';
+import { ActionType } from '../action.js';
 
 export const redirect = (_store) => (next) => (action) => {
   if (action.type === ActionType.REDIRECT_TO_ROUTE) {

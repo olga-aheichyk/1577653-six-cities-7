@@ -1,13 +1,16 @@
-import React, {useRef} from 'react';
+import React, { useRef } from 'react';
+
 import {
   useDispatch
   //useSelector
 } from 'react-redux';
-import {login} from '../../store/api-actions.js';
+//import { getUserServerError } from '../../store/user/selectors.js';
+import { login } from '../../store/api-actions.js';
+
 import Logo from '../../components/logo/logo.jsx';
 import NavNotAuthorizedUser from '../../components/nav-not-authorized-user/nav-not-authorized-user.jsx';
 //import ErrorNotification from '../../components/error-notification/error-notification.jsx';
-//import { getUserServerError } from '../../store/user/selectors.js';
+
 
 function LogInScreen() {
   //const serverError = useSelector(getUserServerError);

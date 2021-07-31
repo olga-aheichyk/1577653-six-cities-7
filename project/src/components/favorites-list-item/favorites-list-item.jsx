@@ -1,7 +1,9 @@
 import React from 'react';
-import PlaceCard from '../place-card/place-card.jsx';
-import { Link } from 'react-router-dom';
 import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
+import { Link } from 'react-router-dom';
+
+import PlaceCard from '../place-card/place-card.jsx';
+
 import { PlaceCardVariant, PlaceCardVariantDetails } from '../../consts.js';
 
 function FavoritesListItem(props) {

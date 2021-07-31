@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { useDispatch } from 'react-redux';
 import { changeFavoritesStatus } from '../../store/api-actions.js';
 
@@ -11,13 +12,12 @@ function FavoritesButton(props) {
   } = props;
 
   const dispatch = useDispatch();
-  const onFavoritesChange = (offerId, status) => dispatch(changeFavoritesStatus(offerId, status));
 
   const changedStatus = Number(!isFavorite);
 
   return (
     <button
-      onClick={() => onFavoritesChange(id, changedStatus)}
+      onClick={() => dispatch(changeFavoritesStatus(id, changedStatus))}
       className={`${details.commonClassName}__bookmark-button ${isFavorite ? `${details.commonClassName}__bookmark-button--active` : ''} button`}
       type="button"
     >

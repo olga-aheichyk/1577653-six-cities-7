@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PlaceCard from '../place-card/place-card.jsx';
 import placeCardsListProp from './place-cards-list.prop.js';
+
+import PlaceCard from '../place-card/place-card.jsx';
+
 import { PlaceCardVariant, PlaceCardVariantDetails } from '../../consts.js';
 
 function PlaceCardsList(props) {

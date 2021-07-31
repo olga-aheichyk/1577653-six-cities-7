@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import { BACKEND_URL } from '../consts.js';
 
 const REQUEST_TIMEOUT = 5000;

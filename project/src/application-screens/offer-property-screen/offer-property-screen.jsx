@@ -1,24 +1,26 @@
 import React, { useEffect } from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import Logo from '../../components/logo/logo.jsx';
-import PlaceCard from '../../components/place-card/place-card.jsx';
-import SvgSprite from '../../components/svg-sprite/svg-sprite.jsx';
-import CommentPostForm from '../../components/comment-post-form/comment-post-form.jsx';
-import ReviewsList from '../../components/reviews-list/reviews-list.jsx';
-import {calculateWidthForRating} from '../../utils.js';
-import NavAuthorizedUser from '../../components/nav-authorized-user/nav-authorized-user.jsx';
-import NavNotAuthorizedUser from '../../components/nav-not-authorized-user/nav-not-authorized-user.jsx';
-import { AuthorizationStatus, FavoritesButtonVariant, FavoritesButtonVariantDetails, PlaceCardVariant, PlaceCardVariantDetails } from '../../consts.js';
-import Map from '../../components/map/map.jsx';
-import { fetchNearestOffers, fetchReviewsList } from '../../store/api-actions.js';
-import NotFoundScreen from '../not-found-screen/not-found-screen.jsx';
-import FavoritesButton from '../../components/favorites-button/favorites-button.jsx';
-import { sortByDateDescending } from '../../utils.js';
-import ErrorNotification from '../../components/error-notification/error-notification.jsx';
-import { getNearestOffers, getOffers, getReviews, getServerErrorOccurence } from '../../store/app-data/selectors.js';
-import { getAuthorizationStatus } from '../../store/user/selectors.js';
 import { createSelector } from 'reselect';
 import { useParams } from 'react-router-dom';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchNearestOffers, fetchReviewsList } from '../../store/api-actions.js';
+import { getNearestOffers, getOffers, getReviews, getServerErrorOccurence } from '../../store/app-data/selectors.js';
+import { getAuthorizationStatus } from '../../store/user/selectors.js';
+
+import NotFoundScreen from '../not-found-screen/not-found-screen.jsx';
+import Logo from '../../components/logo/logo.jsx';
+import SvgSprite from '../../components/svg-sprite/svg-sprite.jsx';
+import NavAuthorizedUser from '../../components/nav-authorized-user/nav-authorized-user.jsx';
+import NavNotAuthorizedUser from '../../components/nav-not-authorized-user/nav-not-authorized-user.jsx';
+import ErrorNotification from '../../components/error-notification/error-notification.jsx';
+import FavoritesButton from '../../components/favorites-button/favorites-button.jsx';
+import PlaceCard from '../../components/place-card/place-card.jsx';
+import CommentPostForm from '../../components/comment-post-form/comment-post-form.jsx';
+import ReviewsList from '../../components/reviews-list/reviews-list.jsx';
+import Map from '../../components/map/map.jsx';
+
+import { AuthorizationStatus, FavoritesButtonVariant, FavoritesButtonVariantDetails, PlaceCardVariant, PlaceCardVariantDetails } from '../../consts.js';
+import { calculateWidthForRating, sortByDateDescending } from '../../utils.js';
 
 const OfferTypeName = {
   apartment: 'Apartment',
@@ -45,18 +47,11 @@ function OfferPropertyScreen() {
   const {id} = useParams();
 
   const dispatch = useDispatch();
-  const loadReviews = (offerId) => {
-    dispatch(fetchReviewsList(offerId));
-  };
-
-  const loadNearestOffers = (offerId) => {
-    dispatch(fetchNearestOffers(offerId));
-  };
 
   useEffect(() => {
-    loadReviews(id);
-    loadNearestOffers(id);
-  }, [id]);
+    dispatch(fetchReviewsList(id));
+    dispatch(fetchNearestOffers(id));
+  }, [dispatch, id]);
 
   if (!offers.find((offer) => Number(offer.id) === Number(id))) {
     return <NotFoundScreen />;

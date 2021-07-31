@@ -1,4 +1,4 @@
-import {createAction} from '@reduxjs/toolkit';
+import { createAction } from '@reduxjs/toolkit';
 
 export const ActionType = {
   CITY_CHANGE: 'appChanges/cityChange',

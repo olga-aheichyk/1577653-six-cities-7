@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import placeCardProp from './place-card.prop.js';
-import { calculateWidthForRating } from '../../utils.js';
+
 import FavoritesButton from '../favorites-button/favorites-button.jsx';
+
+import { calculateWidthForRating } from '../../utils.js';
 import { FavoritesButtonVariantDetails, FavoritesButtonVariant } from '../../consts.js';
 
 

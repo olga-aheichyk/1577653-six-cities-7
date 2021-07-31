@@ -1,20 +1,23 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
-import {useDispatch, useSelector} from 'react-redux';
-import {cityChange} from '../../store/action.js';
+import { createSelector } from 'reselect';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { cityChange } from '../../store/action.js';
+import { getAuthorizationStatus } from '../../store/user/selectors.js';
+import { getActiveCity } from '../../store/app-change/selectors.js';
+import { getOffers, getServerErrorOccurence } from '../../store/app-data/selectors.js';
+
 import SvgSprite from '../../components/svg-sprite/svg-sprite.jsx';
 import Logo from '../../components/logo/logo.jsx';
+import ErrorNotification from '../../components/error-notification/error-notification.jsx';
 import NavNotAuthorizedUser from '../../components/nav-not-authorized-user/nav-not-authorized-user.jsx';
 import NavAuthorizedUser from '../../components/nav-authorized-user/nav-authorized-user.jsx';
-import { AuthorizationStatus, CITIES } from '../../consts.js';
 import CitiesPlaces from '../../components/cities-places/cities-places.jsx';
 import CitiesNoPlaces from '../../components/cities-no-places/cities-no-places.jsx';
 import Map from '../../components/map/map.jsx';
-import ErrorNotification from '../../components/error-notification/error-notification.jsx';
-import { getActiveCity } from '../../store/app-change/selectors.js';
-import { getOffers, getServerErrorOccurence } from '../../store/app-data/selectors.js';
-import { createSelector } from 'reselect';
-import { getAuthorizationStatus } from '../../store/user/selectors.js';
+
+import { AuthorizationStatus, CITIES } from '../../consts.js';
 
 const activeCityOffersSelector = createSelector(
   getActiveCity,

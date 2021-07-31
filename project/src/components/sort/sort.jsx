@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { SortType } from '../../consts.js';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
+
+import { SortType } from '../../consts.js';
 
 function Sort(props) {
   const {activeSortType, onSortingTypeClick} = props;

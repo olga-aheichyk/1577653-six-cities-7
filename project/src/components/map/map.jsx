@@ -1,11 +1,15 @@
-import React, {useRef, useEffect} from 'react';
+import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import placeCardProp from '../place-card/place-card.prop.js';
+import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
+
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+
 import useMap from '../../hooks/use-map.js';
-import placeCardsListProp from '../place-cards-list/place-cards-list.prop.js';
+
 import { PinParameter } from '../../consts.js';
-import placeCardProp from '../place-card/place-card.prop.js';
+
 
 const defaultPinIcon = leaflet.icon({
   iconUrl: 'img/pin.svg',

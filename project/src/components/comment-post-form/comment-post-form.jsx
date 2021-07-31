@@ -1,10 +1,12 @@
 import React,  { useState, Fragment } from 'react';
+import { useParams } from 'react-router-dom';
+
 import { useDispatch, useSelector } from 'react-redux';
-import { postComment } from '../../store/api-actions.js';
-import ErrorNotification from '../error-notification/error-notification.jsx';
 import { changeCommentSendingStatus } from '../../store/action.js';
 import { getCommentSendingStatus } from '../../store/app-data/selectors.js';
-import { useParams } from 'react-router-dom';
+import { postComment } from '../../store/api-actions.js';
+
+import ErrorNotification from '../error-notification/error-notification.jsx';
 
 const RatingStar = new Map([
   [5, 'perfect'],
@@ -26,16 +28,8 @@ function CommentPostForm() {
 
   const dispatch = useDispatch();
 
-  const onCommentPost = (offerId, comment) => dispatch(postComment(offerId, comment));
-  const toogleCommentSendingStatus = (status) => dispatch(changeCommentSendingStatus(status));
-
-  const [state, setState] = useState({
-    rating: 0,
-    comment: '',
-  });
-
+  const [state, setState] = useState({rating: 0, comment: ''});
   const [isTextareaValid, changeTextareaValidity] = useState(false);
-
   const [postCommentError, setPostCommentError] = useState(false);
 
   return (
@@ -43,19 +37,19 @@ function CommentPostForm() {
       onSubmit={(evt) => {
         evt.preventDefault();
         setPostCommentError(false);
-        toogleCommentSendingStatus(true);
+        dispatch(changeCommentSendingStatus(true));
 
-        onCommentPost(id, state)
+        dispatch(postComment(id, state))
           .then((response) => {
             if (response.payload) {
               setState((prevState) => ({...prevState, rating: 0, comment: ''}));
               changeTextareaValidity(false);
-              toogleCommentSendingStatus(false);
+              dispatch(changeCommentSendingStatus(false));
             }
           })
           .catch(() => {
             setPostCommentError(true);
-            toogleCommentSendingStatus(false);
+            dispatch(changeCommentSendingStatus(false));
           });
       }}
       className="reviews__form form"

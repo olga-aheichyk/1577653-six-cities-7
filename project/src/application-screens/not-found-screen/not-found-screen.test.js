@@ -1,8 +1,11 @@
 import React from 'react';
-import {createMemoryHistory} from 'history';
-import {Router} from 'react-router-dom';
-import {render} from '@testing-library/react';
 import NotFoundScreen from './not-found-screen.jsx';
+
+import { Router } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
+
+import { render } from '@testing-library/react';
+
 
 describe('Component: NotFoundScreen', () => {
   it('should render correctly', () => {
