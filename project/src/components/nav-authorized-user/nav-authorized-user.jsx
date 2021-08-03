@@ -11,7 +11,6 @@ function NavAuthorizedUser() {
   const userAvatarUrl = useSelector(getUserAvatarUrl);
 
   const dispatch = useDispatch();
-  const signOut = () => dispatch(logout());
 
   return (
     <nav className="header__nav">
@@ -32,9 +31,10 @@ function NavAuthorizedUser() {
         <li className="header__nav-item">
           <Link
             className="header__nav-link" to="/"
+            data-testid="signout"
             onClick={(evt) => {
               evt.preventDefault();
-              signOut();
+              dispatch(logout());
             }}
           >
             <span className="header__signout">Sign out</span>

@@ -33,10 +33,6 @@ function MainScreen() {
 
   const dispatch = useDispatch();
 
-  const onCityChange = (evtTargetTextContent) => {
-    dispatch(cityChange(evtTargetTextContent));
-  };
-
   const [activeOffer, setActiveOffer] = useState({});
 
   const handlePlaceCardHover = (placeCardId) => {
@@ -73,9 +69,10 @@ function MainScreen() {
               <ul
                 onClick={(evt) => {
                   evt.preventDefault();
-                  onCityChange(evt.target.textContent);
+                  dispatch(cityChange(evt.target.textContent));
                 }}
                 className="locations__list tabs__list"
+                data-testid="city"
               >
                 {CITIES.map((city) => (
                   <li className="locations__item" key={city}>

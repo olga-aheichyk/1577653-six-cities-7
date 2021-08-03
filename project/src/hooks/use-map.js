@@ -8,14 +8,11 @@ function useMap(mapRef, location) {
 
   useEffect(() => {
     if (mapRef.current !== null && map === null) {
-      const instance = leaflet.map(mapRef.current,
-        {
-          center: {
-            lat: location.latitude,
-            lng: location.longitude,
-          },
-          zoom: location.zoom,
-        });
+      const instance = leaflet.map('map')
+        .setView({
+          lat: location.latitude,
+          lng: location.longitude,
+        }, location.zoom);
 
       leaflet
         .tileLayer(

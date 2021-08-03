@@ -1,14 +1,18 @@
 import React from 'react';
-import {render, screen} from '@testing-library/react';
-import {Router} from 'react-router-dom';
-import {createMemoryHistory} from 'history';
+import App from './app.jsx';
+
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { AppRoute, AuthorizationStatus } from '../../consts';
-import App from './app';
+import { testOffers } from '../../store/test-data.js';
 import thunk from 'redux-thunk';
 import { createApi } from '../../services/api.js';
-import { testOffers } from '../../store/test-data';
+
+import { Router } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
+
+import { render, screen } from '@testing-library/react';
+
+import { AppRoute, AuthorizationStatus } from '../../consts.js';
 
 let history = null;
 let store = null;

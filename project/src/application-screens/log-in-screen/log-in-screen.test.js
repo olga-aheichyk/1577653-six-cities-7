@@ -1,6 +1,5 @@
 import React from 'react';
 import LogInScreen from './log-in-screen.jsx';
-import { AppRoute } from '../../consts.js';
 
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
@@ -10,6 +9,8 @@ import { createMemoryHistory } from 'history';
 
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
+import { AppRoute } from '../../consts.js';
 
 const mockStore = configureStore({});
 
