@@ -6,7 +6,6 @@ const initialState = {
   authorizationStatus: AuthorizationStatus.UNKNOWN,
   userEmail: null,
   userAvatarUrl: null,
-  //serverError: false,
 };
 
 const user = createReducer(initialState, (builder) => {

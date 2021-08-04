@@ -31,7 +31,7 @@ export const testOffers = [
       'img/apartment-02.jpg',
       'img/apartment-03.jpg',
     ],
-    isFavorite: true,
+    isFavorite: false,
     isPremium: false,
     location: {
       latitude: 52.3909553943508,
@@ -70,7 +70,7 @@ export const testOffers = [
       'img/apartment-02.jpg',
       'img/apartment-03.jpg',
     ],
-    isFavorite: true,
+    isFavorite: false,
     isPremium: true,
     location: {
       latitude: 52.369553943508,

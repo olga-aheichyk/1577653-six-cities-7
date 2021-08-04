@@ -99,6 +99,7 @@ function CommentPostForm() {
         className="reviews__textarea form__textarea"
         id="review"
         name="review"
+        data-testid="textarea"
         value={state.comment}
         minLength={CommentCharactersCount.MIN}
         maxLength={CommentCharactersCount.MAX}

@@ -1,6 +1,6 @@
 import { appData, initialState } from './app-data.js';
 import { ActionType } from '../action.js';
-import {testOffer, testOffers, testReviews} from '../test-data.js';
+import {testOffer, testOffers, testReviews} from '../../test-data.js';
 
 describe('Reducer: appData', () => {
   it('should return initial state in case of absence of action type', () => {
@@ -68,9 +68,4 @@ describe('Reducer: appData', () => {
         reviews: testReviews,
       });
   });
-
-  // it('', () => {});
-  // it('', () => {});
-  // it('', () => {});
-  // it('', () => {});
 });

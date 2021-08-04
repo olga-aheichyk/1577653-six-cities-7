@@ -45,9 +45,7 @@ describe('Component MainScreen:', () => {
     );
 
     userEvent.click(screen.getByTestId('city'));
-
     expect(useDispatch).toBeCalledTimes(2);
-
   });
 });
 

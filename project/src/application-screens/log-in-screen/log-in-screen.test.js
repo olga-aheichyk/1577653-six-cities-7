@@ -36,6 +36,6 @@ describe('Component LogInScreen', () => {
     expect(screen.getByDisplayValue(/test@mail.ru/i)).toBeInTheDocument();
     expect(screen.getByDisplayValue(/123456/i)).toBeInTheDocument();
 
-    expect(screen.getByRole('button')).toBeInTheDocument();
+    expect(screen.getByRole('button').firstChild.textContent).toBe('Sign in');
   });
 });
