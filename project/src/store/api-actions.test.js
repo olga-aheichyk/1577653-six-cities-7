@@ -3,7 +3,7 @@ import { ApiRoute, AppRoute } from '../consts.js';
 import {createApi} from '../services/api.js';
 import { ActionType } from './action.js';
 import { checkAuth, fetchFavoriteOffersList, fetchOffersList, login, logout } from './api-actions.js';
-import { adaptedTestServerOffer, adaptedTestServerAuthInfo, testServerAuthInfo, testServerOffer } from './test-data.js';
+import { adaptedTestServerOffer, adaptedTestServerAuthInfo, testServerAuthInfo, testServerOffer } from '../test-data.js';
 
 
 let api = null;

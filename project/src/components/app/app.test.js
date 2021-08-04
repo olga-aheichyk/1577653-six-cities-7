@@ -3,7 +3,6 @@ import App from './app.jsx';
 
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { testOffers } from '../../store/test-data.js';
 import thunk from 'redux-thunk';
 import { createApi } from '../../services/api.js';
 
@@ -13,6 +12,7 @@ import { createMemoryHistory } from 'history';
 import { render, screen } from '@testing-library/react';
 
 import { AppRoute, AuthorizationStatus } from '../../consts.js';
+import { testOffers } from '../../test-data.js';
 
 let history = null;
 let store = null;

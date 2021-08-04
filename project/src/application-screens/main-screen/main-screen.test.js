@@ -4,7 +4,7 @@ import MainScreen from './main-screen.jsx';
 import { Provider } from 'react-redux';
 import * as Redux from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { testOffers } from '../../store/test-data.js';
+
 import thunk from 'redux-thunk';
 import { createApi } from '../../services/api.js';
 
@@ -15,6 +15,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { AuthorizationStatus } from '../../consts.js';
+import { testOffers } from '../../test-data.js';
 
 let history = null;
 let store = null;
