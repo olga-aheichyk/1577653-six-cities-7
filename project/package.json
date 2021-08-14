@@ -2,7 +2,7 @@
   "name": "project",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/Six-cities",
+  "homepage": "https://olga-aheichyk.github.io/Six-cities",
   "dependencies": {
     "@reduxjs/toolkit": "^1.5.0",
     "axios": "^0.21.1",
