@@ -9,7 +9,7 @@ import { redirect } from './store/middlewares/redirect.js';
 import { authorizationRequired } from './store/action.js';
 import { createApi } from './services/api.js';
 
-import { Router } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import browserHistory from './browser-history.js';
 
 import App from './components/app/app.jsx';
@@ -34,8 +34,8 @@ const store = configureStore({
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={browserHistory}>
+    <HashRouter history={browserHistory}>
       <App/>
-    </Router>
+    </HashRouter>
   </Provider>,
   document.getElementById('root'));
